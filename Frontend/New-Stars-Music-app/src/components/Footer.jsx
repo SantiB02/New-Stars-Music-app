@@ -66,7 +66,6 @@ const Footer = () => {
                         Github
                       </a>
                     </li>
-                    
                   </ul>
                 </div>
                 <div class="w-full lg:w-4/12 px-4">
