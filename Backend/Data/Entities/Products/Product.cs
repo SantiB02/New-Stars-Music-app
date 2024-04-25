@@ -1,0 +1,29 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Merchanmusic.Data.Entities.Products
+
+{
+    public class Product
+    {
+        public const int MinNameLength = 3;
+        public const int MaxNameLength = 50;
+        public const int MinDescriptionLength = 20;
+        public const int MaxDescriptionLength = 150;
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public DateTime CreationDate { get; set; } = DateTime.Now; 
+        public DateTime LastModifiedDate { get; set; } = DateTime.Now; 
+        
+        public decimal Price { get; set; }
+        public string ImageLink { get; set; }
+        public string Category { get; set; }
+        public bool State { get; set; } = true; 
+        public Product() { }
+    }
+}

@@ -1,0 +1,7 @@
+C:\Users\FLORENCIA\source\repos\Merchanmusic\Merchanmusic\obj\Debug\net6.0\Merchanmusic.csproj.AssemblyReference.cache
+C:\Users\FLORENCIA\source\repos\Merchanmusic\Merchanmusic\obj\Debug\net6.0\Merchanmusic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\FLORENCIA\source\repos\Merchanmusic\Merchanmusic\obj\Debug\net6.0\Merchanmusic.AssemblyInfoInputs.cache
+C:\Users\FLORENCIA\source\repos\Merchanmusic\Merchanmusic\obj\Debug\net6.0\Merchanmusic.AssemblyInfo.cs
+C:\Users\FLORENCIA\source\repos\Merchanmusic\Merchanmusic\obj\Debug\net6.0\Merchanmusic.csproj.CoreCompileInputs.cache
+C:\Users\FLORENCIA\source\repos\Merchanmusic\Merchanmusic\obj\Debug\net6.0\Merchanmusic.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\FLORENCIA\source\repos\Merchanmusic\Merchanmusic\obj\Debug\net6.0\Merchanmusic.MvcApplicationPartsAssemblyInfo.cache
