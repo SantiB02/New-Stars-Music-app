@@ -1,37 +1,35 @@
-{
-  "products": [
-    {
-      "id": 1,
-      "imageURL": "../Flo_Rida_-Wild_Ones.jpg",
-      "title": "'Wild Ones' CD",
-      "description": "Best hits from Flo Rida's 2012 album 'Wild Ones'!",
-      "artist": "Flo Rida",
-      "launchDate": "2012",
-      "stock": 32,
-      "isDeleted": false,
-      "totalSales": 874
-    },
-    {
-      "id": 1,
-      "imageURL": "../Flo_Rida_-Wild_Ones.jpg",
-      "title": "'Only One Flo (Part 1)' CD",
-      "description": "Best hits from Flo Rida's 2010 album 'Only One Flo (Part 1)'!",
-      "artist": "Flo Rida",
-      "launchDate": "2010",
-      "stock": 12,
-      "isDeleted": false,
-      "totalSales": 1562
-    },
-    {
-      "id": 1,
-      "imageURL": "../Flo_Rida_-Wild_Ones.jpg",
-      "title": "'My House' CD",
-      "description": "Best hits from Flo Rida's 2015 album 'My House'!",
-      "artist": "Flo Rida",
-      "launchDate": "2015",
-      "stock": 25,
-      "isDeleted": false,
-      "totalSales": 350
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "imageURL": "../Flo_Rida_-Wild_Ones.jpg",
+    "title": "'Wild Ones' CD",
+    "description": "Best hits from Flo Rida's 2012 album 'Wild Ones'!",
+    "artist": "Flo Rida",
+    "launchYear": "2012",
+    "stock": 32,
+    "isDeleted": false,
+    "totalSales": 874
+  },
+  {
+    "id": 2,
+    "imageURL": "../Flo_Rida_-_Only_One_Flo_Part._1.jpg",
+    "title": "'Only One Flo (Part 1)' CD",
+    "description": "Best hits from Flo Rida's 2010 album 'Only One Flo (Part 1)'!",
+    "artist": "Flo Rida",
+    "launchYear": "2010",
+    "stock": 12,
+    "isDeleted": false,
+    "totalSales": 1562
+  },
+  {
+    "id": 3,
+    "imageURL": "../Flo-RidaMyHouseEP.jpg",
+    "title": "'My House' CD",
+    "description": "Best hits from Flo Rida's 2015 album 'My House'!",
+    "artist": "Flo Rida",
+    "launchYear": "2015",
+    "stock": 25,
+    "isDeleted": false,
+    "totalSales": 350
+  }
+]

@@ -14,7 +14,9 @@ const Home = () => {
             The place where you can listen to your favorite songs and explore
             their products in our all-in-one store.
           </p>
-          <FeaturedProducts />
+          <div className="w-2/4">
+            <FeaturedProducts />
+          </div>
         </div>
       </div>
       <Footer />
