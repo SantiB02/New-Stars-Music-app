@@ -25,13 +25,13 @@
     {
       "id": 1,
       "imageURL": "../Flo_Rida_-Wild_Ones.jpg",
-      "title": "'Wild Ones' CD",
-      "description": "Best hits from Flo Rida's 2012 album 'Wild Ones'!",
+      "title": "'My House' CD",
+      "description": "Best hits from Flo Rida's 2015 album 'My House'!",
       "artist": "Flo Rida",
-      "launchDate": "2012",
-      "stock": 32,
+      "launchDate": "2015",
+      "stock": 25,
       "isDeleted": false,
-      "totalSales": 874
+      "totalSales": 350
     }
   ]
 }
