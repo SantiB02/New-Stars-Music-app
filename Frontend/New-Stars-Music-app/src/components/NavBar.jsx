@@ -69,7 +69,7 @@ export default function NavBar() {
           <a href="#" className="-m-1.5 ">
             <span className="sr-only">Your Company</span>
             <img
-              class="h-9 w-auto"
+              className="h-9 w-auto"
               src="https://static.vecteezy.com/system/resources/previews/017/398/799/non_2x/black-star-free-png.png"
               alt=""
             />
