@@ -10,6 +10,28 @@
       "stock": 32,
       "isDeleted": false,
       "totalSales": 874
+    },
+    {
+      "id": 1,
+      "imageURL": "../Flo_Rida_-Wild_Ones.jpg",
+      "title": "'Only One Flo (Part 1)' CD",
+      "description": "Best hits from Flo Rida's 2010 album 'Only One Flo (Part 1)'!",
+      "artist": "Flo Rida",
+      "launchDate": "2010",
+      "stock": 12,
+      "isDeleted": false,
+      "totalSales": 1562
+    },
+    {
+      "id": 1,
+      "imageURL": "../Flo_Rida_-Wild_Ones.jpg",
+      "title": "'Wild Ones' CD",
+      "description": "Best hits from Flo Rida's 2012 album 'Wild Ones'!",
+      "artist": "Flo Rida",
+      "launchDate": "2012",
+      "stock": 32,
+      "isDeleted": false,
+      "totalSales": 874
     }
   ]
 }
