@@ -38,7 +38,7 @@ const FeaturedProducts = () => {
         {products.map((product) => (
           <li
             key={product.id}
-            className="flex justify-between px-2 bg-black flex-col items-center mx-2"
+            className="flex justify-between rounded-xl px-2 bg-black flex-col items-center mx-2"
           >
             <img
               className="max-w-20 mt-4"
