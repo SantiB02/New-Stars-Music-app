@@ -6,7 +6,7 @@
 //using Merchanmusic.Data.Entities;
 //using Merchanmusic.Data.Models;
 //using Merchanmusic.Enums;
-//using Merchanmusic.Services.Interfaces;
+//using Merchanmusic.Services.Implementations;
 
 
 //namespace Merchanmusic.Controllers
@@ -17,15 +17,15 @@
 //    public class UserController : Controller
 //    {
 //        private readonly IUserService _userService;
-//        public UserController (IUserService userService)
+//        public UserController(IUserService userService)
 //        {
-//        _userService = userService;
+//            _userService = userService;
 //        }
 //        [HttpGet("UserInfo/")]
 //        public IActionResult GetUserInfo()
 //        {
-//         string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type ==ClaimTypes.Email).Value;
-//         User? user = _userService.GetUserByEmail(loggedUserEmail);
+//            string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
+//            User? user = _userService.GetUserByEmail(loggedUserEmail);
 
 //            if (user != null && user.State)
 //            {
@@ -50,8 +50,8 @@
 //            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 //            string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
 //            User userLogged = _userService.GetUserByEmail(loggedUserEmail);
-        
-//            if (role == "Admin" && userLogged.State )
+
+//            if (role == "Admin" && userLogged.State)
 //            {
 //                return Ok(_userService.GetUsersByRole("Client").Value);
 
@@ -84,7 +84,7 @@
 //        public IActionResult UpdateClient([FromBody] ClientUpdatedto clientUpdatedto)
 //        {
 //            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
-//            if (role =="Client")
+//            if (role == "Client")
 //            {
 //                Client clientToUpdate = new Client()
 //                {
@@ -106,7 +106,7 @@
 //        {
 //            int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
 //            _userService.DeleteUser(id);
-//            return NoContent(); 
+//            return NoContent();
 //        }
 //    }
 
