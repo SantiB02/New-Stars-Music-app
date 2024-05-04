@@ -106,14 +106,14 @@ const Footer = () => {
           <div className="flex flex-wrap items-center md:justify-between justify-center">
             <div className="w-full md:w-4/12 px-4 mx-auto text-center">
               <div className="text-sm text-blueGray-400 font-semibold py-1">
-                Copyright © <span id="get-current-year">2021</span>
+                Copyright © <span id="get-current-year">2024</span>
                 <a
                   href="https://www.creative-tim.com/product/notus-js"
                   className="text-blueGray-400 hover:text-gray-800"
                   target="_blank"
                 >
                   {" "}
-                  Notus JS by
+                  New Stars Music by
                 </a>
                 <a
                   href="https://www.creative-tim.com?ref=njs-profile"
