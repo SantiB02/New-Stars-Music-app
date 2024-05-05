@@ -20,25 +20,25 @@ const tracks = [
   },
 ];
 const colors = {
-  tagsBackground: "#3e32e4",
+  tagsBackground: "#57534e",
   tagsText: "#ffffff",
   tagsBackgroundHoverActive: "#6e65f1",
   tagsTextHoverActive: "#ffffff",
-  searchBackground: "#18191f",
+  searchBackground: "#57534e",
   searchText: "#ffffff",
   searchPlaceHolder: "#575a77",
-  playerBackground: "#18191f",
+  playerBackground: "#57534e",
   titleColor: "#ffffff",
   timeColor: "#ffffff",
-  progressSlider: "#3e32e4",
+  progressSlider: "#ff8f0f",
   progressUsed: "#ffffff",
   progressLeft: "#151616",
   bufferLoaded: "#1f212b",
-  volumeSlider: "#3e32e4",
+  volumeSlider: "#ff8f0f",
   volumeUsed: "#ffffff",
   volumeLeft: "#151616",
-  playlistBackground: "#18191f",
-  playlistText: "#575a77",
+  playlistBackground: "#57534e",
+  playlistText: "#737373",
   playlistBackgroundHoverActive: "#18191f",
   playlistTextHoverActive: "#ffffff",
 };
@@ -49,7 +49,7 @@ const Music = () => {
       <Player
         trackList={tracks}
         includeTags={false}
-        includeSearch={true}
+        includeSearch={false}
         showPlaylist={true}
         sortTracks={true}
         autoPlayNextTrack={true}
