@@ -11,6 +11,7 @@ function App() {
     { path: "/", element: <Navigate to="/home" replace /> },
     { path: "/home", element: <Home /> },
     //{ path: "/login", element: <Login /> },
+    //{path: "*", element:}
   ]);
   return (
     <div>
