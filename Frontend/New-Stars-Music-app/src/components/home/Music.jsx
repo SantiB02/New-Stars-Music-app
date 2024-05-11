@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Player from "@madzadev/audio-player";
 import "@madzadev/audio-player/dist/index.css";
 
@@ -44,6 +44,34 @@ const colors = {
 };
 
 const Music = () => {
+  const [music, setMusic] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url =
+          "https://spotify23.p.rapidapi.com/recommendations/?limit=20&seed_tracks=0c6xIDDpzE81m2q797ordA&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_genres=rock";
+        const options = {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Key":
+              "f01df68517mshdbe3f29cad6aa80p12a68bjsnc9f078de4e26",
+            "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
+          },
+        };
+
+        const response = await fetch(url, options);
+        const result = await response.json();
+        setMusic(result);
+        console.log(music);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData(); // Call the function here
+  }, []);
+
   return (
     <div>
       <Player
