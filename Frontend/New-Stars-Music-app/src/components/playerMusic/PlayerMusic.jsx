@@ -4,7 +4,7 @@ import Footer from "../Footer";
 
 const PlayerMusic = () => {
   const [song, setSong] = useState("");
-  //const [tracks, setTracks] = useState([]);
+  const [tracks, setTracks] = useState([]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -28,6 +28,7 @@ const PlayerMusic = () => {
       const url = `https://spotify23.p.rapidapi.com/search/?q=${song}&type=multi&offset=0&limit=10&numberOfTopResults=5`;
       const data = await fetch(url, options);
       const response = await data.json();
+      setTracks(response.tracks.items);
       console.log(response.tracks.items);
     } catch (error) {
       console.log(`ups..error: ${error}`);
@@ -54,6 +55,22 @@ const PlayerMusic = () => {
             Search
           </button>
         </form>
+        {tracks.map((song, index) => (
+          <>
+            <div className="" key={index}>
+              <img
+                src={song.data.albumOfTrack.coverArt.sources[0].url}
+                alt=""
+              />
+              <h2>{song.data.name}</h2>
+              <a href={song.data.uri}>
+                <button class="text-zinc-700 hover:text-zinc-200 backdrop-blur-lg bg-gradient-to-tr from-transparent bg-secondary to-transparent rounded-md py-2 px-6 shadow hover:bg-third duration-700">
+                  Play Music
+                </button>
+              </a>
+            </div>
+          </>
+        ))}
       </div>
       <Footer />
     </div>

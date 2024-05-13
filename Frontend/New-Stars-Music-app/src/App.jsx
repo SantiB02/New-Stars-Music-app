@@ -14,7 +14,7 @@ function App() {
     { path: "/home", element: <Home /> },
     { path: "/login", element: <Login /> },
     { path: "/player", element: <PlayerMusic /> },
-    { path: "*", element: <></> },
+    { path: "*", element: <>Ups algo salio mal </> },
   ]);
   return (
     <div>
