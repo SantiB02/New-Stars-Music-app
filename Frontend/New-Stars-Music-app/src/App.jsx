@@ -7,6 +7,8 @@ import "./App.css";
 import Home from "./components/home/Home";
 import Login from "./components/login/Login";
 import PlayerMusic from "./components/playerMusic/PlayerMusic";
+import PageNotFoun from "./components/pageNotFound/PageNotFound";
+import PageNotFound from "./components/pageNotFound/PageNotFound";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,7 +16,7 @@ function App() {
     { path: "/home", element: <Home /> },
     { path: "/login", element: <Login /> },
     { path: "/player", element: <PlayerMusic /> },
-    { path: "*", element: <>Ups algo salio mal </> },
+    { path: "*", element: <PageNotFound/> },
   ]);
   return (
     <div>

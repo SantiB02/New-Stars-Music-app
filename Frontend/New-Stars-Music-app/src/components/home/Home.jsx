@@ -27,7 +27,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <Login/>
+        
       </div>
       <Footer />
     </div>
