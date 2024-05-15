@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { useNavigate } from "react-router";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -47,10 +48,7 @@ const products = [
     icon: ArrowPathIcon,
   },
 ];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
-];
+const callsToAction = [{ name: "Contact sales", href: "#", icon: PhoneIcon }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -59,6 +57,18 @@ function classNames(...classes) {
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const navigate = useNavigate();
+
+  const NavigateHomeHandler = () => {
+    navigate("/");
+  };
+  const NavigateSearchHandler = () => {
+    navigate("/search");
+  };
+  const NavigateLoginHandler = () => {
+    navigate("/login");
+  };
+
   return (
     <header>
       <nav
@@ -66,7 +76,7 @@ export default function NavBar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1 ">
-          <a href="#" className="-m-1.5 ">
+          <a href="#" className="-m-1.5 " onClick={NavigateHomeHandler}>
             <span className="sr-only">Your Company</span>
             <img
               className="h-9 w-auto"
@@ -104,14 +114,14 @@ export default function NavBar() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-tertiary shadow-lg ring-1 ring-gray-900/5">
+              <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-third shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
                   {products.map((item) => (
                     <div
                       key={item.name}
                       className="group relative flex items-center gap-x-6 rounded-lg p-4  text-sm leading-6 hover:bg-gray-50"
                     >
-                      <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-secondary group-hover:">
+                      <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-primary group-hover:">
                         <item.icon
                           className="h-6 w-6 text-white-600 group-hover:text-white-600"
                           aria-hidden="true"
@@ -138,7 +148,7 @@ export default function NavBar() {
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                     >
                       <item.icon
-                        className="h-5 w-5 flex-none text-gray-400"
+                        className="h-5 w-5 flex-none "
                         aria-hidden="true"
                       />
                       {item.name}
@@ -149,15 +159,23 @@ export default function NavBar() {
             </Transition>
           </Popover>
 
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Player
+          <a
+            href="#"
+            className="text-sm font-semibold leading-6 text-white"
+            onClick={NavigateSearchHandler}
+          >
+            Search
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-white">
             Store
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a
+            href="#"
+            className="text-sm font-semibold leading-6 text-white"
+            onClick={NavigateLoginHandler}
+          >
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
@@ -223,8 +241,9 @@ export default function NavBar() {
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  onClick={NavigateSearchHandler}
                 >
-                  Player
+                  Search
                 </a>
                 <a
                   href="#"
@@ -237,6 +256,7 @@ export default function NavBar() {
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  onClick={NavigateLoginHandler}
                 >
                   Log in
                 </a>
