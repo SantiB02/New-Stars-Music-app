@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { useNavigate } from "react-router";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -47,10 +48,7 @@ const products = [
     icon: ArrowPathIcon,
   },
 ];
-const callsToAction = [
-  
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
-];
+const callsToAction = [{ name: "Contact sales", href: "#", icon: PhoneIcon }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -59,6 +57,18 @@ function classNames(...classes) {
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const navigate = useNavigate();
+
+  const NavigateHomeHandler = () => {
+    navigate("/");
+  };
+  const NavigateSearchHandler = () => {
+    navigate("/search");
+  };
+  const NavigateLoginHandler = () => {
+    navigate("/login");
+  };
+
   return (
     <header>
       <nav
@@ -66,7 +76,7 @@ export default function NavBar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1 ">
-          <a href="#" className="-m-1.5 ">
+          <a href="#" className="-m-1.5 " onClick={NavigateHomeHandler}>
             <span className="sr-only">Your Company</span>
             <img
               className="h-9 w-auto"
@@ -149,7 +159,11 @@ export default function NavBar() {
             </Transition>
           </Popover>
 
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a
+            href="#"
+            className="text-sm font-semibold leading-6 text-white"
+            onClick={NavigateSearchHandler}
+          >
             Search
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-white">
@@ -157,7 +171,11 @@ export default function NavBar() {
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a
+            href="#"
+            className="text-sm font-semibold leading-6 text-white"
+            onClick={NavigateLoginHandler}
+          >
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
@@ -223,6 +241,7 @@ export default function NavBar() {
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  onClick={NavigateSearchHandler}
                 >
                   Search
                 </a>
@@ -237,6 +256,7 @@ export default function NavBar() {
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  onClick={NavigateLoginHandler}
                 >
                   Log in
                 </a>

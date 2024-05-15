@@ -7,7 +7,6 @@ import "./App.css";
 import Home from "./components/home/Home";
 import Login from "./components/login/Login";
 import PlayerMusic from "./components/playerMusic/PlayerMusic";
-import PageNotFoun from "./components/pageNotFound/PageNotFound";
 import PageNotFound from "./components/pageNotFound/PageNotFound";
 
 function App() {
@@ -15,8 +14,8 @@ function App() {
     { path: "/", element: <Navigate to="/home" replace /> },
     { path: "/home", element: <Home /> },
     { path: "/login", element: <Login /> },
-    { path: "/player", element: <PlayerMusic /> },
-    { path: "*", element: <PageNotFound/> },
+    { path: "/search", element: <PlayerMusic /> },
+    { path: "*", element: <PageNotFound /> },
   ]);
   return (
     <div>
