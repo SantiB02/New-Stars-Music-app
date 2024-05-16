@@ -1,4 +1,4 @@
-using Merchanmusic.Data;
+    using Merchanmusic.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -8,11 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setupAction =>
@@ -37,10 +35,28 @@ builder.Services.AddSwaggerGen(setupAction =>
     });
 }); ;
 
-builder.Services.AddDbContext<MerchContext>(dbContextOptions => dbContextOptions.UseSqlite(
-    builder.Configuration["DB:ConnectionString"]));
+builder.Configuration.AddUserSecrets<Program>();
+
+builder.Services.AddDbContext<MerchContext>(dbContextOptions =>
+
+{
+    var connectionString = builder.Configuration.GetConnectionString("MyConnectionString");
+    var dbPassword = builder.Configuration["DbPassword"];
+
+    connectionString = connectionString.Replace("{DbPassword}", dbPassword); //uso de un user-secret para no publicar la contraseña de acceso SQL Server al repositorio público de GitHub
+
+    dbContextOptions.UseSqlServer(connectionString); //cambiamos el motor de la base de datos de SQLite a SQL Server para poder deployar el back-end en Azure (no admite SQLite nativamente)
+});
+
+
+
+
+
 
 //#regionServices
+
+builder.Services.AddScoped<IUserService, UserService>(); 
+builder.Services.AddScoped<ISaleOrderService, SaleOrderService>();
 
 //#endregion
 
@@ -60,6 +76,15 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
         };
     }
 );
+//builder.Services.AddCors(options => //habilitamos las solicitudes Cross-Origin para deployar correctamente el back-end en Azure
+//{
+//    options.AddPolicy("AllowAll", builder =>
+//    {
+//        builder.AllowAnyOrigin()
+//               .AllowAnyMethod()
+//               .AllowAnyHeader();
+//    });
+//});                                       SI CONECTAMOS CON AZURE
 
 
 var app = builder.Build();
