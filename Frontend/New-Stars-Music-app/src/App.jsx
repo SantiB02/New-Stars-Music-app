@@ -1,26 +1,40 @@
 import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
   Navigate,
-  RouterProvider,
-  createBrowserRouter,
 } from "react-router-dom";
 import "./App.css";
 import Home from "./components/home/Home";
 import Login from "./components/login/Login";
 import PlayerMusic from "./components/playerMusic/PlayerMusic";
 import PageNotFound from "./components/pageNotFound/PageNotFound";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import Store from "./components/store/Store";
 
 function App() {
-  const router = createBrowserRouter([
-    { path: "/", element: <Navigate to="/home" replace /> },
-    { path: "/home", element: <Home /> },
+  const router = [
+    { path: "/", element: <Home /> },
     { path: "/login", element: <Login /> },
     { path: "/search", element: <PlayerMusic /> },
+    { path: "/store", element: <Store /> },
     { path: "*", element: <PageNotFound /> },
-  ]);
+  ];
   return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
+    <Router>
+      <div>
+        <NavBar />
+        <div className="main-content">
+          <Routes>
+            {router.map(({ path, element }) => (
+              <Route key={path} path={path} element={element} />
+            ))}
+          </Routes>
+        </div>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

@@ -38,12 +38,14 @@ const PlayerMusic = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBar />
       <div className="flex justify-center flex-grow">
         <div className="search-container">
           <div>
-          <h1 className="uppercase text-center ">Start exploring now!
-          <br/>Dive into the music right away!</h1>
+            <h1 className="uppercase text-center ">
+              Start exploring now!
+              <br />
+              Dive into the music right away!
+            </h1>
           </div>
           <form onSubmit={handleSearch}>
             <input
@@ -107,7 +109,6 @@ const PlayerMusic = () => {
           <MessagePlayer />
         )}
       </div>
-      <Footer />
     </div>
   );
 };

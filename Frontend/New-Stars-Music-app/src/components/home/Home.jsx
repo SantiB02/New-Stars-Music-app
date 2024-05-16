@@ -1,6 +1,4 @@
 import React from "react";
-import NavBar from "../NavBar";
-import Footer from "../Footer";
 import FeaturedProducts from "./FeaturedProducts";
 import Music from "./Music";
 import Login from "../login/Login";
@@ -8,7 +6,6 @@ import Login from "../login/Login";
 const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBar />
       <div className="flex-grow overflow-auto flex mb-1">
         <div className="flex flex-col ml-4 mt-10 flex-grow">
           <h1 className="text-4xl">Welcome to New Stars Music!</h1>
@@ -27,9 +24,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        
       </div>
-      <Footer />
     </div>
   );
 };

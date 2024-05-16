@@ -59,14 +59,8 @@ export default function NavBar() {
 
   const navigate = useNavigate();
 
-  const NavigateHomeHandler = () => {
-    navigate("/");
-  };
-  const NavigateSearchHandler = () => {
-    navigate("/search");
-  };
-  const NavigateLoginHandler = () => {
-    navigate("/login");
+  const navigateHandler = (path) => {
+    navigate(path);
   };
 
   return (
@@ -76,7 +70,7 @@ export default function NavBar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1 ">
-          <a href="#" className="-m-1.5 " onClick={NavigateHomeHandler}>
+          <a className="-m-1.5 " onClick={() => navigateHandler("/")}>
             <span className="sr-only">Your Company</span>
             <img
               className="h-9 w-auto"
@@ -144,7 +138,7 @@ export default function NavBar() {
                   {callsToAction.map((item) => (
                     <a
                       key={item.name}
-                      href={item.href}
+                      href={item.href} //cuidado con las rutas y el navigate (no combinar)
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                     >
                       <item.icon
@@ -160,21 +154,22 @@ export default function NavBar() {
           </Popover>
 
           <a
-            href="#"
             className="text-sm font-semibold leading-6 text-white"
-            onClick={NavigateSearchHandler}
+            onClick={() => navigateHandler("/search")}
           >
             Search
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a
+            className="text-sm font-semibold leading-6 text-white"
+            onClick={() => navigateHandler("/store")}
+          >
             Store
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a
-            href="#"
             className="text-sm font-semibold leading-6 text-white"
-            onClick={NavigateLoginHandler}
+            onClick={() => navigateHandler("/login")}
           >
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
@@ -233,15 +228,14 @@ export default function NavBar() {
                   )}
                 </Disclosure>
                 <a
-                  href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  onClick={() => navigateHandler("/store")}
                 >
                   Store
                 </a>
                 <a
-                  href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  onClick={NavigateSearchHandler}
+                  onClick={() => navigateHandler("/search")}
                 >
                   Search
                 </a>
@@ -254,9 +248,8 @@ export default function NavBar() {
               </div>
               <div className="py-6">
                 <a
-                  href="#"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  onClick={NavigateLoginHandler}
+                  onClick={() => navigateHandler("/login")}
                 >
                   Log in
                 </a>
