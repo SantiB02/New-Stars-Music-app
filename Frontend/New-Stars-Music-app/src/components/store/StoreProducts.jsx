@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProductCard from "../common/ProductCard";
 
-const FeaturedProducts = ({ products, isLoading }) => {
+const StoreProducts = ({ products, isLoading }) => {
   if (isLoading) {
     return (
       <div className="mt-8">
@@ -12,7 +12,7 @@ const FeaturedProducts = ({ products, isLoading }) => {
   }
 
   return (
-    <div className="mt-8">
+    <div>
       <h2 className="text-3xl">Featured Products</h2>
       <ul className=" flex flex-col mt-4 md:flex-row">
         {products.map((product) => (
@@ -23,4 +23,4 @@ const FeaturedProducts = ({ products, isLoading }) => {
   );
 };
 
-export default FeaturedProducts;
+export default StoreProducts;

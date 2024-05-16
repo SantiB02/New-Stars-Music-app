@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FeaturedProducts from "./FeaturedProducts";
 import Music from "./Music";
-import Login from "../login/Login";
+import { getAllProducts } from "../../services/productsService";
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const allProducts = await getAllProducts();
+        console.log("ALL PRODUCTS", allProducts);
+        setProducts(allProducts);
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow overflow-auto flex mb-1">
@@ -14,7 +34,7 @@ const Home = () => {
             their products in our all-in-one store.
           </p>
           <div className="w-3/4">
-            <FeaturedProducts />
+            <FeaturedProducts products={products} isLoading={isLoading} />
           </div>
         </div>
         <div className="flex flex-col ml-4 mt-10 w-2/4 mr-8">
