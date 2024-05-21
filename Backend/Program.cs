@@ -1,4 +1,6 @@
     using Merchanmusic.Data;
+using Merchanmusic.Services.Implementations;
+using Merchanmusic.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -6,10 +8,21 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//var connectionString = builder.Configuration["Database:ConnectionString"];
+var connectionString = builder.Configuration["LocalTesting:ConnectionString"];
+var serverVersion = new MySqlServerVersion(new Version(6, 0, 1));
+
+
 // Add services to the container.
 
 builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
+builder.Services.AddDbContext<MerchContext>(
+    dbContextOptions => dbContextOptions
+        .UseMySql(connectionString, serverVersion)
+        .LogTo(Console.WriteLine, LogLevel.Information)
+        .EnableSensitiveDataLogging()
+        .EnableDetailedErrors()
+);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -37,16 +50,16 @@ builder.Services.AddSwaggerGen(setupAction =>
 
 builder.Configuration.AddUserSecrets<Program>();
 
-builder.Services.AddDbContext<MerchContext>(dbContextOptions =>
+//builder.Services.AddDbContext<MerchContext>(dbContextOptions =>
 
-{
-    var connectionString = builder.Configuration.GetConnectionString("MyConnectionString");
-    var dbPassword = builder.Configuration["DbPassword"];
+//{
+//    var connectionString = builder.Configuration.GetConnectionString("MyConnectionString");
+//    var dbPassword = builder.Configuration["DbPassword"];
 
-    connectionString = connectionString.Replace("{DbPassword}", dbPassword); //uso de un user-secret para no publicar la contraseña de acceso SQL Server al repositorio público de GitHub
+//    connectionString = connectionString.Replace("{DbPassword}", dbPassword); //uso de un user-secret para no publicar la contraseña de acceso SQL Server al repositorio público de GitHub
 
-    dbContextOptions.UseSqlServer(connectionString); //cambiamos el motor de la base de datos de SQLite a SQL Server para poder deployar el back-end en Azure (no admite SQLite nativamente)
-});
+//    //dbContextOptions.UseSqlServer(connectionString); //cambiamos el motor de la base de datos de SQLite a SQL Server para poder deployar el back-end en Azure (no admite SQLite nativamente)
+//});
 
 
 
@@ -76,15 +89,15 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
         };
     }
 );
-//builder.Services.AddCors(options => //habilitamos las solicitudes Cross-Origin para deployar correctamente el back-end en Azure
-//{
-//    options.AddPolicy("AllowAll", builder =>
-//    {
-//        builder.AllowAnyOrigin()
-//               .AllowAnyMethod()
-//               .AllowAnyHeader();
-//    });
-//});                                       SI CONECTAMOS CON AZURE
+builder.Services.AddCors(options => //habilitamos las solicitudes Cross-Origin para deployar correctamente el back-end en Azure
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 
 var app = builder.Build();
