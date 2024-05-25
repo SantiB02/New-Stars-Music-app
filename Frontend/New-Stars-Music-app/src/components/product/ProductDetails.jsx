@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getProduct } from "../../services/productsService";
 import toast from "react-hot-toast";
@@ -18,10 +18,27 @@ const ProductDetails = () => {
     }
   };
 
+  useEffect(() => {
+    fetchProduct(productId); //fetch product when view is rendered
+  }, []);
+
   return (
     <div>
       <h1>Product details</h1>
       <h2>Take a look before you buy it!</h2>
+      <div>
+        <img src={product.imageLink} alt="Selected product" />
+        <p>{product.title}</p>
+        <p>
+          Artist: <span>{product.artist}</span>
+        </p>
+        {product.launchYear && (
+          <p>
+            Launched on <span>{product.launchYear}</span>
+          </p>
+        )}
+        <p>{product.description}</p>
+      </div>
     </div>
   );
 };
