@@ -4,18 +4,18 @@ import Footer from "../Footer";
 import MessagePlayer from "./MessagePlayer";
 
 const PlayerMusic = () => {
-  const [song, setSong] = useState("");
+  const [songTitle, setSongTitle] = useState("");
   const [tracks, setTracks] = useState([]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (song.trim() === "") {
+    if (songTitle.trim() === "") {
       alert("ingresa algo porfavor");
       return;
     }
-    console.log(song);
-    setSong("");
-    getSong(song);
+    console.log(songTitle);
+    setSongTitle("");
+    getSongs(songTitle);
   };
   const options = {
     method: "GET",
@@ -24,7 +24,7 @@ const PlayerMusic = () => {
       "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
     },
   };
-  async function getSong(song) {
+  async function getSongs(song) {
     try {
       const url = `https://spotify23.p.rapidapi.com/search/?q=${song}&type=multi&offset=0&limit=12&numberOfTopResults=5`;
       const data = await fetch(url, options);
@@ -52,8 +52,8 @@ const PlayerMusic = () => {
               placeholder="Search..."
               className="bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
               type="text"
-              value={song}
-              onChange={(e) => setSong(e.target.value)}
+              value={songTitle}
+              onChange={(e) => setSongTitle(e.target.value)}
             />
             <button
               type="submit"

@@ -22,3 +22,12 @@ export const getFeaturedProducts = async (minimumSales) => {
     console.error("Error getting featured products:", error);
   }
 };
+
+export const getProduct = async (productId) => {
+  try {
+    const response = await api.get(`/products/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting product", error);
+  }
+};

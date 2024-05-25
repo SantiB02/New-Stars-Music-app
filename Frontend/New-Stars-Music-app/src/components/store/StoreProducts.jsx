@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "../common/ProductCard";
+import ProductCard from "../product/ProductCard";
 
 const StoreProducts = ({ products, isLoading }) => {
   if (isLoading) {

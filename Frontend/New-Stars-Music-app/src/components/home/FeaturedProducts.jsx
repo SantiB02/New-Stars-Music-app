@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "../common/ProductCard";
+import ProductCard from "../product/ProductCard";
 
 const FeaturedProducts = ({ products, isLoading }) => {
   if (isLoading) {

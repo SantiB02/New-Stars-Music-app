@@ -1,6 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
+  const clickBuyHandler = () => {
+    navigate("/product-details", { state: { productId: product.id } });
+  };
+
   return (
     <li
       key={product.id}
@@ -21,7 +28,10 @@ const ProductCard = ({ product }) => {
           <span className="font-medium">Year:</span> {product.launchYear}
         </p>
 
-        <button className="my-4 bg-secondary transition hover:bg-orange-600 text-white font-bold py-2 px-4 rounded">
+        <button
+          onClick={clickBuyHandler}
+          className="my-4 bg-secondary transition hover:bg-orange-600 text-white font-bold py-2 px-4 rounded"
+        >
           BUY
         </button>
       </div>

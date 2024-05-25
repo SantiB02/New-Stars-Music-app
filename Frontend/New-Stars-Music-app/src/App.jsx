@@ -12,6 +12,8 @@ import PageNotFound from "./components/pageNotFound/PageNotFound";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Store from "./components/store/Store";
+import ProductDetails from "./components/product/ProductDetails";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const router = [
@@ -19,10 +21,14 @@ function App() {
     { path: "/login", element: <Login /> },
     { path: "/search", element: <PlayerMusic /> },
     { path: "/store", element: <Store /> },
+    { path: "/product-details", element: <ProductDetails /> },
     { path: "*", element: <PageNotFound /> },
   ];
   return (
     <Router>
+      <div>
+        <Toaster /> {/* allows us to use toast messages for every page */}
+      </div>
       <div>
         <NavBar />
         <div className="main-content">
