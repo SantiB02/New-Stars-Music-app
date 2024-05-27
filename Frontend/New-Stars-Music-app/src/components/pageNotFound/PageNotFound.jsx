@@ -5,7 +5,7 @@ import NavBar from "../NavBar";
 const PageNotFound = () => {
   return (
     <>
-      <NavBar />
+      
       <div className="grid h-screen place-content-center bg-white px-4 dark:bg-primary">
         <div className="text-center">
           <svg
@@ -36,7 +36,6 @@ const PageNotFound = () => {
           </p>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

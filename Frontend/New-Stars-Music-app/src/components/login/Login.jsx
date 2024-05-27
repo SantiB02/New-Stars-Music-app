@@ -1,7 +1,5 @@
 import React from "react";
 import LoginForm from "./LoginForm";
-import NavBar from "../NavBar";
-import Footer from "../Footer";
 
 const Login = () => {
   return (
