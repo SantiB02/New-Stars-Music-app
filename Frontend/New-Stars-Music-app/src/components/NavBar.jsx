@@ -15,7 +15,9 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-import { User, useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
+import LogoutButton from "./login/LogoutButton";
+import Dropdown from "./dropdown/Dropdown";
 
 const products = [
   {
@@ -171,12 +173,7 @@ export default function NavBar() {
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {isAuthenticated && user ? (
-            <a
-              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
-              onClick={() => logout()}
-            >
-              Log out <span aria-hidden="true">&rarr;</span>
-            </a>
+            <Dropdown />
           ) : (
             <a
               className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
@@ -264,7 +261,7 @@ export default function NavBar() {
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 "
                     onClick={() => logout()}
                   >
-                    Log out
+                    <LogoutButton />
                   </a>
                 ) : (
                   <a
