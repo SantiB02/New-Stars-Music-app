@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { useRef, useState } from "react";
 
 const Dropdown = () => {
-  const { user } = useAuth0();
+  const { user, logout } = useAuth0();
   const [open, setOpen] = useState(false);
 
   const menuRef = useRef();
@@ -39,7 +39,10 @@ const Dropdown = () => {
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
                 yout cart
               </li>
-              <li className="p-2  text-red-500 cursor-pointer rounded hover:bg-red-100 hover:text-red-600">
+              <li
+                className="p-2  text-red-500 cursor-pointer rounded hover:bg-red-100 hover:text-red-600"
+                onClick={() => logout()}
+              >
                 Logout
               </li>
             </ul>
