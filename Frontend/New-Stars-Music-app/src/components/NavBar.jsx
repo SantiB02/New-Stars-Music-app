@@ -15,37 +15,44 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
+import { GiBilledCap, GiSchoolBag } from "react-icons/gi";
+import { FaTshirt } from "react-icons/fa";
+import { RiFilePaperFill } from "react-icons/ri";
+import { FaCompactDisc } from "react-icons/fa";
+
+import { useAuth0 } from "@auth0/auth0-react";
+import Dropdown from "./dropdown/Dropdown";
 
 const products = [
   {
     name: "Cap",
     description: "Get a better understanding of your traffic",
     href: "#",
-    icon: ChartPieIcon,
+    icon: GiBilledCap,
   },
   {
     name: "Bags",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: GiSchoolBag,
   },
   {
     name: "T-shirt",
     description: "Your customers’ data will be safe and secure",
     href: "#",
-    icon: FingerPrintIcon,
+    icon: FaTshirt,
   },
   {
     name: "CDs",
     description: "Connect with third-party tools",
     href: "#",
-    icon: SquaresPlusIcon,
+    icon: FaCompactDisc,
   },
   {
     name: "Posters",
     description: "Build strategic funnels that will convert",
     href: "#",
-    icon: ArrowPathIcon,
+    icon: RiFilePaperFill,
   },
 ];
 const callsToAction = [{ name: "Contact sales", href: "#", icon: PhoneIcon }];
@@ -56,6 +63,8 @@ function classNames(...classes) {
 
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
 
   const navigate = useNavigate();
 
@@ -82,7 +91,7 @@ export default function NavBar() {
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 "
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 hover:cursor-pointer"
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
@@ -91,7 +100,7 @@ export default function NavBar() {
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
-            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white">
+            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white hover:cursor-pointer">
               Product
               <ChevronDownIcon
                 className="h-5 w-5 flex-none text-gray-400"
@@ -154,25 +163,29 @@ export default function NavBar() {
           </Popover>
 
           <a
-            className="text-sm font-semibold leading-6 text-white"
+            className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
             onClick={() => navigateHandler("/search")}
           >
             Search
           </a>
           <a
-            className="text-sm font-semibold leading-6 text-white"
+            className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
             onClick={() => navigateHandler("/store")}
           >
             Store
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a
-            className="text-sm font-semibold leading-6 text-white"
-            onClick={() => navigateHandler("/login")}
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          {isAuthenticated && user ? (
+            <Dropdown />
+          ) : (
+            <a
+              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+              onClick={() => loginWithRedirect()}
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </a>
+          )}
         </div>
       </nav>
       <Dialog
@@ -247,12 +260,18 @@ export default function NavBar() {
                 </a>
               </div>
               <div className="py-6">
-                <a
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  onClick={() => navigateHandler("/login")}
-                >
-                  Log in
-                </a>
+                {isAuthenticated && user ? (
+                  <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 ">
+                    <Dropdown />
+                  </a>
+                ) : (
+                  <a
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    onClick={() => loginWithRedirect()}
+                  >
+                    Log in
+                  </a>
+                )}
               </div>
             </div>
           </div>
