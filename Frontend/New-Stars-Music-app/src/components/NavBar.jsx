@@ -16,7 +16,6 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import { useAuth0 } from "@auth0/auth0-react";
-import LogoutButton from "./login/LogoutButton";
 import Dropdown from "./dropdown/Dropdown";
 
 const products = [
