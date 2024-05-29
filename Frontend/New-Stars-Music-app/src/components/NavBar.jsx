@@ -15,6 +15,11 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
+import { GiBilledCap, GiSchoolBag } from "react-icons/gi";
+import { FaTshirt } from "react-icons/fa";
+import { RiFilePaperFill } from "react-icons/ri";
+import { FaCompactDisc } from "react-icons/fa";
+
 import { useAuth0 } from "@auth0/auth0-react";
 import Dropdown from "./dropdown/Dropdown";
 
@@ -23,31 +28,31 @@ const products = [
     name: "Cap",
     description: "Get a better understanding of your traffic",
     href: "#",
-    icon: ChartPieIcon,
+    icon: GiBilledCap,
   },
   {
     name: "Bags",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: GiSchoolBag,
   },
   {
     name: "T-shirt",
     description: "Your customers’ data will be safe and secure",
     href: "#",
-    icon: FingerPrintIcon,
+    icon: FaTshirt,
   },
   {
     name: "CDs",
     description: "Connect with third-party tools",
     href: "#",
-    icon: SquaresPlusIcon,
+    icon: FaCompactDisc,
   },
   {
     name: "Posters",
     description: "Build strategic funnels that will convert",
     href: "#",
-    icon: ArrowPathIcon,
+    icon: RiFilePaperFill,
   },
 ];
 const callsToAction = [{ name: "Contact sales", href: "#", icon: PhoneIcon }];
@@ -256,9 +261,7 @@ export default function NavBar() {
               </div>
               <div className="py-6">
                 {isAuthenticated && user ? (
-                  <a
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 "
-                  >
+                  <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 ">
                     <Dropdown />
                   </a>
                 ) : (
