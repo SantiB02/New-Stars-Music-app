@@ -1,5 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useRef, useState } from "react";
+import { IoSettingsOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { HiOutlineLogout } from "react-icons/hi";
 
 const Dropdown = () => {
   const { user, logout } = useAuth0();
@@ -31,19 +35,27 @@ const Dropdown = () => {
           >
             <ul>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                settings
+                <div class="flex items-center">
+                  <IoSettingsOutline className="mr-2" /> Settings
+                </div>
               </li>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                profile
+                <div class="flex items-center">
+                  <CgProfile className="mr-2" /> Profile
+                </div>
               </li>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                yout cart
+                <div class="flex items-center">
+                  <MdOutlineShoppingCart className="mr-2" /> Your cart
+                </div>
               </li>
               <li
-                className="p-2  text-red-500 cursor-pointer rounded hover:bg-red-100 hover:text-red-600"
+                className="p-2  text-[#a10009] cursor-pointer rounded hover:bg-red-100 hover:text-red-600"
                 onClick={() => logout()}
               >
-                Logout
+                <div class="flex items-center">
+                  <HiOutlineLogout className="mr-2" /> Logout
+                </div>
               </li>
             </ul>
           </div>
