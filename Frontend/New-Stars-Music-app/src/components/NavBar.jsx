@@ -82,8 +82,8 @@ export default function NavBar() {
           <a className="-m-1.5 " onClick={() => navigateHandler("/")}>
             <span className="sr-only">Your Company</span>
             <img
-              className="h-9 w-auto"
-              src="https://static.vecteezy.com/system/resources/previews/017/398/799/non_2x/black-star-free-png.png"
+              className="h-14 w-auto cursor-pointer"
+              src="../../public/new-stars-music-high-resolution-logo-transparent.png"
               alt=""
             />
           </a>

@@ -18,10 +18,10 @@ import { Toaster } from "react-hot-toast";
 function App() {
   const router = [
     { path: "/", element: <Home /> },
-   // { path: "/login", element: <Login /> },
+    // { path: "/login", element: <Login /> },
     { path: "/search", element: <PlayerMusic /> },
     { path: "/store", element: <Store /> },
-    { path: "/product-details", element: <ProductDetails /> },
+    { path: "/product-details/:productId", element: <ProductDetails /> },
     { path: "*", element: <PageNotFound /> },
   ];
   return (

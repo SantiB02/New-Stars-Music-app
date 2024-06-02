@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getProduct } from "../../services/productsService";
 import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const { productId } = state;
   const [product, setProduct] = useState(undefined);
+
+  const { productId } = useParams();
 
   const fetchProduct = async (productId) => {
     try {
@@ -26,7 +26,7 @@ const ProductDetails = () => {
     <div>
       <h1>Product details</h1>
       <h2>Take a look before you buy it!</h2>
-      <div>
+      {/* <div>
         <img src={product.imageLink} alt="Selected product" />
         <p>{product.title}</p>
         <p>
@@ -38,7 +38,7 @@ const ProductDetails = () => {
           </p>
         )}
         <p>{product.description}</p>
-      </div>
+      </div> */}
     </div>
   );
 };

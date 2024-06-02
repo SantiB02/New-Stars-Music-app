@@ -5,7 +5,8 @@ const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   const clickBuyHandler = () => {
-    navigate("/product-details", { state: { productId: product.id } });
+    //navigate("/product-details", { state: { productId: product.id } });
+    navigate(`/product-details/${product.id}`);
   };
 
   return (
