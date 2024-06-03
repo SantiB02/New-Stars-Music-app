@@ -83,7 +83,7 @@ export default function NavBar() {
             <span className="sr-only">Your Company</span>
             <img
               className="h-14 w-auto cursor-pointer"
-              src="../../public/new-stars-music-high-resolution-logo-transparent.png"
+              src="/new-stars-music-high-resolution-logo-transparent.png"
               alt=""
             />
           </a>
