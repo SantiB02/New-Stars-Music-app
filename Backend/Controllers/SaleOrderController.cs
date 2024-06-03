@@ -92,7 +92,7 @@ namespace Merchanmusic.Controllers
         }
 
         [HttpPost("CreateSaleOrder")]
-        public IActionResult CreateSaleOrder([FromBody] SaleOrderCreateDto dto)
+        public IActionResult CreateSaleOrder([FromBody] SaleOrderDto dto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
             if (role == "Admin" || role == "Client")
@@ -147,7 +147,7 @@ namespace Merchanmusic.Controllers
 
 
         [HttpPut("UpdateSaleOrder{id}")]
-        public IActionResult UpdateSaleOrder([FromRoute] int id, [FromBody] SaleOrderCreateDto dto)
+        public IActionResult UpdateSaleOrder([FromRoute] int id, [FromBody] SaleOrderDto dto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
             if (role == "Admin")
