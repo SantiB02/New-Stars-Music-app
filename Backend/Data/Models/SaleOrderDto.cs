@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Merchanmusic.Data.Models
 {
-    public class SaleOrderCreateDto
+    public class SaleOrderDto
     {
-        //public ICollection<SaleOrderLineCreateDto> SaleOrderLines { get; set; } = new List<SaleOrderLineCreateDto>();
+        
          public int ClientId { get; set; }
-        // public PaymentMethodEnum PaymentMethod { get; set; }
+       
     }
 }
