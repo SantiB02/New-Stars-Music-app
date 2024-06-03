@@ -20,7 +20,7 @@ const NewStarsInput = ({ name, type, label, placeholder, value, onChange }) => {
     type !== "password" &&
     type !== "date";
 
-  if (isTypeInvalid) {
+  if (isTypeInvalid && type !== undefined) {
     console.error(
       "Invalid input type (only 'text', 'number', 'email', 'password' or 'date' are supported)!'"
     );

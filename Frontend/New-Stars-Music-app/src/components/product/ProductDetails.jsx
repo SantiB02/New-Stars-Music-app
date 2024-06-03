@@ -4,11 +4,13 @@ import { getProduct } from "../../services/productsService";
 import toast from "react-hot-toast";
 import NewStarsForm from "../common/NewStarsForm";
 import NewStarsInput from "../common/NewStarsInput";
+import LoadingMessage from "../common/LoadingMessage";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState(undefined);
   const [username, setUsername] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { productId } = useParams();
 
@@ -17,17 +19,24 @@ const ProductDetails = () => {
   };
 
   const fetchProduct = async (productId) => {
+    setIsLoading(true);
     try {
       const productFromApi = await getProduct(productId);
       setProduct(productFromApi);
     } catch (error) {
       toast.error("Error while loading this product!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchProduct(productId); //fetch product when view is rendered
   }, []);
+
+  if (isLoading) {
+    return <LoadingMessage message="Loading product..." />;
+  }
 
   return (
     // <div>
