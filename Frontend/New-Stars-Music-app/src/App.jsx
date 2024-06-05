@@ -14,10 +14,12 @@ import Footer from "./components/Footer";
 import Store from "./components/store/Store";
 import ProductDetails from "./components/product/ProductDetails";
 import { Toaster } from "react-hot-toast";
+import Banner from "./components/banner/Banner";
 
 function App() {
   const router = [
-    { path: "/", element: <Home /> },
+    { path: "/", element: <Banner /> },
+    { path: "/home", element: <Home /> },
     // { path: "/login", element: <Login /> },
     { path: "/search", element: <PlayerMusic /> },
     { path: "/store", element: <Store /> },
