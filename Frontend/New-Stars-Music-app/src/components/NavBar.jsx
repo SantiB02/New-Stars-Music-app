@@ -79,7 +79,7 @@ export default function NavBar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1 ">
-          <a className="-m-1.5 " onClick={() => navigateHandler("/")}>
+          <a className="-m-1.5 " onClick={() => navigateHandler("/home")}>
             <span className="sr-only">Your Company</span>
             <img
               className="h-14 w-auto cursor-pointer"
