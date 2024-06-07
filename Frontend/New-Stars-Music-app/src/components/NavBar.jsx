@@ -161,13 +161,17 @@ export default function NavBar() {
               </Popover.Panel>
             </Transition>
           </Popover>
+          {!user ? (
+            <></>
+          ) : (
+            <a
+              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+              onClick={() => navigateHandler("/search")}
+            >
+              Search
+            </a>
+          )}
 
-          <a
-            className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
-            onClick={() => navigateHandler("/search")}
-          >
-            Search
-          </a>
           <a
             className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
             onClick={() => navigateHandler("/store")}

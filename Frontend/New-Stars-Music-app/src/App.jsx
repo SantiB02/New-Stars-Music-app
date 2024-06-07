@@ -22,13 +22,8 @@ function App() {
     { path: "/", element: <Banner /> },
     {
       path: "/home",
-      element: (
-        <Protected>
-          <Home />
-        </Protected>
-      ),
+      element: <Home />,
     },
-    // { path: "/login", element: <Login /> },
     {
       path: "/search",
       element: (
