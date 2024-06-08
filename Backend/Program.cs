@@ -9,7 +9,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 //var connectionString = builder.Configuration["Database:ConnectionString"];
-var connectionString = builder.Configuration["LocalTesting:ConnectionString"];
+var connectionString = builder.Configuration["Database:LocalConnectionString"];
 var serverVersion = new MySqlServerVersion(new Version(6, 0, 1));
 
 

@@ -15,51 +15,53 @@ namespace Merchanmusic.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.Products.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("ArtistId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("DATETIME(0)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ImageLink")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("DATETIME(0)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("DECIMAL(7,2)");
 
                     b.Property<bool>("State")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("Stock")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -74,10 +76,10 @@ namespace Merchanmusic.Migrations
                             ArtistId = 5,
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 5, 2, 21, 11, 24, 335, DateTimeKind.Local).AddTicks(1762),
+                            CreationDate = new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1765),
                             Description = "Remera ACDC algodón",
                             ImageLink = "##",
-                            LastModifiedDate = new DateTime(2024, 5, 2, 21, 11, 24, 335, DateTimeKind.Local).AddTicks(1772),
+                            LastModifiedDate = new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1774),
                             Name = "Remera ACDC",
                             Price = 12500m,
                             State = true,
@@ -89,10 +91,10 @@ namespace Merchanmusic.Migrations
                             ArtistId = 5,
                             Category = "T-shirt",
                             Code = "1021",
-                            CreationDate = new DateTime(2024, 5, 2, 21, 11, 24, 335, DateTimeKind.Local).AddTicks(1778),
+                            CreationDate = new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1780),
                             Description = "Remera overside negra",
                             ImageLink = "$$",
-                            LastModifiedDate = new DateTime(2024, 5, 2, 21, 11, 24, 335, DateTimeKind.Local).AddTicks(1779),
+                            LastModifiedDate = new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1780),
                             Name = "Remera LOVG",
                             Price = 13200m,
                             State = true,
@@ -104,25 +106,25 @@ namespace Merchanmusic.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("ClientId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<bool>("Completed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("OrderCode")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("char(36)");
 
                     b.Property<bool>("State")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<decimal>("TotalPrice")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
@@ -135,19 +137,19 @@ namespace Merchanmusic.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("QuantityOrdered")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("SaleOrderId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
@@ -162,37 +164,37 @@ namespace Merchanmusic.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("State")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserType")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -207,7 +209,7 @@ namespace Merchanmusic.Migrations
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("longtext")
                         .HasColumnName("Admin_Role");
 
                     b.HasDiscriminator().HasValue("Admin");
@@ -233,7 +235,7 @@ namespace Merchanmusic.Migrations
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.HasDiscriminator().HasValue("Artist");
 
