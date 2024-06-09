@@ -1,7 +1,10 @@
 import api from "./api";
 
-const getAuthSettings = async () => {
+export const getAuthSettings = async () => {
   try {
-    api.get("");
-  } catch (error) {}
+    const response = await api.get("/settings/auth");
+    return response.data;
+  } catch (error) {
+    console.error("There was an error fetching auth results", error);
+  }
 };
