@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Merchanmusic.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Merchanmusic.Controllers
 {
@@ -7,5 +9,30 @@ namespace Merchanmusic.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly IProductService _productService;
+
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
+        [HttpGet("GetAllProducts")]
+        public IActionResult GetProducts()
+        {
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            if (role == "Admin" || role == "Client")
+            {
+                var products = _productService.GetProducts();
+                try
+                {
+                    return Ok(products);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return Forbid();
+        }
     }
 }
