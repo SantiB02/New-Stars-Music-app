@@ -64,6 +64,7 @@ namespace Merchanmusic.Data
                     UserName = "bdiaz",
                     Password = "123456",
                     Id = 4,
+                    
                     Role = "admin"
                 });
 
@@ -78,6 +79,17 @@ namespace Merchanmusic.Data
                 Id = 5,
                 Role = "Artist"
             });
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("DECIMAL(7, 2)");
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.CreationDate)
+                .HasColumnType("DATETIME(0)");
+            modelBuilder.Entity<Product>()
+                .Property(p => p.LastModifiedDate)
+                .HasColumnType("DATETIME(0)");
 
             modelBuilder.Entity<Product>().HasData(
                 new Product

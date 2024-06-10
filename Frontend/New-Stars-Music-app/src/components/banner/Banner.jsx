@@ -1,18 +1,24 @@
 import React from "react";
+import LoadingMessage from "../common/LoadingMessage";
 
 const Banner = () => {
   return (
     <div>
-      <section className="bg-primary text-white">
-        <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
+      <section className="bg-primary text-white marginLoco">
+        <div className="mx-auto max-w-screen-xl px-4 my-36 lg:flex lg:my-32 lg:items-center">
           <div className="mx-auto max-w-3xl text-center">
+
             <h1 className="bg-gradient-to-r from-white via-secondary to-red-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
+
               New Stars Music.
-              <span className="sm:block"> Music to your ears, merch to your style. </span>
+              <span className="sm:block">
+                {" "}
+                Music to your ears, merch to your style.{" "}
+              </span>
             </h1>
 
             <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-              falta agregarle una descripcion
+              Join us today for thousands of your favorite musical products!
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">

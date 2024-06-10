@@ -24,7 +24,7 @@ const Store = () => {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="my-6">
         <h1 className="text-3xl text-center">Welcome to our store!</h1>
         <p className="my-2 text-lg text-center">
