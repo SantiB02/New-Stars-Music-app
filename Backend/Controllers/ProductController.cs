@@ -1,4 +1,5 @@
-﻿using Merchanmusic.Services.Interfaces;
+﻿using Merchanmusic.Data.Entities.Products;
+using Merchanmusic.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -71,5 +72,6 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
+       
     }
 }
