@@ -1,4 +1,5 @@
 ﻿using Merchanmusic.Data.Entities.Products;
+using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
+
         [HttpGet("GetProductByName{name}")]
         public IActionResult GetProductByName(string name)
         {
@@ -72,6 +74,38 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-       
+
+        [HttpPost("CreateNewProduct")]
+        public IActionResult CreateProduct([FromBody] ProductCreatDto productDto)
+        {
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            if (role == "Admin")
+            {
+                if (productDto.Name == null || productDto.Price <= 0)
+                {
+                    return BadRequest("Producto no creado, por favor completar los campos");
+                }
+                try
+                {
+                    var product = new Product()
+                    {
+                        Name = productDto.Name,
+                        Price = productDto.Price,
+                        Stock = productDto.Stock
+                    };
+
+                    int id = _productService.CreateProduct(product);
+
+                    return Ok($"Producto creado exitosamente con id: {id}");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return Forbid();
+        }
+
+
     }
 }
