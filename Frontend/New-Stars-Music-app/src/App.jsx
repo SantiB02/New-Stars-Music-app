@@ -15,13 +15,23 @@ import Store from "./components/store/Store";
 import ProductDetails from "./components/product/ProductDetails";
 import { Toaster } from "react-hot-toast";
 import Banner from "./components/banner/Banner";
+import Protected from "./components/security/Protected";
 
 function App() {
   const router = [
     { path: "/", element: <Banner /> },
-    { path: "/home", element: <Home /> },
-    // { path: "/login", element: <Login /> },
-    { path: "/search", element: <PlayerMusic /> },
+    {
+      path: "/home",
+      element: <Home />,
+    },
+    {
+      path: "/search",
+      element: (
+        <Protected>
+          <PlayerMusic />
+        </Protected>
+      ),
+    },
     { path: "/store", element: <Store /> },
     { path: "/product-details/:productId", element: <ProductDetails /> },
     { path: "*", element: <PageNotFound /> },

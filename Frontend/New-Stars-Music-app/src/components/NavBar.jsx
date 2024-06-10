@@ -168,6 +168,7 @@ export default function NavBar() {
           >
             Search
           </a>
+
           <a
             className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
             onClick={() => navigateHandler("/store")}

@@ -7,7 +7,9 @@ const Banner = () => {
       <section className="bg-primary text-white marginLoco">
         <div className="mx-auto max-w-screen-xl px-4 my-36 lg:flex lg:my-32 lg:items-center">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="bg-gradient-to-r pb-2 from-green-300 via-secondary to-red-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
+
+            <h1 className="bg-gradient-to-r from-white via-secondary to-red-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
+
               New Stars Music.
               <span className="sm:block">
                 {" "}

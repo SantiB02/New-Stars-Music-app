@@ -31,7 +31,7 @@ const Dropdown = () => {
         {open && (
           <div
             ref={menuRef}
-            className="bg-third p-4 w-52 shadow-lg  absolute top-10 right-0 mr-4 rounded"
+            className="bg-third p-4 w-52 shadow-lg  absolute top-10 right-0 mr-4 rounded border"
           >
             <ul>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
@@ -50,7 +50,7 @@ const Dropdown = () => {
                 </div>
               </li>
               <li
-                className="p-2  text-[#a10009] cursor-pointer rounded hover:bg-red-100 hover:text-red-600"
+                className="p-2  text-[#a10009] cursor-pointer rounded hover:bg-red-100 hover:text-red-600 border-t-red-600"
                 onClick={() => logout()}
               >
                 <div class="flex items-center">
