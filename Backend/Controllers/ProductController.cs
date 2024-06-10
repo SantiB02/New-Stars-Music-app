@@ -132,6 +132,37 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
+        [HttpPut("UpdateProduct{id}")]
+        public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductUpdateDto product)
+        {
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            if (role == "Admin")
+            {
+                var productToUpdate = _productService.GetProductById(id);
+                if (productToUpdate == null)
+                {
+                    return NotFound($"Producto con ID {id} no encontrado");
+                }
+                if (product.Price == 0 || product.Stock == 0)
+                {
+                    return BadRequest("Producto no actualizado, por favor completar los campos");
+                }
+
+                try
+                {
+                    productToUpdate.Price = product.Price;
+                    productToUpdate.Stock = product.Stock;
+
+                    productToUpdate = _productService.UpdateProduct(productToUpdate);
+                    return Ok($"Producto actualizado exitosamente");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest($"Error al actualizar el producto: {ex.Message}");
+                }
+            }
+            return Forbid();
+        }
 
     }
 }
