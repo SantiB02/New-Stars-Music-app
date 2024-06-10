@@ -34,5 +34,23 @@ namespace Merchanmusic.Controllers
             }
             return Forbid();
         }
+
+        [HttpGet("GetProductById{id}")]
+        public IActionResult GetProductById(int id)
+        {
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            if (role == "Admin")
+            {
+                var product = _productService.GetProductById(id);
+
+                if (product == null)
+                {
+                    return NotFound($"El producto con el ID: {id} no fue encontrado");
+                }
+
+                return Ok(product);
+            }
+            return Forbid();
+        }
     }
 }
