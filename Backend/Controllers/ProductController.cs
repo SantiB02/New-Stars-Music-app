@@ -106,6 +106,32 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
+        [HttpDelete("DeleteProduct{id}")]
+        public IActionResult DeleteProduct([FromRoute] int id)
+        {
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            if (role == "Admin")
+            {
+                try
+                {
+                    var existingProduct = _productService.GetProductById(id);
+
+                    if (existingProduct == null)
+                    {
+                        return NotFound($"No se encontró ningún producto con el ID: {id}");
+                    }
+
+                    _productService.DeleteProduct(id);
+                    return Ok($"Producto con ID: {id} eliminado");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return Forbid();
+        }
+
 
     }
 }
