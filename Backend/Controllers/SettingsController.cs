@@ -22,7 +22,6 @@ namespace Merchanmusic.Controllers
             {
                 var Auth0SettingsDto = new PublicAuthSettings()
                 {
-                    Audience = _configuration.GetValue<string>("Auth:Audience"),
                     Domain = _configuration.GetValue<string>("Auth:Domain"),
                     ClientId = _configuration.GetValue<string>("Auth:ClientId")
                 };
