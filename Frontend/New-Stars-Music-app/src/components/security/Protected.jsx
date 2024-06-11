@@ -3,8 +3,8 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 
 const Protected = ({ children }) => {
-  const { user } = useAuth0();
-  if (!user) {
+  const { isAuthenticate } = useAuth0();
+  if (!isAuthenticate) {
     return <Navigate to="/" replace />;
   } else return children;
 };
