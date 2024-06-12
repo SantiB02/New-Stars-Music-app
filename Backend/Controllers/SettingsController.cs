@@ -16,7 +16,7 @@ namespace Merchanmusic.Controllers
         }
 
         [HttpGet("auth")]
-        public ActionResult<PublicAuthSettings> GetPublicAuthSettings()
+        public IActionResult GetPublicAuthSettings()
         {
             try
             {
@@ -25,11 +25,11 @@ namespace Merchanmusic.Controllers
                     Domain = _configuration.GetValue<string>("Auth:Domain"),
                     ClientId = _configuration.GetValue<string>("Auth:ClientId")
                 };
-                return Auth0SettingsDto;
+                return Ok(Auth0SettingsDto);
             }
             catch (Exception)
             {
-                return new StatusCodeResult(500);
+                return StatusCode(500);
             }
         }
     }
