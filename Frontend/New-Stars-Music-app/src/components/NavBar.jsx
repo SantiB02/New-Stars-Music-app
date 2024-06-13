@@ -191,13 +191,13 @@ export default function NavBar() {
       </nav>
       <Dialog
         as="div"
-        className="lg:hidden bg-secondary"
+        className="lg:hidden bg-fourth"
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
         <div className="fixed inset-0 z-10 bg-secundary " />
-        <Dialog.Panel className="fixed  inset-y-0 right-0 z-10 w-full overflow-y-auto bg-fourth px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 bg-secondary">
-          <div className="flex items-center justify-between bg-secondary">
+        <Dialog.Panel className="fixed  inset-y-0 right-0 z-10 w-full overflow-y-auto  px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 bg-fourth">
+          <div className="flex items-center justify-between bg-fourth">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
             </a>
@@ -210,9 +210,9 @@ export default function NavBar() {
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className="mt-6 flow-root bg-secondary">
-            <div className="-my-6 divide-y divide-gray-500/10 bg-secondary">
-              <div className="space-y-2 py-6 bg-secondary">
+          <div className="mt-6 flow-root bg-fourth">
+            <div className="-my-6 divide-y divide-gray-500/10 bg-fourth">
+              <div className="space-y-2 py-6 bg-fourth">
                 <Disclosure as="div" className="-mx-3 bg-secundary">
                   {({ open }) => (
                     <>

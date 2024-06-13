@@ -9,7 +9,7 @@ module.exports = withMT({
         primary: "#242425",
         secondary: "#e25418",
         third: "#e96d30",
-        fourth: "#f18647",
+        fourth: "#cc713c",
       },
     },
   },
