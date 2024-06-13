@@ -38,6 +38,7 @@ namespace Merchanmusic.Controllers
                     Password = user.Password,
                     Address = user.Address,
                     UserType = user.UserType,
+                    UserName = user.UserName,
                 };
                 return Ok(userInfoDto);
             }
@@ -71,7 +72,8 @@ namespace Merchanmusic.Controllers
                     Name = clientPostDto.Name,
                     LastName = clientPostDto.LastName,
                     Password = clientPostDto.Password,
-                    Address = clientPostDto.Address
+                    Address = clientPostDto.Address,
+                    UserName = clientPostDto.UserName
 
                 };
                 int id = _userService.CreateUser(client);

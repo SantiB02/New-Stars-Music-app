@@ -75,8 +75,8 @@ builder.Services.AddScoped<ISaleOrderService, SaleOrderService>();
 
 //builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntenticación 
-    .AddJwtBearer(options =>
+builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntenticación que tenemos que elegir después en PostMan para pasarle el token
+    .AddJwtBearer(options => //Acá definimos la configuración de la autenticación. le decimos qué cosas queremos comprobar. La fecha de expiración se valida por defecto.
     {
         options.TokenValidationParameters = new()
         {
