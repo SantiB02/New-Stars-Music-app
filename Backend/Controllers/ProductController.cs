@@ -21,9 +21,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("GetAllProducts")]
         public IActionResult GetProducts()
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin" || role == "Client")
-            {
+            
                 var products = _productService.GetProducts();
                 try
                 {
@@ -33,8 +31,7 @@ namespace Merchanmusic.Controllers
                 {
                     return BadRequest(ex.Message);
                 }
-            }
-            return Forbid();
+            
         }
 
         [HttpGet("GetProductById{id}")]

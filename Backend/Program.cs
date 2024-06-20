@@ -70,6 +70,7 @@ builder.Configuration.AddUserSecrets<Program>();
 
 builder.Services.AddScoped<IUserService, UserService>(); 
 builder.Services.AddScoped<ISaleOrderService, SaleOrderService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 //#endregion
 

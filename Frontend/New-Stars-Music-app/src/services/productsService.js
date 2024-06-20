@@ -2,7 +2,7 @@ import api from "../api/api";
 
 export const getAllProducts = async () => {
   try {
-    const response = await api.get("/products"); //en la API real, va a haber una ruta por parámetro
+    const response = await api.get("https://localhost:7133/api/Product/GetAllProducts"); //en la API real, va a haber una ruta por parámetro
     return response.data;
   } catch (error) {
     console.error("Error getting all products:", error);

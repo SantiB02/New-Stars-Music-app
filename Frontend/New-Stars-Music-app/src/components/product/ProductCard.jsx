@@ -20,13 +20,13 @@ const ProductCard = ({ product }) => {
         alt="product image"
       />
       <div className="flex flex-col items-center">
-        <p className="font-bold text-center my-2">{product.title}</p>
+        <p className="font-bold text-center my-2">{product.name}</p>
         <p className="text-center">{product.description}</p>
         <p>
           <span className="font-medium">Artist:</span> {product.artist}
         </p>
         <p>
-          <span className="font-medium">Year:</span> {product.launchYear}
+          <span className="font-medium">$</span> {product.price}
         </p>
 
         <button
