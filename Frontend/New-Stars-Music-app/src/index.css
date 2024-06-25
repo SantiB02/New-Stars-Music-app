@@ -6,11 +6,19 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+  position: relative;
+  min-height: 100vh;
 }
 
 body {
   margin: 0;
   position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  min-height: 80vh;
 }
 
 /* width */

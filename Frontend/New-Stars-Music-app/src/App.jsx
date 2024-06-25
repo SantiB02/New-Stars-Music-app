@@ -16,13 +16,18 @@ import ProductDetails from "./components/product/ProductDetails";
 import { Toaster } from "react-hot-toast";
 import Banner from "./components/banner/Banner";
 import Protected from "./components/security/Protected";
+import SiteInfo from "./components/siteInfo/SiteInfo";
 
 function App() {
   const router = [
     { path: "/", element: <Banner /> },
     {
       path: "/home",
-      element: <Home />,
+      element: (
+        <Protected>
+          <Home />
+        </Protected>
+      ),
     },
     {
       path: "/search",
@@ -32,8 +37,16 @@ function App() {
         </Protected>
       ),
     },
-    { path: "/store", element: <Store /> },
+    {
+      path: "/store",
+      element: (
+        <Protected>
+          <Store />
+        </Protected>
+      ),
+    },
     { path: "/product-details/:productId", element: <ProductDetails /> },
+    { path: "/info", element: <SiteInfo /> },
     { path: "*", element: <PageNotFound /> },
   ];
   return (
