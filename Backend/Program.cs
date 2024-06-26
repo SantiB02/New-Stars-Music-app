@@ -4,6 +4,7 @@ using Merchanmusic.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -76,17 +77,15 @@ builder.Services.AddScoped<IProductService, ProductService>();
 
 //builder.Services.AddHttpContextAccessor();
 
+var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
 builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntenticación que tenemos que elegir después en PostMan para pasarle el token
     .AddJwtBearer(options => //Acá definimos la configuración de la autenticación. le decimos qué cosas queremos comprobar. La fecha de expiración se valida por defecto.
     {
+        options.Authority = domain;
+        options.Audience = builder.Configuration["Auth0:Audience"];
         options.TokenValidationParameters = new()
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Authentication:Issuer"],
-            ValidAudience = builder.Configuration["Authentication:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
+            NameClaimType = ClaimTypes.NameIdentifier
         };
     }
 );

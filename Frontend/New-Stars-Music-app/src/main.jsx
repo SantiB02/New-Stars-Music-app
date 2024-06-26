@@ -21,7 +21,7 @@ getAuthSettings()
       </React.StrictMode>
     );
   })
-  .catch((error) => {
+  .catch(() => {
     console.error("Error! Backend isn't running!");
     root.render(<ServerError />);
   });

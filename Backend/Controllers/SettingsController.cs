@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Merchanmusic.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/settings")]
     [ApiController]
     public class SettingsController : ControllerBase
     {
@@ -22,8 +22,8 @@ namespace Merchanmusic.Controllers
             {
                 var Auth0SettingsDto = new PublicAuthSettings()
                 {
-                    Domain = _configuration.GetValue<string>("Auth:Domain"),
-                    ClientId = _configuration.GetValue<string>("Auth:ClientId")
+                    Domain = _configuration.GetValue<string>("Auth0:Domain"),
+                    ClientId = _configuration.GetValue<string>("Auth0:ClientId")
                 };
                 return Ok(Auth0SettingsDto);
             }

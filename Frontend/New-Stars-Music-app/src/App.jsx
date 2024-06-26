@@ -22,44 +22,14 @@ import { setAuthInterceptor } from "./api/api";
 import { getToken } from "./api/auth";
 
 function App() {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     if (isAuthenticated) {
-      setAuthInterceptor(getToken);
+      setAuthInterceptor(getAccessTokenSilently);
     }
   }, [isAuthenticated]);
 
-  const router = [
-    { path: "/", element: <Banner /> },
-    {
-      path: "/home",
-      element: (
-        <Protected>
-          <Home />
-        </Protected>
-      ),
-    },
-    {
-      path: "/search",
-      element: (
-        <Protected>
-          <PlayerMusic />
-        </Protected>
-      ),
-    },
-    {
-      path: "/store",
-      element: (
-        <Protected>
-          <Store />
-        </Protected>
-      ),
-    },
-    { path: "/product-details/:productId", element: <ProductDetails /> },
-    { path: "/info", element: <SiteInfo /> },
-    { path: "*", element: <PageNotFound /> },
-  ];
   return (
     <Router>
       <div>
@@ -69,9 +39,16 @@ function App() {
         <NavBar />
         <div className="main-content">
           <Routes>
-            {router.map(({ path, element }) => (
-              <Route key={path} path={path} element={element} />
-            ))}
+            <Route path="/" exact element={<Banner />} />
+            <Route path="/product-details" element={<ProductDetails />} />
+            <Route path="/info" element={<SiteInfo />} />
+            <Route path="*" exact element={<PageNotFound />} />
+
+            <Route element={<Protected />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/search" element={<PlayerMusic />} />
+              <Route path="/store" element={<Store />} />
+            </Route>
           </Routes>
         </div>
         <Footer />
