@@ -6,6 +6,7 @@ import LoadingMessage from "../common/LoadingMessage";
 import PageNotFound from "../pageNotFound/PageNotFound";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setAuthInterceptor } from "../../api/api";
+import { Typography } from "@material-tailwind/react";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -50,11 +51,15 @@ const ProductDetails = () => {
   }
 
   return (
-    <div>
-      <h1>Product details</h1>
-      <h2>Take a look before you buy it!</h2>
+    <div className="ml-10 mt-4">
+      <Typography variant="h1">Product details</Typography>
+      <Typography variant="h5">Take a look before you buy it!</Typography>
       <div>
-        <img src={product?.imageLink} alt="Selected product" />
+        <img
+          className="max-w-32"
+          src={product?.imageLink}
+          alt="Selected product"
+        />
         <p>{product?.title}</p>
         <p>
           Artist: <span>{product?.artist}</span>

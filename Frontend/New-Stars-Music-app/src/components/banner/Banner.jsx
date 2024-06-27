@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import LoadingMessage from "../common/LoadingMessage";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import RatingCard from "../home/RatingCard";
+import { Typography } from "@material-tailwind/react";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -15,8 +17,8 @@ const Banner = () => {
 
   return (
     <div>
-      <section className="bg-primary text-white marginLoco">
-        <div className="mx-auto max-w-screen-xl px-4 my-36 lg:flex lg:my-32 lg:items-center">
+      <section className="bg-primary text-white">
+        <div className="mx-auto max-w-screen-xl px-4 mt-36 lg:flex lg:mt-32 lg:items-center">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="bg-gradient-to-r pb-2 from-white via-secondary to-red-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
               New Stars Music.
@@ -48,6 +50,29 @@ const Banner = () => {
           </div>
         </div>
       </section>
+      <Typography className="text-center mt-12" variant="h4">
+        What our clients say...
+      </Typography>
+      <div className="flex mx-auto items-start max-w-6xl mb-14">
+        <RatingCard
+          profilePicUrl="Andy-Profile-600.webp"
+          fullName="John Doe"
+          description='"Greatest site ever! Not only can I explore my favourite artists, but I can also discover their merchandising, either 3rd party or official products! My rating for New Stars Music speaks for itself."'
+          rating={9.3}
+        />
+        <RatingCard
+          profilePicUrl="girl-profile-pic.jpg"
+          fullName="Mary Sue"
+          description='"If you are looking for a site that links your favorite artists with your favorite products, look no further. New Stars Music has it all!"'
+          rating={8.8}
+        />
+        <RatingCard
+          profilePicUrl="smiling-african-man-looking-camera.avif"
+          fullName="Marvin Gerard"
+          description='"I believe these guys love music, because this idea is a breakthrough for the e-commerce community. Music and products all at once? Count me in."'
+          rating={8}
+        />
+      </div>
     </div>
   );
 };
