@@ -1,6 +1,7 @@
 ﻿using Merchanmusic.Data.Entities.Products;
 using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -9,6 +10,7 @@ namespace Merchanmusic.Controllers
 {
     [Route("api/products")]
     [ApiController]
+    //[Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -19,6 +21,7 @@ namespace Merchanmusic.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetProducts()
         {
             
@@ -37,9 +40,6 @@ namespace Merchanmusic.Controllers
         [HttpGet("{id}")]
         public IActionResult GetProductById(int id)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin")
-            {
                 var product = _productService.GetProductById(id);
 
                 if (product == null)
@@ -48,8 +48,6 @@ namespace Merchanmusic.Controllers
                 }
 
                 return Ok(product);
-            }
-            return Forbid();
         }
 
 

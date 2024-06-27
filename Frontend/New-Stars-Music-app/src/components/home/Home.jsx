@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import FeaturedProducts from "./FeaturedProducts";
 import Music from "./Music";
 import { getAllProducts } from "../../services/productsService";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth0();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -14,6 +16,7 @@ const Home = () => {
         const allProducts = await getAllProducts();
         console.log("ALL PRODUCTS", allProducts);
         setProducts(allProducts);
+        console.log("USER", user);
       } catch (error) {
         console.error("Error fetching all products:", error);
       } finally {

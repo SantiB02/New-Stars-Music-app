@@ -5,7 +5,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const Protected = () => {
   const { loginWithRedirect, isAuthenticated, user, isLoading } = useAuth0();
-  if (user) {
+  if (user && !isLoading) {
     return <Outlet />;
   } else {
     return <Navigate to={loginWithRedirect()} />;

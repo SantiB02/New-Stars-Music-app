@@ -40,7 +40,10 @@ function App() {
         <div className="main-content">
           <Routes>
             <Route path="/" exact element={<Banner />} />
-            <Route path="/product-details" element={<ProductDetails />} />
+            <Route
+              path="/product-details/:productId"
+              element={<ProductDetails />}
+            />
             <Route path="/info" element={<SiteInfo />} />
             <Route path="*" exact element={<PageNotFound />} />
 

@@ -1,7 +1,9 @@
 using Merchanmusic.Data;
 using Merchanmusic.Services.Implementations;
 using Merchanmusic.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -78,7 +80,11 @@ builder.Services.AddScoped<IProductService, ProductService>();
 //builder.Services.AddHttpContextAccessor();
 
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
-builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntenticación que tenemos que elegir después en PostMan para pasarle el token
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
     .AddJwtBearer(options => //Acá definimos la configuración de la autenticación. le decimos qué cosas queremos comprobar. La fecha de expiración se valida por defecto.
     {
         options.Authority = domain;
@@ -87,6 +93,7 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
         {
             NameClaimType = ClaimTypes.NameIdentifier
         };
+        options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration();
     }
 );
 builder.Services.AddCors(options => //habilitamos las solicitudes Cross-Origin para deployar correctamente el back-end en Azure
