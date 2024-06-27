@@ -27,10 +27,10 @@ function App() {
   const { isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (!isLoading) {
       setAuthInterceptor(getAccessTokenSilently);
-    } else console.log("NOT LOGGED");
-  }, [auth0]);
+    }
+  }, [isLoading]);
 
   if (isLoading) return <LoadingMessage message="Loading..." />;
 

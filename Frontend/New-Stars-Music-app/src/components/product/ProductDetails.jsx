@@ -4,17 +4,26 @@ import { getProduct } from "../../services/productsService";
 import toast from "react-hot-toast";
 import LoadingMessage from "../common/LoadingMessage";
 import PageNotFound from "../pageNotFound/PageNotFound";
+import { useAuth0 } from "@auth0/auth0-react";
+import { setAuthInterceptor } from "../../api/api";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState(undefined);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingProduct, setIsLoadingProduct] = useState(false);
   const [productNotFound, setProductNotFound] = useState(false);
 
+  const { getAccessTokenSilently, isLoading } = useAuth0();
   const { productId } = useParams();
 
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
+
   const fetchProduct = async (productId) => {
-    setIsLoading(true);
+    setIsLoadingProduct(true);
     try {
       const productFromApi = await getProduct(productId);
       setProduct(productFromApi);
@@ -24,7 +33,7 @@ const ProductDetails = () => {
       console.log("ERROR");
       setProductNotFound(true);
     } finally {
-      setIsLoading(false);
+      setIsLoadingProduct(false);
     }
   };
 
@@ -32,7 +41,7 @@ const ProductDetails = () => {
     fetchProduct(productId); //fetch product when view is rendered
   }, []);
 
-  if (isLoading) {
+  if (isLoadingProduct) {
     return <LoadingMessage message="Loading product..." />;
   }
 
