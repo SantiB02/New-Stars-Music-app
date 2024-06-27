@@ -3,12 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
+ 
 import { getAuthSettings } from "./api/settings-api.js";
-
-//import { ThemeContextProvider } from "./services/contexts/ThemeProvider.jsx";
-
 import ServerError from "./components/error/ServerError.jsx";
-
+import ThemeProvider from "./services/contexts/ThemeProvider.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 getAuthSettings()
@@ -22,7 +20,9 @@ getAuthSettings()
           audience: "https://dev-a64glq5ygldhuy1g.us.auth0.com/api/v2/",
         }}
       >
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </Auth0Provider>
     );
   })

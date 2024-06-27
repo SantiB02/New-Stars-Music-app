@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { themeContext } from "../../services/contexts/ThemeProvider";
+
+import { useTheme } from "../../services/contexts/ThemeProvider";
 
 const ToggleTheme = () => {
- // const { theme, toggleTheme } = useTheme();
-  //localStorage.setItem("theme", theme);
+  const { theme, toggleTheme } = useTheme();
+  
   const onToggleThemeHandler = () => {
-  //  toggleTheme();
-  //  console.log(theme);
+    toggleTheme();
+    console.log(theme);
   };
   return (
     <label class="relative inline-flex items-center cursor-pointer">
