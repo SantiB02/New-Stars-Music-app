@@ -22,13 +22,14 @@ import { setAuthInterceptor } from "./api/api";
 import { getToken } from "./api/auth";
 
 function App() {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
 
   useEffect(() => {
     if (isAuthenticated) {
+      if (isLoading) return;
       setAuthInterceptor(getAccessTokenSilently);
     }
-  }, [getAccessTokenSilently]);
+  }, [isAuthenticated, isLoading]);
 
   return (
     <Router>

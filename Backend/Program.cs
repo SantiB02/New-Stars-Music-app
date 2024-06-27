@@ -80,18 +80,20 @@ builder.Services.AddScoped<IProductService, ProductService>();
 //builder.Services.AddHttpContextAccessor();
 
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => //Acá definimos la configuración de la autenticación. le decimos qué cosas queremos comprobar. La fecha de expiración se valida por defecto.
     {
         options.Authority = domain;
         options.Audience = builder.Configuration["Auth0:Audience"];
         options.TokenValidationParameters = new()
         {
-            NameClaimType = ClaimTypes.NameIdentifier
+            NameClaimType = ClaimTypes.NameIdentifier,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = domain,
+            ValidAudience = builder.Configuration["Auth0:Audience"],
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Auth0:SecretForKey"]))
         };
         options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration();
     }

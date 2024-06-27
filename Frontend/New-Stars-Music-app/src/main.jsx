@@ -15,10 +15,13 @@ getAuthSettings()
         <Auth0Provider
           domain={authSettings.domain}
           clientId={authSettings.clientId}
-          authorizationParams={{ redirect_uri: window.location.origin }}
+          authorizationParams={{
+            redirect_uri: window.location.origin,
+            audience: "https://dev-a64glq5ygldhuy1g.us.auth0.com/api/v2/",
+          }}
         >
           <CartProvider>
-          <App />
+            <App />
           </CartProvider>
         </Auth0Provider>
       </React.StrictMode>
