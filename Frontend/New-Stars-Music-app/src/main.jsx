@@ -5,6 +5,7 @@ import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { getAuthSettings } from "./api/settings-api.js";
 import ServerError from "./components/error/ServerError.jsx";
+import { CartProvider } from "./CartContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 getAuthSettings()
@@ -16,7 +17,9 @@ getAuthSettings()
           clientId={authSettings.clientId}
           authorizationParams={{ redirect_uri: window.location.origin }}
         >
+          <CartProvider>
           <App />
+          </CartProvider>
         </Auth0Provider>
       </React.StrictMode>
     );
