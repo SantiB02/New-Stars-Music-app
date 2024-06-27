@@ -101,7 +101,7 @@ namespace Merchanmusic.Data
                     Price = 12500,
                     Stock = 10,
                     Category = "T-shirt",
-                    ImageLink ="##",
+                    ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     ArtistId = 5
 
                 },
@@ -114,7 +114,7 @@ namespace Merchanmusic.Data
                     Price = 13200,
                     Stock = 15,
                     Category = "T-shirt",
-                    ImageLink = "$$",
+                    ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     ArtistId = 5
                 });
 

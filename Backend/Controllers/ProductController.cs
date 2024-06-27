@@ -1,14 +1,16 @@
 ﻿using Merchanmusic.Data.Entities.Products;
 using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Merchanmusic.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -18,7 +20,8 @@ namespace Merchanmusic.Controllers
             _productService = productService;
         }
 
-        [HttpGet("GetAllProducts")]
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetProducts()
         {
             
@@ -34,12 +37,9 @@ namespace Merchanmusic.Controllers
             
         }
 
-        [HttpGet("GetProductById{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetProductById(int id)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin")
-            {
                 var product = _productService.GetProductById(id);
 
                 if (product == null)
@@ -48,12 +48,10 @@ namespace Merchanmusic.Controllers
                 }
 
                 return Ok(product);
-            }
-            return Forbid();
         }
 
 
-        [HttpGet("GetProductByName{name}")]
+        [HttpGet("by-name/{name}")]
         public IActionResult GetProductByName(string name)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -72,7 +70,7 @@ namespace Merchanmusic.Controllers
         }
 
 
-        [HttpPost("CreateNewProduct")]
+        [HttpPost]
         public IActionResult CreateProduct([FromBody] ProductCreatDto productDto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -103,7 +101,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpDelete("DeleteProduct{id}")]
+        [HttpDelete]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -129,7 +127,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpPut("UpdateProduct{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductUpdateDto product)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();

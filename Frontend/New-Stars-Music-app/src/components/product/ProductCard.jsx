@@ -16,14 +16,14 @@ const ProductCard = ({ product }) => {
     >
       <img
         className="max-w-20 mt-4"
-        src={product.imageURL}
+        src={product.imageLink}
         alt="product image"
       />
       <div className="flex flex-col items-center">
         <p className="font-bold text-center my-2">{product.name}</p>
         <p className="text-center">{product.description}</p>
         <p>
-          <span className="font-medium">Artist:</span> {product.artist}
+          <span className="font-medium">Artist/Band:</span> {product.artist}
         </p>
         <p>
           <span className="font-medium">$</span> {product.price}

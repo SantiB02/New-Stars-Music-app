@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import Home from "./components/home/Home";
-import Login from "./components/login/Login";
 import PlayerMusic from "./components/playerMusic/PlayerMusic";
 import PageNotFound from "./components/pageNotFound/PageNotFound";
 import NavBar from "./components/NavBar";
@@ -16,26 +15,25 @@ import ProductDetails from "./components/product/ProductDetails";
 import { Toaster } from "react-hot-toast";
 import Banner from "./components/banner/Banner";
 import Protected from "./components/security/Protected";
+import SiteInfo from "./components/siteInfo/SiteInfo";
+import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { setAuthInterceptor } from "./api/api";
+import { getToken } from "./api/auth";
+import LoadingMessage from "./components/common/LoadingMessage";
 
 function App() {
-  const router = [
-    { path: "/", element: <Banner /> },
-    {
-      path: "/home",
-      element: <Home />,
-    },
-    {
-      path: "/search",
-      element: (
-        <Protected>
-          <PlayerMusic />
-        </Protected>
-      ),
-    },
-    { path: "/store", element: <Store /> },
-    { path: "/product-details/:productId", element: <ProductDetails /> },
-    { path: "*", element: <PageNotFound /> },
-  ];
+  const auth0 = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
+
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
+
+  if (isLoading) return <LoadingMessage message="Loading..." />;
+
   return (
     <Router>
       <div>
@@ -45,9 +43,19 @@ function App() {
         <NavBar />
         <div className="main-content">
           <Routes>
-            {router.map(({ path, element }) => (
-              <Route key={path} path={path} element={element} />
-            ))}
+            <Route path="/" exact element={<Banner />} />
+            <Route
+              path="/product-details/:productId"
+              element={<ProductDetails />}
+            />
+            <Route path="/info" element={<SiteInfo />} />
+            <Route path="*" exact element={<PageNotFound />} />
+
+            <Route element={<Protected />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/search" element={<PlayerMusic />} />
+              <Route path="/store" element={<Store />} />
+            </Route>
           </Routes>
         </div>
         <Footer />
