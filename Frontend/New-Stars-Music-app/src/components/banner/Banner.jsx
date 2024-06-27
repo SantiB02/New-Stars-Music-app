@@ -41,7 +41,7 @@ const Banner = () => {
               </a>
 
               <a
-                className="block w-full rounded border border-secondary px-8 py-3 text-sm font-medium text-white hover:bg-secondary focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+                className="block cursor-pointer w-full rounded border border-secondary px-8 py-3 text-sm font-medium text-white hover:bg-secondary focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
                 onClick={() => navigateHandler("/info")}
               >
                 Learn More
