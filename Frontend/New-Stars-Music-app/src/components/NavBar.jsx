@@ -22,6 +22,7 @@ import { FaCompactDisc } from "react-icons/fa";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import Dropdown from "./dropdown/Dropdown";
+import ToggleTheme from "./common/ToggleTheme";
 
 const products = [
   {
@@ -177,13 +178,15 @@ export default function NavBar() {
               Search
             </a>
 
-            <a
-              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
-              onClick={() => navigateHandler("/store")}
-            >
-              Store
-            </a>
-          </Popover.Group>
+            
+             <a
+            className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+            onClick={() => navigateHandler("/store")}
+          >
+            Store
+          </a>
+          <a className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"><ToggleTheme/></a>
+        </Popover.Group>
         )}
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -268,6 +271,12 @@ export default function NavBar() {
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Info
+                </a>
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  <ToggleTheme/>
                 </a>
               </div>
               <div className="py-6">
