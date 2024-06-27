@@ -5,7 +5,6 @@ import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { getAuthSettings } from "./api/settings-api.js";
 import ServerError from "./components/error/ServerError.jsx";
-import { CartProvider } from "./CartContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 getAuthSettings()
@@ -20,9 +19,7 @@ getAuthSettings()
             audience: "https://dev-a64glq5ygldhuy1g.us.auth0.com/api/v2/",
           }}
         >
-          <CartProvider>
-            <App />
-          </CartProvider>
+          <App />
         </Auth0Provider>
       </React.StrictMode>
     );

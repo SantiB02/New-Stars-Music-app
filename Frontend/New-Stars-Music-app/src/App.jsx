@@ -20,16 +20,19 @@ import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setAuthInterceptor } from "./api/api";
 import { getToken } from "./api/auth";
+import LoadingMessage from "./components/common/LoadingMessage";
 
 function App() {
+  const auth0 = useAuth0();
   const { isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (isLoading) return;
       setAuthInterceptor(getAccessTokenSilently);
-    }
-  }, [isAuthenticated, isLoading]);
+    } else console.log("NOT LOGGED");
+  }, [auth0]);
+
+  if (isLoading) return <LoadingMessage message="Loading..." />;
 
   return (
     <Router>
