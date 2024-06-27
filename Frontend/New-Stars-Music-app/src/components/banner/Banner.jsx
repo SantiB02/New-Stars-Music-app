@@ -18,7 +18,7 @@ const Banner = () => {
   return (
     <div>
       <section className="bg-primary text-white">
-        <div className="mx-auto max-w-screen-xl px-4 mt-36 lg:flex lg:mt-32 lg:items-center">
+        <div className="mx-auto max-w-screen-xl px-4 mt-16 lg:flex lg:mt-20 lg:items-center">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="bg-gradient-to-r pb-2 from-white via-secondary to-red-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
               New Stars Music.
