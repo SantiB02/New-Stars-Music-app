@@ -11,9 +11,10 @@ namespace Merchanmusic.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Admin> Admins { get; set; }
-        public DbSet<Artist> Artists { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
         public DbSet<SaleOrderLine> SaleOrderLines { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         //Acá estamos llamando al constructor de DbContext que es el que acepta las opciones
         public MerchContext(DbContextOptions<MerchContext> options) : base(options)
@@ -22,62 +23,51 @@ namespace Merchanmusic.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasDiscriminator(u => u.UserType);
+            //modelBuilder.Entity<User>().HasDiscriminator(u => u.UserRoleId);
             modelBuilder.Entity<Client>().HasData(
                 new Client
                 {
-                    LastName = "Gomez",
-                    Name = "Nicolas",
-                    Email = "ngomez@gmail.com",
-                    UserName = "ngomez_cliente",
-                    Password = "123456",
+
+                    Email = "leomattsantana@gmail.com",
                     Address = "Rivadavia 111",
-                    Id = 1
+                    Id = 1,
+                    UserRoleId = 1
                 },
                 new Client
                 {
-                    LastName = "Perez",
-                    Name = "Juan",
-                    Email = "Jperez@gmail.com",
-                    UserName = "jperez",
-                    Password = "123456",
+
+                    Email = "santi@gmail.com",
                     Address = "J.b.justo 111",
-                    Id = 2
+                    Id = 2,
+                    UserRoleId = 1
                 },
                 new Client
                 {
-                    LastName = "Garcia",
-                    Name = "Jose",
+
                     Email = "jgarcia@gmail.com",
-                    UserName = "jgarcia",
-                    Password = "123456",
                     Address = "San Martin 111",
-                    Id = 3
+                    Id = 3,
+                    UserRoleId = 1
                 });
 
             modelBuilder.Entity<Admin>().HasData(
                 new Admin
                 {
-                    LastName = "Bruno",
-                    Name = "Diaz",
                     Email = "bdiaz@gmail.com",
-                    UserName = "bdiaz",
-                    Password = "123456",
+                    Address = "San Martin 135",
                     Id = 4,
-                    
-                    Role = "admin"
+                    UserRoleId = 3
                 });
 
-            modelBuilder.Entity<Artist>().HasData(
-            new Artist
+            modelBuilder.Entity<Seller>().HasData(
+            new Seller
             {
-                LastName = "Perry",
-                Name = "Katy",
+
                 Email = "katyperry@gmail.com",
-                UserName = "katyp",
-                Password = "345",
                 Id = 5,
-                Role = "Artist"
+                UserRoleId = 2,
+                Address = "San Martin 111",
+
             });
 
             modelBuilder.Entity<Product>()
@@ -91,10 +81,27 @@ namespace Merchanmusic.Data
                 .Property(p => p.LastModifiedDate)
                 .HasColumnType("DATETIME(0)");
 
+            modelBuilder.Entity<UserRole>().HasData(
+            new UserRole {
+                Id = 1,
+                RoleName = "Client",
+            },
+            new UserRole
+            {
+                Id = 2,
+                RoleName = "Seller",
+            },
+            new UserRole
+            {
+                Id = 3,
+                RoleName = "Admin",
+            }
+            );
+
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
-                    Id = 6,
+                    Id = 2,
                     Name = "Remera ACDC",
                     Description ="Remera ACDC algodón",
                     Code="1022",
@@ -102,9 +109,36 @@ namespace Merchanmusic.Data
                     Stock = 10,
                     Category = "T-shirt",
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                    ArtistId = 5
+                    SellerId = 5
+
 
                 },
+                    new Product
+                    {
+                        Id = 4,
+                        Name = "Remera Mozart",
+                        Description = "Remera Mozart algodón",
+                        Code = "1022",
+                        Price = 12500,
+                        Stock = 10,
+                        Category = "T-shirt",
+                        ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
+                        SellerId = 5
+
+                    },
+                        new Product
+                        {
+                            Id = 5,
+                            Name = "Remera Beethoven",
+                            Description = "Remera Beethoven algodón",
+                            Code = "1022",
+                            Price = 12500,
+                            Stock = 10,
+                            Category = "T-shirt",
+                            ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
+                            SellerId = 5
+
+                        },
                 new Product
                 {
                     Id = 7,
@@ -115,10 +149,16 @@ namespace Merchanmusic.Data
                     Stock = 15,
                     Category = "T-shirt",
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                    ArtistId = 5
+                    SellerId = 5
                 });
 
 
+
+            // Relacion entre User y UserRole 
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.UserRoleObject)
+            .WithMany()
+            .HasForeignKey(u => u.UserRoleId);
 
             // // Relación entre Cliente y OrdenDeVenta (uno a muchos)
             modelBuilder.Entity<Client>()
@@ -139,10 +179,10 @@ namespace Merchanmusic.Data
                 .HasForeignKey(sol => sol.ProductId);
                                                                               
             //Relación entre artista y producto
-            modelBuilder.Entity<Artist>()
+            modelBuilder.Entity<Seller>()
                 .HasMany(u => u.Products)
-                .WithOne(p => p.Artist)
-                .HasForeignKey(f => f.ArtistId);
+                .WithOne(p => p.Seller)
+                .HasForeignKey(f => f.SellerId);
 
             base.OnModelCreating(modelBuilder);
 

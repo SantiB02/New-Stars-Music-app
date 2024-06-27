@@ -76,7 +76,7 @@ export default function NavBar() {
   return (
     <header>
       <nav
-        className="mx-auto flex  items-center justify-between p-6 lg:px-8 bg-secondary"
+        className="mx-auto flex items-center justify-between p-6 lg:px-8 bg-secondary"
         aria-label="Global"
       >
         <div className="flex lg:flex-1 ">

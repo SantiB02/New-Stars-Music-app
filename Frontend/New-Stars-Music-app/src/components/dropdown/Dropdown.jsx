@@ -4,6 +4,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const Dropdown = () => {
   const { user, logout } = useAuth0();
@@ -17,6 +18,11 @@ const Dropdown = () => {
       setOpen(false);
     }
   });
+  const navigate = useNavigate();
+
+  const navigateHandler = (path) => {
+    navigate(path);
+  };
 
   return (
     <div>
@@ -35,17 +41,17 @@ const Dropdown = () => {
           >
             <ul>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div class="flex items-center">
+                <div onClick={() => navigateHandler("/settings")} class="flex items-center">
                   <IoSettingsOutline className="mr-2" /> Settings
                 </div>
               </li>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div class="flex items-center">
+                <div onClick={() => navigateHandler("/profile")} class="flex items-center">
                   <CgProfile className="mr-2" /> Profile
                 </div>
               </li>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div class="flex items-center">
+                <div onClick={() => navigateHandler("/cart")} class="flex items-center">
                   <MdOutlineShoppingCart className="mr-2" /> Your cart
                 </div>
               </li>

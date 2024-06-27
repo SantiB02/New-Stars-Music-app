@@ -21,6 +21,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { setAuthInterceptor } from "./api/api";
 import { getToken } from "./api/auth";
 import LoadingMessage from "./components/common/LoadingMessage";
+import { Profile } from "./components/profile/Profile";
+import { Settings } from "./components/settings/Settings";
+import { Cart } from "./components/cart/Cart";
 
 function App() {
   const auth0 = useAuth0();
@@ -55,6 +58,10 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/search" element={<PlayerMusic />} />
               <Route path="/store" element={<Store />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/cart" element={<Cart />} />
+
             </Route>
           </Routes>
         </div>

@@ -32,13 +32,9 @@ namespace Merchanmusic.Controllers
                 UserInfoDto userInfoDto = new UserInfoDto()
                 {
                     Id = user.Id,
-                    Name = user.Name,
-                    LastName = user.LastName,
                     Email = user.Email,
-                    Password = user.Password,
                     Address = user.Address,
-                    UserType = user.UserType,
-                    UserName = user.UserName,
+
                 };
                 return Ok(userInfoDto);
             }
@@ -54,30 +50,8 @@ namespace Merchanmusic.Controllers
 
             if (role == "Admin" && userLogged.State)
             {
-                return Ok(_userService.GetUsersByRole("Client"));
+                return Ok(_userService.GetUsersByRole((int)UserRoleEnum.Client));
 
-            }
-            return Forbid();
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult CreateClient([FromBody] ClientPostDto clientPostDto)
-        {
-            if (!_userService.CheckIfUserExists(clientPostDto.Email))
-            {
-                Client client = new Client()
-                {
-                    Email = clientPostDto.Email,
-                    Name = clientPostDto.Name,
-                    LastName = clientPostDto.LastName,
-                    Password = clientPostDto.Password,
-                    Address = clientPostDto.Address,
-                    UserName = clientPostDto.UserName
-
-                };
-                int id = _userService.CreateUser(client);
-                return Ok(id);
             }
             return Forbid();
         }
@@ -92,9 +66,6 @@ namespace Merchanmusic.Controllers
                 {
                     Id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value),
                     Email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value,
-                    UserName = clientToUpdateDto.Name,
-                    LastName = clientToUpdateDto.LastName,
-                    Password = clientToUpdateDto.Password,
                     Address = clientToUpdateDto.Address,
                 };
                 _userService.UpdateUser(clientToUpdate);

@@ -26,8 +26,8 @@ namespace Merchanmusic.Data.Entities.Products
         public string Category { get; set; }
         public bool State { get; set; } = true; 
         //public Product() { }
-        [ForeignKey("ArtistId")]
-        public Artist Artist { get; set; }
-        public int ArtistId {get; set; }
+        [ForeignKey("SellerId")]
+        public Seller Seller { get; set; }
+        public int SellerId {get; set; }
     }
 }
