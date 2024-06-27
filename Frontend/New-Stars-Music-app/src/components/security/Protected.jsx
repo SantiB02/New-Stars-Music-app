@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 import { Navigate, Outlet } from "react-router-dom";
 
 const Protected = () => {
-  const { loginWithRedirect, isAuthenticated, user, isLoading } = useAuth0();
-  if (user && !isLoading) {
+  const { loginWithRedirect, user } = useAuth0();
+  if (user) {
     return <Outlet />;
   } else {
     return <Navigate to={loginWithRedirect()} />;
