@@ -28,7 +28,7 @@ function App() {
     if (isAuthenticated) {
       setAuthInterceptor(getAccessTokenSilently);
     }
-  }, [isAuthenticated]);
+  }, [getAccessTokenSilently]);
 
   return (
     <Router>

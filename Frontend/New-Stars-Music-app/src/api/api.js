@@ -20,10 +20,8 @@ export const setAuthInterceptor = (getToken) => {
   api.interceptors.request.use(
     async (config) => {
       const token = await getToken();
-      if (token) {
-        console.log("TOKEN:", { token });
-        config.headers.Authorization = `Bearer ${token}`;
-      }
+      console.log("TOKEN:", { token });
+      config.headers.Authorization = `Bearer ${token}`;
       return config;
     },
     (error) => {

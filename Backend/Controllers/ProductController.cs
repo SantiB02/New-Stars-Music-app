@@ -10,7 +10,7 @@ namespace Merchanmusic.Controllers
 {
     [Route("api/products")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
