@@ -101,7 +101,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();

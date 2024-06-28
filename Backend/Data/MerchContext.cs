@@ -16,6 +16,7 @@ namespace Merchanmusic.Data
         public DbSet<SaleOrderLine> SaleOrderLines { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<CreditCard> CreditCards { get; set; }
 
         //Acá estamos llamando al constructor de DbContext que es el que acepta las opciones
         public MerchContext(DbContextOptions<MerchContext> options) : base(options)
@@ -156,6 +157,15 @@ namespace Merchanmusic.Data
                     Category = "T-shirt",
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = 5
+                });
+
+            modelBuilder.Entity<CreditCard>()
+                .HasData(
+                new CreditCard
+                {
+                    Id = 1,
+                    Number = "1234567891234567",
+                    UserId = 1
                 });
 
 

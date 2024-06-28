@@ -1,6 +1,16 @@
-﻿namespace Merchanmusic.Data.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Merchanmusic.Data.Entities
 {
     public class CreditCard
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Number { get; set; }
+        [ForeignKey("UserId")]
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }
