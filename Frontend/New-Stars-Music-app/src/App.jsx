@@ -24,13 +24,16 @@ import LoadingMessage from "./components/common/LoadingMessage";
 import { Profile } from "./components/profile/Profile";
 import { Settings } from "./components/settings/Settings";
 import { Cart } from "./components/cart/Cart";
-import { useAuthInterceptor } from "./hooks/useAuthInterceptor";
 
 function App() {
   const auth0 = useAuth0();
   const { isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
 
-  useAuthInterceptor(isLoading, getAccessTokenSilently);
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
 
   if (isLoading) return <LoadingMessage message="Loading..." />;
 
