@@ -21,7 +21,7 @@ namespace Merchanmusic.Controllers
         {
             _userService = userService;
         }
-        [HttpGet("UserInfo/")]
+        [HttpGet("user-info")]
         public IActionResult GetUserInfo()
         {
             string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;

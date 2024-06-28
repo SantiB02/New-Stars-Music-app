@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Merchanmusic.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/sale-orders")]
     [ApiController]
     [Authorize]
     public class SaleOrderController : ControllerBase
@@ -19,7 +19,7 @@ namespace Merchanmusic.Controllers
             _saleOrderService = saleOrderService;
         }
 
-        [HttpGet("client/{clientId}")]
+        [HttpGet("by-client/{clientId}")]
         public IActionResult GetAllByClient([FromRoute] int clientId)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -66,7 +66,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{orderId}")]
         public IActionResult GetOne([FromRoute] int orderId)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
