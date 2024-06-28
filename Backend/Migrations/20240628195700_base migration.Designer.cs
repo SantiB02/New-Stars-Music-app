@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Merchanmusic.Migrations
 {
     [DbContext(typeof(MerchContext))]
-    [Migration("20240607235925_initial migration")]
-    partial class initialmigration
+    [Migration("20240628195700_base migration")]
+    partial class basemigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,9 +25,6 @@ namespace Merchanmusic.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArtistId")
                         .HasColumnType("int");
 
                     b.Property<string>("Category")
@@ -59,6 +56,9 @@ namespace Merchanmusic.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("DECIMAL(7,2)");
 
+                    b.Property<int>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("State")
                         .HasColumnType("tinyint(1)");
 
@@ -67,38 +67,68 @@ namespace Merchanmusic.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtistId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
-                            Id = 6,
-                            ArtistId = 5,
+                            Id = 2,
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1765),
+                            CreationDate = new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8032),
                             Description = "Remera ACDC algodón",
-                            ImageLink = "##",
-                            LastModifiedDate = new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1774),
+                            ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
+                            LastModifiedDate = new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8047),
                             Name = "Remera ACDC",
                             Price = 12500m,
+                            SellerId = 5,
+                            State = true,
+                            Stock = 10
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Category = "T-shirt",
+                            Code = "1022",
+                            CreationDate = new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8050),
+                            Description = "Remera Mozart algodón",
+                            ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
+                            LastModifiedDate = new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8051),
+                            Name = "Remera Mozart",
+                            Price = 12500m,
+                            SellerId = 5,
+                            State = true,
+                            Stock = 10
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category = "T-shirt",
+                            Code = "1022",
+                            CreationDate = new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8053),
+                            Description = "Remera Beethoven algodón",
+                            ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
+                            LastModifiedDate = new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8054),
+                            Name = "Remera Beethoven",
+                            Price = 12500m,
+                            SellerId = 5,
                             State = true,
                             Stock = 10
                         },
                         new
                         {
                             Id = 7,
-                            ArtistId = 5,
                             Category = "T-shirt",
                             Code = "1021",
-                            CreationDate = new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1780),
+                            CreationDate = new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8056),
                             Description = "Remera overside negra",
-                            ImageLink = "$$",
-                            LastModifiedDate = new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1780),
+                            ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
+                            LastModifiedDate = new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8056),
                             Name = "Remera LOVG",
                             Price = 13200m,
+                            SellerId = 5,
                             State = true,
                             Stock = 15
                         });
@@ -175,44 +205,59 @@ namespace Merchanmusic.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("State")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("UserRoleId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserType")
-                        .IsRequired()
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserRoleId");
+
+                    b.ToTable("Users");
+
+                    b.HasDiscriminator<string>("Role").HasValue("User");
+                });
+
+            modelBuilder.Entity("Merchanmusic.Data.Entities.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoleName")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserRoles");
 
-                    b.HasDiscriminator<string>("UserType").HasValue("User");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RoleName = "Client"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RoleName = "Seller"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            RoleName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.Admin", b =>
                 {
                     b.HasBaseType("Merchanmusic.Data.Entities.User");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("Admin_Role");
 
                     b.HasDiscriminator().HasValue("Admin");
 
@@ -220,39 +265,10 @@ namespace Merchanmusic.Migrations
                         new
                         {
                             Id = 4,
+                            Address = "San Martin 135",
                             Email = "bdiaz@gmail.com",
-                            LastName = "Bruno",
-                            Name = "Diaz",
-                            Password = "123456",
                             State = true,
-                            UserName = "bdiaz",
-                            UserType = "Client",
-                            Role = "admin"
-                        });
-                });
-
-            modelBuilder.Entity("Merchanmusic.Data.Entities.Artist", b =>
-                {
-                    b.HasBaseType("Merchanmusic.Data.Entities.User");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasDiscriminator().HasValue("Artist");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 5,
-                            Email = "katyperry@gmail.com",
-                            LastName = "Perry",
-                            Name = "Katy",
-                            Password = "345",
-                            State = true,
-                            UserName = "katyp",
-                            UserType = "Client",
-                            Role = "Artist"
+                            UserRoleId = 3
                         });
                 });
 
@@ -267,49 +283,54 @@ namespace Merchanmusic.Migrations
                         {
                             Id = 1,
                             Address = "Rivadavia 111",
-                            Email = "ngomez@gmail.com",
-                            LastName = "Gomez",
-                            Name = "Nicolas",
-                            Password = "123456",
+                            Email = "leomattsantana@gmail.com",
                             State = true,
-                            UserName = "ngomez_cliente",
-                            UserType = "Client"
+                            UserRoleId = 1
                         },
                         new
                         {
                             Id = 2,
                             Address = "J.b.justo 111",
-                            Email = "Jperez@gmail.com",
-                            LastName = "Perez",
-                            Name = "Juan",
-                            Password = "123456",
+                            Email = "santi@gmail.com",
                             State = true,
-                            UserName = "jperez",
-                            UserType = "Client"
+                            UserRoleId = 1
                         },
                         new
                         {
                             Id = 3,
                             Address = "San Martin 111",
                             Email = "jgarcia@gmail.com",
-                            LastName = "Garcia",
-                            Name = "Jose",
-                            Password = "123456",
                             State = true,
-                            UserName = "jgarcia",
-                            UserType = "Client"
+                            UserRoleId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Merchanmusic.Data.Entities.Seller", b =>
+                {
+                    b.HasBaseType("Merchanmusic.Data.Entities.User");
+
+                    b.HasDiscriminator().HasValue("Seller");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 5,
+                            Address = "San Martin 111",
+                            Email = "katyperry@gmail.com",
+                            State = true,
+                            UserRoleId = 2
                         });
                 });
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.Products.Product", b =>
                 {
-                    b.HasOne("Merchanmusic.Data.Entities.Artist", "Artist")
+                    b.HasOne("Merchanmusic.Data.Entities.Seller", "Seller")
                         .WithMany("Products")
-                        .HasForeignKey("ArtistId")
+                        .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Artist");
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.SaleOrder", b =>
@@ -342,19 +363,30 @@ namespace Merchanmusic.Migrations
                     b.Navigation("SaleOrder");
                 });
 
+            modelBuilder.Entity("Merchanmusic.Data.Entities.User", b =>
+                {
+                    b.HasOne("Merchanmusic.Data.Entities.UserRole", "UserRoleObject")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserRoleObject");
+                });
+
             modelBuilder.Entity("Merchanmusic.Data.Entities.SaleOrder", b =>
                 {
                     b.Navigation("SaleOrderLines");
                 });
 
-            modelBuilder.Entity("Merchanmusic.Data.Entities.Artist", b =>
-                {
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("Merchanmusic.Data.Entities.Client", b =>
                 {
                     b.Navigation("SaleOrders");
+                });
+
+            modelBuilder.Entity("Merchanmusic.Data.Entities.Seller", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

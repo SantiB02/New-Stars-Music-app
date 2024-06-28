@@ -6,11 +6,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Merchanmusic.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class basemigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    RoleName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => x.Id);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -19,29 +34,24 @@ namespace Merchanmusic.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    LastName = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserRoleId = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Address = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserType = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     State = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Admin_Role = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Role = table.Column<string>(type: "longtext", nullable: true)
+                    Role = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_UserRoles_UserRoleId",
+                        column: x => x.UserRoleId,
+                        principalTable: "UserRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -66,14 +76,14 @@ namespace Merchanmusic.Migrations
                     Category = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     State = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ArtistId = table.Column<int>(type: "int", nullable: false)
+                    SellerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Users_ArtistId",
-                        column: x => x.ArtistId,
+                        name: "FK_Products_Users_SellerId",
+                        column: x => x.SellerId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -135,39 +145,47 @@ namespace Merchanmusic.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Address", "Email", "LastName", "Name", "Password", "Admin_Role", "State", "UserName", "UserType" },
-                values: new object[] { 4, null, "bdiaz@gmail.com", "Bruno", "Diaz", "123456", "admin", true, "bdiaz", "Client" });
+                table: "UserRoles",
+                columns: new[] { "Id", "RoleName" },
+                values: new object[] { 1, "Client" });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "Id", "RoleName" },
+                values: new object[] { 2, "Seller" });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "Id", "RoleName" },
+                values: new object[] { 3, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Address", "Email", "LastName", "Name", "Password", "Role", "State", "UserName", "UserType" },
-                values: new object[] { 5, null, "katyperry@gmail.com", "Perry", "Katy", "345", "Artist", true, "katyp", "Client" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Address", "Email", "LastName", "Name", "Password", "State", "UserName", "UserType" },
+                columns: new[] { "Id", "Address", "Email", "Role", "State", "UserRoleId" },
                 values: new object[,]
                 {
-                    { 1, "Rivadavia 111", "ngomez@gmail.com", "Gomez", "Nicolas", "123456", true, "ngomez_cliente", "Client" },
-                    { 2, "J.b.justo 111", "Jperez@gmail.com", "Perez", "Juan", "123456", true, "jperez", "Client" },
-                    { 3, "San Martin 111", "jgarcia@gmail.com", "Garcia", "Jose", "123456", true, "jgarcia", "Client" }
+                    { 4, "San Martin 135", "bdiaz@gmail.com", "Admin", true, 3 },
+                    { 1, "Rivadavia 111", "leomattsantana@gmail.com", "Client", true, 1 },
+                    { 2, "J.b.justo 111", "santi@gmail.com", "Client", true, 1 },
+                    { 3, "San Martin 111", "jgarcia@gmail.com", "Client", true, 1 },
+                    { 5, "San Martin 111", "katyperry@gmail.com", "Seller", true, 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "ArtistId", "Category", "Code", "CreationDate", "Description", "ImageLink", "LastModifiedDate", "Name", "Price", "State", "Stock" },
-                values: new object[] { 6, 5, "T-shirt", "1022", new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1765), "Remera ACDC algodón", "##", new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1774), "Remera ACDC", 12500m, true, 10 });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "ArtistId", "Category", "Code", "CreationDate", "Description", "ImageLink", "LastModifiedDate", "Name", "Price", "State", "Stock" },
-                values: new object[] { 7, 5, "T-shirt", "1021", new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1780), "Remera overside negra", "$$", new DateTime(2024, 6, 7, 20, 59, 25, 680, DateTimeKind.Local).AddTicks(1780), "Remera LOVG", 13200m, true, 15 });
+                columns: new[] { "Id", "Category", "Code", "CreationDate", "Description", "ImageLink", "LastModifiedDate", "Name", "Price", "SellerId", "State", "Stock" },
+                values: new object[,]
+                {
+                    { 2, "T-shirt", "1022", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8032), "Remera ACDC algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8047), "Remera ACDC", 12500m, 5, true, 10 },
+                    { 4, "T-shirt", "1022", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8050), "Remera Mozart algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8051), "Remera Mozart", 12500m, 5, true, 10 },
+                    { 5, "T-shirt", "1022", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8053), "Remera Beethoven algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8054), "Remera Beethoven", 12500m, 5, true, 10 },
+                    { 7, "T-shirt", "1021", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8056), "Remera overside negra", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8056), "Remera LOVG", 13200m, 5, true, 15 }
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ArtistId",
+                name: "IX_Products_SellerId",
                 table: "Products",
-                column: "ArtistId");
+                column: "SellerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SaleOrderLines_ProductId",
@@ -183,6 +201,11 @@ namespace Merchanmusic.Migrations
                 name: "IX_SaleOrders_ClientId",
                 table: "SaleOrders",
                 column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserRoleId",
+                table: "Users",
+                column: "UserRoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -198,6 +221,9 @@ namespace Merchanmusic.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
         }
     }
 }

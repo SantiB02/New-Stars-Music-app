@@ -13,13 +13,11 @@ namespace Merchanmusic.Data.Entities
         [ForeignKey("UserRoleId")]
         public int UserRoleId { get; set; }
         [Required]
-        public string? Email { get; set; }
-
-        [Required]
+        public string Email { get; set; }
         public string? Address { get; set; }
 
         public bool State { get; set; } = true;
-        public UserRole? UserRoleObject { get; set; }
+        public UserRole UserRoleObject { get; set; }
 
     }
 }

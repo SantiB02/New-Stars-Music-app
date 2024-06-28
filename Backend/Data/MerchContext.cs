@@ -1,5 +1,6 @@
 ﻿using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Entities.Products;
+using Merchanmusic.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 
@@ -23,7 +24,29 @@ namespace Merchanmusic.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<User>().HasDiscriminator(u => u.UserRoleId);
+            modelBuilder.Entity<User>().HasDiscriminator<string>("Role")
+                .HasValue<Client>("Client")
+                .HasValue<Seller>("Seller")
+                .HasValue<Admin>("Admin");
+
+            modelBuilder.Entity<UserRole>().HasData(
+               new UserRole
+               {
+                   Id = 1,
+                   RoleName = "Client",
+               },
+               new UserRole
+               {
+                   Id = 2,
+                   RoleName = "Seller",
+               },
+               new UserRole
+               {
+                   Id = 3,
+                   RoleName = "Admin",
+               }
+               );
+
             modelBuilder.Entity<Client>().HasData(
                 new Client
                 {
@@ -31,7 +54,7 @@ namespace Merchanmusic.Data
                     Email = "leomattsantana@gmail.com",
                     Address = "Rivadavia 111",
                     Id = 1,
-                    UserRoleId = 1
+                    UserRoleId = (int)UserRoleEnum.Client
                 },
                 new Client
                 {
@@ -39,7 +62,7 @@ namespace Merchanmusic.Data
                     Email = "santi@gmail.com",
                     Address = "J.b.justo 111",
                     Id = 2,
-                    UserRoleId = 1
+                    UserRoleId = (int)UserRoleEnum.Client
                 },
                 new Client
                 {
@@ -47,7 +70,7 @@ namespace Merchanmusic.Data
                     Email = "jgarcia@gmail.com",
                     Address = "San Martin 111",
                     Id = 3,
-                    UserRoleId = 1
+                    UserRoleId = (int)UserRoleEnum.Client
                 });
 
             modelBuilder.Entity<Admin>().HasData(
@@ -56,7 +79,7 @@ namespace Merchanmusic.Data
                     Email = "bdiaz@gmail.com",
                     Address = "San Martin 135",
                     Id = 4,
-                    UserRoleId = 3
+                    UserRoleId = (int)UserRoleEnum.Admin
                 });
 
             modelBuilder.Entity<Seller>().HasData(
@@ -65,7 +88,7 @@ namespace Merchanmusic.Data
 
                 Email = "katyperry@gmail.com",
                 Id = 5,
-                UserRoleId = 2,
+                UserRoleId = (int)UserRoleEnum.Seller,
                 Address = "San Martin 111",
 
             });
@@ -80,23 +103,6 @@ namespace Merchanmusic.Data
             modelBuilder.Entity<Product>()
                 .Property(p => p.LastModifiedDate)
                 .HasColumnType("DATETIME(0)");
-
-            modelBuilder.Entity<UserRole>().HasData(
-            new UserRole {
-                Id = 1,
-                RoleName = "Client",
-            },
-            new UserRole
-            {
-                Id = 2,
-                RoleName = "Seller",
-            },
-            new UserRole
-            {
-                Id = 3,
-                RoleName = "Admin",
-            }
-            );
 
             modelBuilder.Entity<Product>().HasData(
                 new Product
@@ -113,32 +119,32 @@ namespace Merchanmusic.Data
 
 
                 },
-                    new Product
-                    {
-                        Id = 4,
-                        Name = "Remera Mozart",
-                        Description = "Remera Mozart algodón",
-                        Code = "1022",
-                        Price = 12500,
-                        Stock = 10,
-                        Category = "T-shirt",
-                        ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                        SellerId = 5
+                new Product
+                {
+                    Id = 4,
+                    Name = "Remera Mozart",
+                    Description = "Remera Mozart algodón",
+                    Code = "1022",
+                    Price = 12500,
+                    Stock = 10,
+                    Category = "T-shirt",
+                    ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
+                    SellerId = 5
 
-                    },
-                        new Product
-                        {
-                            Id = 5,
-                            Name = "Remera Beethoven",
-                            Description = "Remera Beethoven algodón",
-                            Code = "1022",
-                            Price = 12500,
-                            Stock = 10,
-                            Category = "T-shirt",
-                            ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            SellerId = 5
+                },
+                new Product
+                {
+                    Id = 5,
+                    Name = "Remera Beethoven",
+                    Description = "Remera Beethoven algodón",
+                    Code = "1022",
+                    Price = 12500,
+                    Stock = 10,
+                    Category = "T-shirt",
+                    ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
+                    SellerId = 5
 
-                        },
+                },
                 new Product
                 {
                     Id = 7,
@@ -183,8 +189,6 @@ namespace Merchanmusic.Data
                 .HasMany(u => u.Products)
                 .WithOne(p => p.Seller)
                 .HasForeignKey(f => f.SellerId);
-
-            base.OnModelCreating(modelBuilder);
 
         }
     }
