@@ -7,6 +7,7 @@ import PageNotFound from "../pageNotFound/PageNotFound";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setAuthInterceptor } from "../../api/api";
 import { Typography } from "@material-tailwind/react";
+import { useAuthInterceptor } from "../../hooks/useAuthInterceptor";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -17,11 +18,7 @@ const ProductDetails = () => {
   const { getAccessTokenSilently, isLoading } = useAuth0();
   const { productId } = useParams();
 
-  useEffect(() => {
-    if (!isLoading) {
-      setAuthInterceptor(getAccessTokenSilently);
-    }
-  }, [isLoading]);
+  useAuthInterceptor(isLoading, getAccessTokenSilently);
 
   const fetchProduct = async (productId) => {
     setIsLoadingProduct(true);
