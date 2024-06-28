@@ -1,4 +1,5 @@
-﻿using Merchanmusic.Services.Interfaces;
+﻿using Merchanmusic.Data.Entities;
+using Merchanmusic.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -16,7 +17,7 @@ namespace Merchanmusic.Controllers
             _solService = solService;
         }
 
-        [HttpGet("GetAllBySaleOrder/{saleOrderId}")]
+        [HttpGet("saleOrder/{saleOrderId}")]
         public IActionResult GetAllBySaleOrder([FromRoute] int saleOrderId)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -40,7 +41,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpGet("GetAllByProduct/{productId}")]
+        [HttpGet("product/{productId}")]
         public IActionResult GetAllByProduct([FromRoute] int productId)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();

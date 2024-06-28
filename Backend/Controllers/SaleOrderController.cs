@@ -19,7 +19,7 @@ namespace Merchanmusic.Controllers
             _saleOrderService = saleOrderService;
         }
 
-        [HttpGet("GetAllByClient{clientId}")]
+        [HttpGet("client/{clientId}")]
         public IActionResult GetAllByClient([FromRoute] int clientId)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -43,7 +43,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpGet("GetAllByDate/{date}")]
+        [HttpGet("by-date/{date}")]
         public IActionResult GetAllByDate([FromRoute] DateTime date)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -66,7 +66,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpGet("GetSaleOrderById/{orderId}")]
+        [HttpGet("{Id}")]
         public IActionResult GetOne([FromRoute] int orderId)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -91,7 +91,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpPost("CreateSaleOrder")]
+        [HttpPost]
         public IActionResult CreateSaleOrder([FromBody] SaleOrderDto dto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -119,7 +119,7 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpDelete("DeleteSaleOrder{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteSaleOrder([FromRoute] int id)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
@@ -146,7 +146,7 @@ namespace Merchanmusic.Controllers
         }
 
 
-        [HttpPut("UpdateSaleOrder{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateSaleOrder([FromRoute] int id, [FromBody] SaleOrderDto dto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
