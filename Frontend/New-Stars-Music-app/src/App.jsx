@@ -27,7 +27,7 @@ import { Cart } from "./components/cart/Cart";
 
 function App() {
   const auth0 = useAuth0();
-  const { isAuthenticated, getAccessTokenSilently, isLoading } = useAuth0();
+  const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
 
   useEffect(() => {
     if (!isLoading) {

@@ -172,7 +172,7 @@ namespace Merchanmusic.Data
 
             // Relacion entre User y UserRole 
             modelBuilder.Entity<User>()
-            .HasOne(u => u.UserRoleObject)
+            .HasOne(u => u.UserRole)
             .WithMany()
             .HasForeignKey(u => u.UserRoleId);
 

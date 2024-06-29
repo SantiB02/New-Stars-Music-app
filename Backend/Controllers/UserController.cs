@@ -11,7 +11,7 @@ using Merchanmusic.Services.Implementations;
 
 namespace Merchanmusic.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     [Authorize]
     public class UserController : Controller
@@ -21,11 +21,26 @@ namespace Merchanmusic.Controllers
         {
             _userService = userService;
         }
+
+        [HttpPost("ensure-user")]
+        public IActionResult EnsureUser([FromBody] UserPostDto userPostDto)
+        {
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            bool isUserEnsured = _userService.EnsureUser(userPostDto, subClaim);
+            if (isUserEnsured)
+            {
+                return Ok();
+            } else
+            {
+                return BadRequest("Incorrect role or forbidden action");
+            }
+        }
+
         [HttpGet("user-info")]
         public IActionResult GetUserInfo()
         {
-            string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
-            User? user = _userService.GetUserByEmail(loggedUserEmail);
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            User? user = _userService.GetUserById(subClaim);
 
             if (user != null && user.State)
             {
@@ -41,44 +56,37 @@ namespace Merchanmusic.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
-        public IActionResult GetClients()
+        [HttpGet("by-role/{role}")]
+        public IActionResult GetClients([FromRoute] string role)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
-            string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
-            User userLogged = _userService.GetUserByEmail(loggedUserEmail);
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string loggedUserRole = _userService.GetUserRole(subClaim);
+            User loggedUser = _userService.GetUserById(subClaim);
 
-            if (role == "Admin" && userLogged.State)
+            if (loggedUserRole == "Admin" && loggedUser.State)
             {
-                return Ok(_userService.GetUsersByRole((int)UserRoleEnum.Client));
+                return Ok(_userService.GetUsersByRole(role));
 
             }
             return Forbid();
         }
 
         [HttpPut]
-        public IActionResult UpdateClient([FromBody] ClientUpdateDto clientToUpdateDto)
-        {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
-            if (role == "Client")
+        public IActionResult UpdateUser([FromBody] ClientUpdateDto clientUpdateDto)
+        {    
+            Client clientToUpdate = new Client()
             {
-                Client clientToUpdate = new Client()
-                {
-                    Id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value),
-                    Email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value,
-                    Address = clientToUpdateDto.Address,
-                };
-                _userService.UpdateUser(clientToUpdate);
-                return Ok();
-
-            }
-            return Forbid();
+                Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value,
+                Address = clientUpdateDto.Address,
+            };
+            _userService.UpdateUser(clientToUpdate);
+            return Ok();
         }
         [HttpDelete]
         public IActionResult DeleteSelfUser()
         {
-            int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            _userService.DeleteUser(id);
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _userService.DeleteUser(subClaim);
             return Ok();
         }
     }

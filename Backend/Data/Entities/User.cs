@@ -7,8 +7,7 @@ namespace Merchanmusic.Data.Entities
     public abstract class User
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [ForeignKey("UserRoleId")]
         public int UserRoleId { get; set; }
@@ -17,7 +16,7 @@ namespace Merchanmusic.Data.Entities
         public string? Address { get; set; }
 
         public bool State { get; set; } = true;
-        public UserRole UserRoleObject { get; set; }
+        public UserRole UserRole { get; set; }
 
     }
 }

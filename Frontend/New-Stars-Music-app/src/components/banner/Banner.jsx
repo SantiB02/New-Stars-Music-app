@@ -14,9 +14,7 @@ const Banner = () => {
   };
 
   const loginHandler = (role) => {
-    loginWithRedirect({
-      appState: { role },
-    });
+    loginWithRedirect({ role: "Admin" });
   };
 
   if (isAuthenticated && user) return <Navigate to="/home" replace />;
