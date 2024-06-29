@@ -3,11 +3,13 @@ import FeaturedProducts from "./FeaturedProducts";
 import Music from "./Music";
 import { getAllProducts } from "../../services/productsService";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useTheme } from "../../services/contexts/ThemeProvider";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth0();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -28,23 +30,25 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-grow overflow-auto flex mb-1">
-        <div className="flex flex-col ml-4 mt-10 flex-grow">
+    <div
+      className={
+        theme ? "flex flex-col min-h-screen" : "flex flex-col min-h-screen bg-gray-200 text-black"
+      }
+    >
+      <div className="flex-grow overflow-auto flex flex-col md:flex-row mb-1">
+        <div className="md:w-1/2 p-4">
           <h1 className="text-4xl">Welcome to New Stars Music!</h1>
           <p>
             The place where you can listen to your favorite songs and explore
             their products in our all-in-one store.
           </p>
-          <div className="w-3/4">
+          <div className="mt-8">
             <FeaturedProducts products={products} isLoading={isLoading} />
           </div>
         </div>
-        <div className="flex flex-col ml-4 mt-10 w-2/4 mr-8">
-          <div className="flex flex-col h-full">
-            <div className="flex-grow">
-              <Music />
-            </div>
+        <div className="md:w-1/2 p-4">
+          <div className="h-full">
+            <Music />
           </div>
         </div>
       </div>

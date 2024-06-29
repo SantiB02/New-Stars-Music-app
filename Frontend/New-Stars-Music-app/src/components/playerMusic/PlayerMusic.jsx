@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import NavBar from "../NavBar";
 import Footer from "../Footer";
 import MessagePlayer from "./MessagePlayer";
+import { useTheme } from "../../services/contexts/ThemeProvider";
 
 const PlayerMusic = () => {
   const [songTitle, setSongTitle] = useState("");
   const [tracks, setTracks] = useState([]);
+  const { theme } = useTheme();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -37,7 +39,13 @@ const PlayerMusic = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div
+      className={
+        theme
+          ? "flex flex-col min-h-screen"
+          : " bg-gray-200 text-black flex flex-col min-h-screen"
+      }
+    >
       <div className="flex justify-center flex-grow">
         <div className="search-container">
           <div>
@@ -50,14 +58,22 @@ const PlayerMusic = () => {
           <form onSubmit={handleSearch}>
             <input
               placeholder="Search..."
-              className="bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+              className={
+                theme
+                  ? "bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+                  : "bg-gray-50 border-2 border-[#3e3e3e] rounded-lg text-black px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+              }
               type="text"
               value={songTitle}
               onChange={(e) => setSongTitle(e.target.value)}
             />
             <button
               type="submit"
-              className="bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+              className={
+                theme
+                  ? "bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+                  : "bg-gray-50 border-2 border-[#3e3e3e] rounded-lg text-black px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+              }
             >
               Search
             </button>
@@ -106,7 +122,7 @@ const PlayerMusic = () => {
             ))}
           </div>
         ) : (
-          <MessagePlayer />
+          <MessagePlayer theme={theme} />
         )}
       </div>
     </div>

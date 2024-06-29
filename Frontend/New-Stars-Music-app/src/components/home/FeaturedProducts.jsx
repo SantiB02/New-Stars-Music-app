@@ -10,11 +10,11 @@ const FeaturedProducts = ({ products, isLoading }) => {
   return (
     <div className="mt-8">
       <h2 className="text-3xl">Featured Products</h2>
-      <ul className=" flex flex-col mt-4 md:flex-row">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} className="my-2" />
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
