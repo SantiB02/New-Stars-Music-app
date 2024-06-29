@@ -10,7 +10,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-500 transition hover:opacity-75 dark:text-gray-400"
+                  className="text-gray-200 transition hover:opacity-75 dark:text-gray-400"
                 >
                   Terms & Conditions
                 </a>
@@ -19,7 +19,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-500 transition hover:opacity-75 dark:text-gray-400"
+                  className="text-gray-200 transition hover:opacity-75 dark:text-gray-400"
                 >
                   Privacy Policy
                 </a>
@@ -28,7 +28,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-gray-500 transition hover:opacity-75 dark:text-gray-400"
+                  className="text-gray-200 transition hover:opacity-75 dark:text-gray-400"
                 >
                   Cookies
                 </a>
@@ -41,7 +41,7 @@ const Footer = () => {
                   href="https://www.facebook.com"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
+                  className="text-gray-400 transition hover:opacity-75 dark:text-gray-200"
                 >
                   <span className="sr-only">Facebook</span>
 
@@ -65,7 +65,7 @@ const Footer = () => {
                   href="https://www.instagram.com/"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
+                  className="text-gray-400 transition hover:opacity-75 dark:text-gray-200"
                 >
                   <span className="sr-only">Instagram</span>
 
@@ -89,7 +89,7 @@ const Footer = () => {
                   href="https://x.com/?logout=1717716434371"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
+                  className="text-gray-400 transition hover:opacity-75 dark:text-gray-200"
                 >
                   <span className="sr-only">Twitter</span>
 
@@ -109,7 +109,7 @@ const Footer = () => {
                   href="https://github.com/SantiB02/New-Stars-Music-app"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
+                  className="text-gray-400 transition hover:opacity-75 dark:text-gray-200"
                 >
                   <span className="sr-only">GitHub</span>
 
@@ -133,7 +133,7 @@ const Footer = () => {
                   href="https://Dribbble.com"
                   rel="noreferrer"
                   target="_blank"
-                  className="text-gray-700 transition hover:opacity-75 dark:text-gray-200"
+                  className="text-gray-400 transition hover:opacity-75 dark:text-gray-200"
                 >
                   <span className="sr-only">Dribbble</span>
 
