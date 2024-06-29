@@ -14,7 +14,7 @@ const StoreProducts = ({ products, isLoading }) => {
   return (
     <div>
       <h2 className="text-3xl">Featured Products</h2>
-      <ul className=" flex flex-col mt-4 md:flex-row">
+      <ul className=" flex flex-col mt-4 md:flex-row m-10 ">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
