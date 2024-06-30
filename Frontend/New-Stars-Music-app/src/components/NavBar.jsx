@@ -107,7 +107,7 @@ export default function NavBar() {
           </button>
         </div>
         {isAuthenticated && user && (
-          <Popover.Group className="hidden lg:flex lg:gap-x-12">
+          <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
             <Popover className="relative">
               <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white hover:cursor-pointer">
                 Product
@@ -178,15 +178,16 @@ export default function NavBar() {
               Search
             </a>
 
-            
-             <a
-            className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
-            onClick={() => navigateHandler("/store")}
-          >
-            Store
-          </a>
-          <a className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"><ToggleTheme/></a>
-        </Popover.Group>
+            <a
+              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+              onClick={() => navigateHandler("/store")}
+            >
+              Store
+            </a>
+            <a className="text-sm font-semibold leading-6 text-white hover:cursor-pointer">
+              <ToggleTheme />
+            </a>
+          </Popover.Group>
         )}
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -276,7 +277,7 @@ export default function NavBar() {
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  <ToggleTheme/>
+                  <ToggleTheme />
                 </a>
               </div>
               <div className="py-6">

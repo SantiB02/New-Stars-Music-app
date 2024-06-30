@@ -27,7 +27,6 @@ namespace Merchanmusic.Controllers
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             bool isUserEnsured = _userService.EnsureUser(userPostDto, subClaim);
-            System.Diagnostics.Debug.WriteLine(userPostDto);
             if (isUserEnsured)
             {
                 return Ok();

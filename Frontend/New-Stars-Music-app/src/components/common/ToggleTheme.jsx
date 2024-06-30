@@ -4,7 +4,7 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 
 const ToggleTheme = () => {
   const { theme, toggleTheme } = useTheme();
-  
+
   const onToggleThemeHandler = () => {
     toggleTheme();
     console.log(theme);
