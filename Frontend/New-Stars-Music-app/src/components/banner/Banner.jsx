@@ -36,8 +36,6 @@ const Banner = () => {
           email: user?.email,
           role: "Client",
         };
-        console.log("DTO:", userPostDto);
-        console.log("USER SUB", user.sub);
         await ensureUser(userPostDto);
         navigateHandler("/home");
       };
