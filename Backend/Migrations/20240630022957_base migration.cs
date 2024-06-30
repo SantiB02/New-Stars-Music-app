@@ -32,14 +32,14 @@ namespace Merchanmusic.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserRoleId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Address = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     State = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    UserRoleId = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -50,6 +50,29 @@ namespace Merchanmusic.Migrations
                         name: "FK_Users_UserRoles_UserRoleId",
                         column: x => x.UserRoleId,
                         principalTable: "UserRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "CreditCards",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Number = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CreditCards", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CreditCards_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -76,7 +99,8 @@ namespace Merchanmusic.Migrations
                     Category = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     State = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    SellerId = table.Column<int>(type: "int", nullable: false)
+                    SellerId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -99,7 +123,8 @@ namespace Merchanmusic.Migrations
                     OrderCode = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    ClientId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Completed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     State = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
@@ -164,23 +189,33 @@ namespace Merchanmusic.Migrations
                 columns: new[] { "Id", "Address", "Email", "Role", "State", "UserRoleId" },
                 values: new object[,]
                 {
-                    { 4, "San Martin 135", "bdiaz@gmail.com", "Admin", true, 3 },
-                    { 1, "Rivadavia 111", "leomattsantana@gmail.com", "Client", true, 1 },
-                    { 2, "J.b.justo 111", "santi@gmail.com", "Client", true, 1 },
-                    { 3, "San Martin 111", "jgarcia@gmail.com", "Client", true, 1 },
-                    { 5, "San Martin 111", "katyperry@gmail.com", "Seller", true, 2 }
+                    { "default-identifier-0012827345", "San Martin 135", "bdiaz@gmail.com", "Admin", true, 3 },
+                    { "default-identifier-3845746332", "Rivadavia 111", "leomattsantana@gmail.com", "Client", true, 1 },
+                    { "default-identifier-73619823", "San Martin 111", "jgarcia@gmail.com", "Client", true, 1 },
+                    { "default-identifier-945711463132", "J.b.justo 111", "santi@gmail.com", "Client", true, 1 },
+                    { "default-identifier-7771829382", "San Martin 111", "katyperry@gmail.com", "Seller", true, 2 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "CreditCards",
+                columns: new[] { "Id", "Number", "UserId" },
+                values: new object[] { 1, "1234567891234567", "default-identifier-3845746332" });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "Category", "Code", "CreationDate", "Description", "ImageLink", "LastModifiedDate", "Name", "Price", "SellerId", "State", "Stock" },
                 values: new object[,]
                 {
-                    { 2, "T-shirt", "1022", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8032), "Remera ACDC algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8047), "Remera ACDC", 12500m, 5, true, 10 },
-                    { 4, "T-shirt", "1022", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8050), "Remera Mozart algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8051), "Remera Mozart", 12500m, 5, true, 10 },
-                    { 5, "T-shirt", "1022", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8053), "Remera Beethoven algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8054), "Remera Beethoven", 12500m, 5, true, 10 },
-                    { 7, "T-shirt", "1021", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8056), "Remera overside negra", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 28, 16, 56, 59, 846, DateTimeKind.Local).AddTicks(8056), "Remera LOVG", 13200m, 5, true, 15 }
+                    { 2, "T-shirt", "1022", new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9679), "Remera ACDC algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9692), "Remera ACDC", 12500m, "default-identifier-7771829382", true, 10 },
+                    { 4, "T-shirt", "1022", new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9699), "Remera Mozart algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9700), "Remera Mozart", 12500m, "default-identifier-7771829382", true, 10 },
+                    { 5, "T-shirt", "1022", new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9702), "Remera Beethoven algodón", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9703), "Remera Beethoven", 12500m, "default-identifier-7771829382", true, 10 },
+                    { 7, "T-shirt", "1021", new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9706), "Remera overside negra", "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529", new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9707), "Remera LOVG", 13200m, "default-identifier-7771829382", true, 15 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CreditCards_UserId",
+                table: "CreditCards",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_SellerId",
@@ -210,6 +245,9 @@ namespace Merchanmusic.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CreditCards");
+
             migrationBuilder.DropTable(
                 name: "SaleOrderLines");
 

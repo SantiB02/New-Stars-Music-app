@@ -28,6 +28,6 @@ namespace Merchanmusic.Data.Entities.Products
         //public Product() { }
         [ForeignKey("SellerId")]
         public Seller Seller { get; set; }
-        public int SellerId {get; set; }
+        public string SellerId {get; set; }
     }
 }

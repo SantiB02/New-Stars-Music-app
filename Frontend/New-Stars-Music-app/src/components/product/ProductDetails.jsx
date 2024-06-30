@@ -18,7 +18,11 @@ const ProductDetails = () => {
   const { getAccessTokenSilently, isLoading } = useAuth0();
   const { productId } = useParams();
 
-  useAuthInterceptor(isLoading, getAccessTokenSilently);
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
 
   const fetchProduct = async (productId) => {
     setIsLoadingProduct(true);

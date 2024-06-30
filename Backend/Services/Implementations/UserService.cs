@@ -62,6 +62,9 @@ namespace Merchanmusic.Services.Implementations
                             isEnsured = true;
                             break;
                     }
+                } else
+                {
+                    isEnsured = true;
                 }
             }
             return isEnsured;

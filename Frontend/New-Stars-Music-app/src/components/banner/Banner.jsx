@@ -1,25 +1,49 @@
 import React, { useEffect } from "react";
-import LoadingMessage from "../common/LoadingMessage";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import RatingCard from "../home/RatingCard";
 import { Typography } from "@material-tailwind/react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
+import { ensureUser } from "../../services/userService";
+import { setAuthInterceptor } from "../../api/api";
 
 const Banner = () => {
   const navigate = useNavigate();
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+  const {
+    loginWithRedirect,
+    isAuthenticated,
+    user,
+    isLoading,
+    getAccessTokenSilently,
+  } = useAuth0();
   const { theme } = useTheme();
 
   const navigateHandler = (path) => {
     navigate(path);
   };
 
-  const loginHandler = (role) => {
-    loginWithRedirect({ role: "Admin" });
-  };
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
 
-  if (isAuthenticated && user) return <Navigate to="/home" replace />;
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const ensureAuthUser = async () => {
+        const userPostDto = {
+          sub: user?.sub,
+          email: user?.email,
+          role: "Client",
+        };
+        console.log("DTO:", userPostDto);
+        console.log("USER SUB", user.sub);
+        await ensureUser(userPostDto);
+        navigateHandler("/home");
+      };
+      ensureAuthUser();
+    }
+  }, [isAuthenticated, user]);
 
   return (
     <div className={theme ? "bg-primary text-white" : "bg-gray-200 text-black"}>
@@ -53,7 +77,7 @@ const Banner = () => {
                     ? "block cursor-pointer w-full rounded border border-secondary bg-secondary px-8 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
                     : "block cursor-pointer w-full rounded border border-secondary bg-secondary px-8 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-secondary focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
                 }
-                onClick={() => loginHandler("Admin")}
+                onClick={() => loginWithRedirect()}
               >
                 Log In or Register
               </a>

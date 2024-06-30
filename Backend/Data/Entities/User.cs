@@ -8,14 +8,11 @@ namespace Merchanmusic.Data.Entities
     {
         [Key]
         public string Id { get; set; }
-
-        [ForeignKey("UserRoleId")]
-        public int UserRoleId { get; set; }
-        [Required]
         public string Email { get; set; }
         public string? Address { get; set; }
-
         public bool State { get; set; } = true;
+        [ForeignKey("UserRoleId")]
+        public int UserRoleId { get; set; }
         public UserRole UserRole { get; set; }
 
     }

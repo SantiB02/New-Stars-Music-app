@@ -17,7 +17,7 @@ namespace Merchanmusic.Data.Entities
 
         [ForeignKey("ClientId")]
         public Client Client { get; set; }
-        public int ClientId { get; set; }
+        public string ClientId { get; set; }
         public bool Completed { get; set; } = false;
         public bool State { get; set; } = true; 
     }

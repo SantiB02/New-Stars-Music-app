@@ -7,7 +7,7 @@ namespace Merchanmusic.Data.Models
     public class SaleOrderDto
     {
         
-         public int ClientId { get; set; }
+         public string ClientId { get; set; }
        
     }
 }

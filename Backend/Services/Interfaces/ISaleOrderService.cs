@@ -4,7 +4,7 @@ namespace Merchanmusic.Services.Interfaces
 {
     public interface ISaleOrderService
     {
-        List<SaleOrder> GetAllByClient(int id);
+        List<SaleOrder> GetAllByClient(string id);
         List<SaleOrder> GetAllByDate(DateTime date);
         SaleOrder? GetOne(int Id);
         SaleOrder CreateSaleOrder(SaleOrder saleOrder);

@@ -29,8 +29,9 @@ namespace Merchanmusic.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -43,7 +44,7 @@ namespace Merchanmusic.Migrations
                         {
                             Id = 1,
                             Number = "1234567891234567",
-                            UserId = 1
+                            UserId = "default-identifier-3845746332"
                         });
                 });
 
@@ -82,8 +83,9 @@ namespace Merchanmusic.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("DECIMAL(7,2)");
 
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
+                    b.Property<string>("SellerId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("State")
                         .HasColumnType("tinyint(1)");
@@ -103,13 +105,13 @@ namespace Merchanmusic.Migrations
                             Id = 2,
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 6, 28, 19, 33, 22, 987, DateTimeKind.Local).AddTicks(4640),
+                            CreationDate = new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9679),
                             Description = "Remera ACDC algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 6, 28, 19, 33, 22, 987, DateTimeKind.Local).AddTicks(4651),
+                            LastModifiedDate = new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9692),
                             Name = "Remera ACDC",
                             Price = 12500m,
-                            SellerId = 5,
+                            SellerId = "default-identifier-7771829382",
                             State = true,
                             Stock = 10
                         },
@@ -118,13 +120,13 @@ namespace Merchanmusic.Migrations
                             Id = 4,
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 6, 28, 19, 33, 22, 987, DateTimeKind.Local).AddTicks(4655),
+                            CreationDate = new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9699),
                             Description = "Remera Mozart algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 6, 28, 19, 33, 22, 987, DateTimeKind.Local).AddTicks(4656),
+                            LastModifiedDate = new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9700),
                             Name = "Remera Mozart",
                             Price = 12500m,
-                            SellerId = 5,
+                            SellerId = "default-identifier-7771829382",
                             State = true,
                             Stock = 10
                         },
@@ -133,13 +135,13 @@ namespace Merchanmusic.Migrations
                             Id = 5,
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 6, 28, 19, 33, 22, 987, DateTimeKind.Local).AddTicks(4658),
+                            CreationDate = new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9702),
                             Description = "Remera Beethoven algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 6, 28, 19, 33, 22, 987, DateTimeKind.Local).AddTicks(4659),
+                            LastModifiedDate = new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9703),
                             Name = "Remera Beethoven",
                             Price = 12500m,
-                            SellerId = 5,
+                            SellerId = "default-identifier-7771829382",
                             State = true,
                             Stock = 10
                         },
@@ -148,13 +150,13 @@ namespace Merchanmusic.Migrations
                             Id = 7,
                             Category = "T-shirt",
                             Code = "1021",
-                            CreationDate = new DateTime(2024, 6, 28, 19, 33, 22, 987, DateTimeKind.Local).AddTicks(4661),
+                            CreationDate = new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9706),
                             Description = "Remera overside negra",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 6, 28, 19, 33, 22, 987, DateTimeKind.Local).AddTicks(4661),
+                            LastModifiedDate = new DateTime(2024, 6, 29, 23, 29, 57, 728, DateTimeKind.Local).AddTicks(9707),
                             Name = "Remera LOVG",
                             Price = 13200m,
-                            SellerId = 5,
+                            SellerId = "default-identifier-7771829382",
                             State = true,
                             Stock = 15
                         });
@@ -166,8 +168,9 @@ namespace Merchanmusic.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("Completed")
                         .HasColumnType("tinyint(1)");
@@ -220,9 +223,8 @@ namespace Merchanmusic.Migrations
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Address")
                         .HasColumnType("longtext");
@@ -290,7 +292,7 @@ namespace Merchanmusic.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 4,
+                            Id = "default-identifier-0012827345",
                             Address = "San Martin 135",
                             Email = "bdiaz@gmail.com",
                             State = true,
@@ -307,7 +309,7 @@ namespace Merchanmusic.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = "default-identifier-3845746332",
                             Address = "Rivadavia 111",
                             Email = "leomattsantana@gmail.com",
                             State = true,
@@ -315,7 +317,7 @@ namespace Merchanmusic.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = "default-identifier-945711463132",
                             Address = "J.b.justo 111",
                             Email = "santi@gmail.com",
                             State = true,
@@ -323,7 +325,7 @@ namespace Merchanmusic.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Id = "default-identifier-73619823",
                             Address = "San Martin 111",
                             Email = "jgarcia@gmail.com",
                             State = true,
@@ -340,7 +342,7 @@ namespace Merchanmusic.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 5,
+                            Id = "default-identifier-7771829382",
                             Address = "San Martin 111",
                             Email = "katyperry@gmail.com",
                             State = true,
@@ -402,13 +404,13 @@ namespace Merchanmusic.Migrations
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.User", b =>
                 {
-                    b.HasOne("Merchanmusic.Data.Entities.UserRole", "UserRoleObject")
+                    b.HasOne("Merchanmusic.Data.Entities.UserRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserRoleObject");
+                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.SaleOrder", b =>

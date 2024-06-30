@@ -15,7 +15,7 @@ namespace Merchanmusic.Services.Implementations
                 _context = context;
             }
 
-            public List<SaleOrder> GetAllByClient(int clientId) //todas por cliente
+            public List<SaleOrder> GetAllByClient(string clientId) //todas por cliente
             {
                 return _context.SaleOrders
                     .Include(so => so.Client)

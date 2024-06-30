@@ -1,5 +1,6 @@
 ﻿using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Models;
+using Merchanmusic.Services.Implementations;
 using Merchanmusic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,17 +14,20 @@ namespace Merchanmusic.Controllers
     public class SaleOrderController : ControllerBase
     {
         private readonly ISaleOrderService _saleOrderService;
+        private readonly IUserService _userService;
 
-        public SaleOrderController(ISaleOrderService saleOrderService)
+        public SaleOrderController(ISaleOrderService saleOrderService, IUserService userService)
         {
             _saleOrderService = saleOrderService;
+            _userService = userService;
         }
 
         [HttpGet("by-client/{clientId}")]
-        public IActionResult GetAllByClient([FromRoute] int clientId)
+        public IActionResult GetAllByClient([FromRoute] string clientId)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin" || role == "Client")
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string loggedUserRole = _userService.GetUserRole(subClaim);
+            if (loggedUserRole == "Admin" || loggedUserRole == "Client")
             {
                 try
                 {
@@ -46,8 +50,9 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-date/{date}")]
         public IActionResult GetAllByDate([FromRoute] DateTime date)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin")
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string loggedUserRole = _userService.GetUserRole(subClaim);
+            if (loggedUserRole == "Admin")
             {
                 try
                 {
@@ -69,8 +74,9 @@ namespace Merchanmusic.Controllers
         [HttpGet("{orderId}")]
         public IActionResult GetOne([FromRoute] int orderId)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin")
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string loggedUserRole = _userService.GetUserRole(subClaim);
+            if (loggedUserRole == "Admin")
             {
                 try
                 {
@@ -94,8 +100,9 @@ namespace Merchanmusic.Controllers
         [HttpPost]
         public IActionResult CreateSaleOrder([FromBody] SaleOrderDto dto)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin" || role == "Client")
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string loggedUserRole = _userService.GetUserRole(subClaim);
+            if (loggedUserRole == "Admin" || loggedUserRole == "Client")
             {
                 if (dto == null)
                 {
@@ -122,8 +129,9 @@ namespace Merchanmusic.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteSaleOrder([FromRoute] int id)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin" || role == "Client")
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string loggedUserRole = _userService.GetUserRole(subClaim);
+            if (loggedUserRole == "Admin" || loggedUserRole == "Client")
             {
                 try
                 {
@@ -149,17 +157,14 @@ namespace Merchanmusic.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateSaleOrder([FromRoute] int id, [FromBody] SaleOrderDto dto)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
-            if (role == "Admin")
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string loggedUserRole = _userService.GetUserRole(subClaim);
+            if (loggedUserRole == "Admin")
             {
                 var soToUpdate = _saleOrderService.GetOne(id);
                 if (soToUpdate == null)
                 {
                     return NotFound($"Orden de venta con ID {id} no encontrada");
-                }
-                if (dto.ClientId == 0)
-                {
-                    return BadRequest("Orden de venta no actualizado, por favor completar los campos");
                 }
 
                 try
