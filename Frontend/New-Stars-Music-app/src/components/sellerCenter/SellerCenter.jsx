@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 
 const SellerCenter = () => {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [roles, setRoles] = useState([]);
 
   return (
     <div>
