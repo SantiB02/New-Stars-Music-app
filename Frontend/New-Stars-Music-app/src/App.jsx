@@ -25,11 +25,11 @@ import { Profile } from "./components/profile/Profile";
 import { Settings } from "./components/settings/Settings";
 import { Cart } from "./components/cart/Cart";
 import { useTheme } from "./services/contexts/ThemeProvider";
+import SellerCenter from "./components/sellerCenter/SellerCenter";
 
 function App() {
-  const auth0 = useAuth0();
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
-  const {theme}= useTheme()
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!isLoading) {
@@ -40,11 +40,11 @@ function App() {
   if (isLoading) return <LoadingMessage message="Loading..." />;
 
   return (
-    <Router>
-      <div id={theme ?"root":"root-ligth"}>
+    <>
+      <div id={theme ? "root" : "root-ligth"}>
         <Toaster /> {/* allows us to use toast messages for every page */}
       </div>
-      <div>
+      <>
         <NavBar />
         <div className="main-content">
           <Routes>
@@ -55,11 +55,13 @@ function App() {
             />
             <Route path="/info" element={<SiteInfo />} />
             <Route path="*" exact element={<PageNotFound />} />
+            <Route path="/seller-center" element={<SellerCenter />} />
 
             <Route element={<Protected />}>
               <Route path="/home" element={<Home />} />
               <Route path="/search" element={<PlayerMusic />} />
               <Route path="/store" element={<Store />} />
+
               <Route path="/profile" element={<Profile />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/cart" element={<Cart />} />
@@ -67,8 +69,8 @@ function App() {
           </Routes>
         </div>
         <Footer />
-      </div>
-    </Router>
+      </>
+    </>
   );
 }
 

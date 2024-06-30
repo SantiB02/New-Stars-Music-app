@@ -184,6 +184,12 @@ export default function NavBar() {
             >
               Store
             </a>
+            <a
+              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+              onClick={() => navigateHandler("/seller-center")}
+            >
+              Seller Center
+            </a>
             <a className="text-sm font-semibold leading-6 text-white hover:cursor-pointer">
               <ToggleTheme />
             </a>

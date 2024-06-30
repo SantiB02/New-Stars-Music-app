@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import RatingCard from "../home/RatingCard";
 import { Typography } from "@material-tailwind/react";
@@ -17,6 +17,8 @@ const Banner = () => {
     getAccessTokenSilently,
   } = useAuth0();
   const { theme } = useTheme();
+  const location = useLocation();
+  console.log("RUTA ACTUAL banner", window.location.origin + location.pathname);
 
   const navigateHandler = (path) => {
     navigate(path);

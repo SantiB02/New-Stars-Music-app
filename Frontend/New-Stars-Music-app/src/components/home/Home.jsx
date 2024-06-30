@@ -4,12 +4,15 @@ import Music from "./Music";
 import { getAllProducts } from "../../services/productsService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth0();
   const { theme } = useTheme();
+  const location = useLocation();
+  console.log("LOCATION DE HOME:", location.pathname);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -28,11 +31,14 @@ const Home = () => {
 
     fetchProducts();
   }, []);
+  console.log("LOCATION URL:", window.location.search);
 
   return (
     <div
       className={
-        theme ? "flex flex-col min-h-screen" : "flex flex-col min-h-screen bg-gray-200 text-black"
+        theme
+          ? "flex flex-col min-h-screen"
+          : "flex flex-col min-h-screen bg-gray-200 text-black"
       }
     >
       <div className="flex-grow overflow-auto flex flex-col md:flex-row mb-1">
