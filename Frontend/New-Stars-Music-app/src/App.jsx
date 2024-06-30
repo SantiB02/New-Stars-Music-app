@@ -24,10 +24,12 @@ import LoadingMessage from "./components/common/LoadingMessage";
 import { Profile } from "./components/profile/Profile";
 import { Settings } from "./components/settings/Settings";
 import { Cart } from "./components/cart/Cart";
+import { useTheme } from "./services/contexts/ThemeProvider";
 
 function App() {
   const auth0 = useAuth0();
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
+  const {theme}= useTheme()
 
   useEffect(() => {
     if (!isLoading) {
@@ -39,7 +41,7 @@ function App() {
 
   return (
     <Router>
-      <div>
+      <div id={theme ?"root":"root-ligth"}>
         <Toaster /> {/* allows us to use toast messages for every page */}
       </div>
       <div>
