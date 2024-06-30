@@ -17,8 +17,6 @@ const Banner = () => {
     getAccessTokenSilently,
   } = useAuth0();
   const { theme } = useTheme();
-  const location = useLocation();
-  console.log("RUTA ACTUAL banner", window.location.origin + location.pathname);
 
   const navigateHandler = (path) => {
     navigate(path);

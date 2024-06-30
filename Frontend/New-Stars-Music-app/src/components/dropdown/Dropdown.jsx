@@ -41,17 +41,26 @@ const Dropdown = () => {
           >
             <ul>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div onClick={() => navigateHandler("/settings")} class="flex items-center">
+                <div
+                  onClick={() => navigateHandler("/settings")}
+                  className="flex items-center"
+                >
                   <IoSettingsOutline className="mr-2" /> Settings
                 </div>
               </li>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div onClick={() => navigateHandler("/profile")} class="flex items-center">
+                <div
+                  onClick={() => navigateHandler("/profile")}
+                  class="flex items-center"
+                >
                   <CgProfile className="mr-2" /> Profile
                 </div>
               </li>
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div onClick={() => navigateHandler("/cart")} class="flex items-center">
+                <div
+                  onClick={() => navigateHandler("/cart")}
+                  className="flex items-center"
+                >
                   <MdOutlineShoppingCart className="mr-2" /> Your cart
                 </div>
               </li>
@@ -59,7 +68,7 @@ const Dropdown = () => {
                 className="p-2  text-[#a10009] cursor-pointer rounded hover:bg-red-100 hover:text-red-600 border-t-red-600"
                 onClick={() => logout()}
               >
-                <div class="flex items-center">
+                <div className="flex items-center">
                   <HiOutlineLogout className="mr-2" /> Logout
                 </div>
               </li>

@@ -3,7 +3,6 @@ import api from "../api/api";
 export const getAllProducts = async () => {
   try {
     const response = await api.get("/products"); //en la API real, va a haber una ruta por parámetro
-    console.log("RESPONSE", response);
     return response.data;
   } catch (error) {
     console.error("Error getting all products:", error);

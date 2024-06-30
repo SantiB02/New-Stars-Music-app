@@ -29,10 +29,9 @@ const ProductDetails = () => {
     try {
       const productFromApi = await getProduct(productId);
       setProduct(productFromApi);
-      console.log("SUCCESS");
     } catch (error) {
       toast.error("Error while loading this product!");
-      console.log("ERROR");
+      console.error(`Error while fetching product with id ${productId}`);
       setProductNotFound(true);
     } finally {
       setIsLoadingProduct(false);

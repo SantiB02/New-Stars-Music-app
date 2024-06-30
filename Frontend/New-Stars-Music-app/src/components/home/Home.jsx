@@ -11,15 +11,12 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth0();
   const { theme } = useTheme();
-  const location = useLocation();
-  console.log("LOCATION DE HOME:", location.pathname);
 
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
       try {
         const allProducts = await getAllProducts();
-        console.log("ALL PRODUCTS", allProducts);
         setProducts(allProducts);
         console.log("USER", user);
       } catch (error) {
@@ -31,7 +28,6 @@ const Home = () => {
 
     fetchProducts();
   }, []);
-  console.log("LOCATION URL:", window.location.search);
 
   return (
     <div

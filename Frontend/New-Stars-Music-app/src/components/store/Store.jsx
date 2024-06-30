@@ -13,7 +13,6 @@ const Store = () => {
       setIsLoading(true);
       try {
         const allProducts = await getAllProducts();
-        console.log("ALL PRODUCTS", allProducts);
         setProducts(allProducts);
       } catch (error) {
         console.error("Error fetching all products:", error);
