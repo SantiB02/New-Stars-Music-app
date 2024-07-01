@@ -15,27 +15,9 @@ namespace Merchanmusic.Services.Implementations
             _context = context;
         }
 
-        public int GetUserRoleId(string roleName)
-        {
-            int roleId = roleName.Trim() switch
-            {
-                nameof(UserRoleEnum.Client) => (int)UserRoleEnum.Client,
-                nameof(UserRoleEnum.Seller) => (int)UserRoleEnum.Seller,
-                nameof(UserRoleEnum.Admin) => (int)UserRoleEnum.Admin,
-                _ => (int)UserRoleEnum.Client,
-            };
-            return roleId;
-        }
-
         public User? GetUserById(string id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
-        }
-
-        public string GetUserRole(string id)
-        {
-            User user = _context.Users.FirstOrDefault(u => u.Id == id);
-            return user.UserRole.RoleName;
         }
 
         public bool CheckIfUserExists(string id)
@@ -43,57 +25,53 @@ namespace Merchanmusic.Services.Implementations
             return _context.Users.Any(u => u.Id == id);
         }
 
-        public bool EnsureUser(UserPostDto userPostDto, string subClaim)
+        public bool EnsureUser(User userToEnsure)
         {
             bool isEnsured = false;
-            if (subClaim == userPostDto.Sub) //to validate that the new user in DB will mirror the Auth0 authenticated user
+            User? user = this.GetUserById(userToEnsure.Id);
+            if (user == null) // if the Auth0 user doesn't exist in our DB, we create it
             {
-                bool userExists = this.CheckIfUserExists(userPostDto.Sub);
-                if (!userExists)
+                switch (userToEnsure.Role)
                 {
-                    switch (userPostDto.Role.Trim())
-                    {
-                        case nameof(UserRoleEnum.Client):
-                            this.CreateClient(userPostDto);
-                            isEnsured = true;
-                            break;
-                        case nameof(UserRoleEnum.Seller):
-                            this.CreateSeller(userPostDto);
-                            isEnsured = true;
-                            break;
-                    }
-                } else
-                {
-                    isEnsured = true;
+                    case nameof(UserRoleEnum.Client):
+                        Client newClient = new()
+                        {
+                            Id = userToEnsure.Id,
+                            Email = userToEnsure.Email,
+                            Address = userToEnsure.Address,
+                        };
+                        this.CreateUser(newClient);
+                        isEnsured = true;
+                        break;
+                    case nameof(UserRoleEnum.Seller):
+                        Seller newSeller = new()
+                        {
+                            Id = userToEnsure.Id,
+                            Email = userToEnsure.Email,
+                            Address = userToEnsure.Address,
+                        };
+                        this.CreateUser(newSeller);
+                        isEnsured = true;
+                        break;
                 }
+            } else
+            {
+                if (userToEnsure.Role != user.Role) // if the Auth0 user has changed their role, we also change it in our DB
+                {
+                    user.Role = userToEnsure.Role;
+                    this.UpdateUser(userToEnsure);
+                }
+                isEnsured = true;
             }
-            return isEnsured;
+            
+        return isEnsured;
         }
 
-        public string CreateClient(UserPostDto userPostDto)
+        public string CreateUser(User user)
         {
-            Client newClient = new()
-            {
-                Id = userPostDto.Sub,
-                Email = userPostDto.Email,
-                UserRoleId = this.GetUserRoleId(userPostDto.Role)
-            };
-            _context.Add(newClient);
+            _context.Add(user);
             _context.SaveChanges();
-            return newClient.Id;
-        }
-
-        public string CreateSeller(UserPostDto userPostDto)
-        {
-            Seller newSeller = new()
-            {
-                Id = userPostDto.Sub,
-                Email = userPostDto.Email,
-                UserRoleId = this.GetUserRoleId(userPostDto.Role)
-            };
-            _context.Add(newSeller);
-            _context.SaveChanges();
-            return newSeller.Id;
+            return user.Id;
         }
 
         public void UpdateUser(User user)
@@ -111,8 +89,7 @@ namespace Merchanmusic.Services.Implementations
         }
         public async Task<List<User>> GetUsersByRole(string roleName)
         {
-            int roleId = this.GetUserRoleId(roleName);
-            List<User> results = await _context.Users.Where(u => u.UserRoleId == roleId).ToListAsync();
+            List<User> results = await _context.Users.Where(u => u.Role == roleName).ToListAsync();
             return results;
         
 

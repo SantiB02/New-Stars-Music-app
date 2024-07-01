@@ -25,28 +25,10 @@ namespace Merchanmusic.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasDiscriminator<string>("Role")
+            modelBuilder.Entity<User>().HasDiscriminator(u => u.Role)
                 .HasValue<Client>("Client")
                 .HasValue<Seller>("Seller")
                 .HasValue<Admin>("Admin");
-
-            modelBuilder.Entity<UserRole>().HasData(
-               new UserRole
-               {
-                   Id = 1,
-                   RoleName = "Client",
-               },
-               new UserRole
-               {
-                   Id = 2,
-                   RoleName = "Seller",
-               },
-               new UserRole
-               {
-                   Id = 3,
-                   RoleName = "Admin",
-               }
-               );
 
             modelBuilder.Entity<Client>().HasData(
                 new Client
@@ -54,21 +36,18 @@ namespace Merchanmusic.Data
                     Email = "leomattsantana@gmail.com",
                     Address = "Rivadavia 111",
                     Id = "default-identifier-3845746332",
-                    UserRoleId = (int)UserRoleEnum.Client
                 },
                 new Client
                 {
                     Email = "santi@gmail.com",
                     Address = "J.b.justo 111",
                     Id = "default-identifier-945711463132",
-                    UserRoleId = (int)UserRoleEnum.Client
                 },
                 new Client
                 {
                     Email = "jgarcia@gmail.com",
                     Address = "San Martin 111",
                     Id = "default-identifier-73619823",
-                    UserRoleId = (int)UserRoleEnum.Client
                 });
 
             modelBuilder.Entity<Admin>().HasData(
@@ -77,7 +56,6 @@ namespace Merchanmusic.Data
                     Email = "bdiaz@gmail.com",
                     Address = "San Martin 135",
                     Id = "default-identifier-0012827345",
-                    UserRoleId = (int)UserRoleEnum.Admin
                 });
 
             modelBuilder.Entity<Seller>().HasData(
@@ -85,7 +63,6 @@ namespace Merchanmusic.Data
             {
                 Email = "katyperry@gmail.com",
                 Id = "default-identifier-7771829382",
-                UserRoleId = (int)UserRoleEnum.Seller,
                 Address = "San Martin 111",
             });
 
@@ -109,6 +86,7 @@ namespace Merchanmusic.Data
                     Code="1022",
                     Price = 12500,
                     Stock = 10,
+                    Sales = 237,
                     Category = "T-shirt",
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
@@ -123,6 +101,7 @@ namespace Merchanmusic.Data
                     Code = "1022",
                     Price = 12500,
                     Stock = 10,
+                    Sales = 129,
                     Category = "T-shirt",
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
@@ -136,6 +115,7 @@ namespace Merchanmusic.Data
                     Code = "1022",
                     Price = 12500,
                     Stock = 10,
+                    Sales = 83,
                     Category = "T-shirt",
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
@@ -149,6 +129,7 @@ namespace Merchanmusic.Data
                     Code ="1021",
                     Price = 13200,
                     Stock = 15,
+                    Sales = 421,
                     Category = "T-shirt",
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
@@ -162,14 +143,6 @@ namespace Merchanmusic.Data
                     Number = "1234567891234567",
                     UserId = "default-identifier-3845746332"
                 });
-
-
-
-            // Relacion entre User y UserRole 
-            modelBuilder.Entity<User>()
-            .HasOne(u => u.UserRole)
-            .WithMany()
-            .HasForeignKey(u => u.UserRoleId);
 
             // // Relación entre Cliente y OrdenDeVenta (uno a muchos)
             modelBuilder.Entity<Client>()

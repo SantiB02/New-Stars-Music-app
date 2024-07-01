@@ -9,11 +9,11 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getFeaturedProducts = async (minimumSales) => {
+export const getFeaturedProducts = async (quantity, minimumSales) => {
   try {
     const response = await api.get("/products/featured", {
-      //se pasa un parámetro por query (ver en .NET)
       params: {
+        quantity,
         minimumSales,
       },
     });

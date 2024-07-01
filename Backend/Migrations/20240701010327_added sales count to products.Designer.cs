@@ -3,6 +3,7 @@ using System;
 using Merchanmusic.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Merchanmusic.Migrations
 {
     [DbContext(typeof(MerchContext))]
-    partial class MerchContextModelSnapshot : ModelSnapshot
+    [Migration("20240701010327_added sales count to products")]
+    partial class addedsalescounttoproducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,10 +110,10 @@ namespace Merchanmusic.Migrations
                             Id = 2,
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 7, 1, 0, 7, 11, 298, DateTimeKind.Local).AddTicks(2963),
+                            CreationDate = new DateTime(2024, 6, 30, 22, 3, 26, 942, DateTimeKind.Local).AddTicks(7327),
                             Description = "Remera ACDC algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 1, 0, 7, 11, 298, DateTimeKind.Local).AddTicks(2973),
+                            LastModifiedDate = new DateTime(2024, 6, 30, 22, 3, 26, 942, DateTimeKind.Local).AddTicks(7342),
                             Name = "Remera ACDC",
                             Price = 12500m,
                             Sales = 237,
@@ -124,10 +126,10 @@ namespace Merchanmusic.Migrations
                             Id = 4,
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 7, 1, 0, 7, 11, 298, DateTimeKind.Local).AddTicks(2978),
+                            CreationDate = new DateTime(2024, 6, 30, 22, 3, 26, 942, DateTimeKind.Local).AddTicks(7348),
                             Description = "Remera Mozart algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 1, 0, 7, 11, 298, DateTimeKind.Local).AddTicks(2978),
+                            LastModifiedDate = new DateTime(2024, 6, 30, 22, 3, 26, 942, DateTimeKind.Local).AddTicks(7348),
                             Name = "Remera Mozart",
                             Price = 12500m,
                             Sales = 129,
@@ -140,10 +142,10 @@ namespace Merchanmusic.Migrations
                             Id = 5,
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 7, 1, 0, 7, 11, 298, DateTimeKind.Local).AddTicks(2980),
+                            CreationDate = new DateTime(2024, 6, 30, 22, 3, 26, 942, DateTimeKind.Local).AddTicks(7350),
                             Description = "Remera Beethoven algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 1, 0, 7, 11, 298, DateTimeKind.Local).AddTicks(2981),
+                            LastModifiedDate = new DateTime(2024, 6, 30, 22, 3, 26, 942, DateTimeKind.Local).AddTicks(7350),
                             Name = "Remera Beethoven",
                             Price = 12500m,
                             Sales = 83,
@@ -156,10 +158,10 @@ namespace Merchanmusic.Migrations
                             Id = 7,
                             Category = "T-shirt",
                             Code = "1021",
-                            CreationDate = new DateTime(2024, 7, 1, 0, 7, 11, 298, DateTimeKind.Local).AddTicks(2983),
+                            CreationDate = new DateTime(2024, 6, 30, 22, 3, 26, 942, DateTimeKind.Local).AddTicks(7352),
                             Description = "Remera overside negra",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 1, 0, 7, 11, 298, DateTimeKind.Local).AddTicks(2983),
+                            LastModifiedDate = new DateTime(2024, 6, 30, 22, 3, 26, 942, DateTimeKind.Local).AddTicks(7353),
                             Name = "Remera LOVG",
                             Price = 13200m,
                             Sales = 421,
@@ -247,7 +249,12 @@ namespace Merchanmusic.Migrations
                     b.Property<bool>("State")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int>("UserRoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
 
@@ -266,6 +273,23 @@ namespace Merchanmusic.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RoleName = "Client"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RoleName = "Seller"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            RoleName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.Admin", b =>
@@ -280,7 +304,8 @@ namespace Merchanmusic.Migrations
                             Id = "default-identifier-0012827345",
                             Address = "San Martin 135",
                             Email = "bdiaz@gmail.com",
-                            State = true
+                            State = true,
+                            UserRoleId = 3
                         });
                 });
 
@@ -296,21 +321,24 @@ namespace Merchanmusic.Migrations
                             Id = "default-identifier-3845746332",
                             Address = "Rivadavia 111",
                             Email = "leomattsantana@gmail.com",
-                            State = true
+                            State = true,
+                            UserRoleId = 1
                         },
                         new
                         {
                             Id = "default-identifier-945711463132",
                             Address = "J.b.justo 111",
                             Email = "santi@gmail.com",
-                            State = true
+                            State = true,
+                            UserRoleId = 1
                         },
                         new
                         {
                             Id = "default-identifier-73619823",
                             Address = "San Martin 111",
                             Email = "jgarcia@gmail.com",
-                            State = true
+                            State = true,
+                            UserRoleId = 1
                         });
                 });
 
@@ -326,7 +354,8 @@ namespace Merchanmusic.Migrations
                             Id = "default-identifier-7771829382",
                             Address = "San Martin 111",
                             Email = "katyperry@gmail.com",
-                            State = true
+                            State = true,
+                            UserRoleId = 2
                         });
                 });
 
@@ -380,6 +409,17 @@ namespace Merchanmusic.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("SaleOrder");
+                });
+
+            modelBuilder.Entity("Merchanmusic.Data.Entities.User", b =>
+                {
+                    b.HasOne("Merchanmusic.Data.Entities.UserRole", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("Merchanmusic.Data.Entities.SaleOrder", b =>

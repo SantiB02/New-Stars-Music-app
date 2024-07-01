@@ -17,10 +17,10 @@ namespace Merchanmusic.Data.Entities.Products
         public string Code { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public DateTime CreationDate { get; set; } = DateTime.Now; 
+        public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastModifiedDate { get; set; } = DateTime.Now;
         public int Stock { get; set; }
-
+        public int Sales {  get; set; } = 0;
         public decimal Price { get; set; }
         public string ImageLink { get; set; }
         public string Category { get; set; }

@@ -25,8 +25,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-client/{clientId}")]
         public IActionResult GetAllByClient([FromRoute] string clientId)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string loggedUserRole = _userService.GetUserRole(subClaim);
+            string loggedUserRole = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
             if (loggedUserRole == "Admin" || loggedUserRole == "Client")
             {
                 try
@@ -50,8 +49,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-date/{date}")]
         public IActionResult GetAllByDate([FromRoute] DateTime date)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string loggedUserRole = _userService.GetUserRole(subClaim);
+            string loggedUserRole = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
             if (loggedUserRole == "Admin")
             {
                 try
@@ -74,8 +72,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("{orderId}")]
         public IActionResult GetOne([FromRoute] int orderId)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string loggedUserRole = _userService.GetUserRole(subClaim);
+            string loggedUserRole = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
             if (loggedUserRole == "Admin")
             {
                 try
@@ -100,8 +97,7 @@ namespace Merchanmusic.Controllers
         [HttpPost]
         public IActionResult CreateSaleOrder([FromBody] SaleOrderDto dto)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string loggedUserRole = _userService.GetUserRole(subClaim);
+            string loggedUserRole = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
             if (loggedUserRole == "Admin" || loggedUserRole == "Client")
             {
                 if (dto == null)
@@ -129,8 +125,7 @@ namespace Merchanmusic.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteSaleOrder([FromRoute] int id)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string loggedUserRole = _userService.GetUserRole(subClaim);
+            string loggedUserRole = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
             if (loggedUserRole == "Admin" || loggedUserRole == "Client")
             {
                 try
@@ -157,8 +152,7 @@ namespace Merchanmusic.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateSaleOrder([FromRoute] int id, [FromBody] SaleOrderDto dto)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string loggedUserRole = _userService.GetUserRole(subClaim);
+            string loggedUserRole = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
             if (loggedUserRole == "Admin")
             {
                 var soToUpdate = _saleOrderService.GetOne(id);

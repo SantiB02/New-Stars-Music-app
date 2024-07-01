@@ -20,7 +20,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("{saleOrderId}")]
         public IActionResult GetAllBySaleOrder([FromRoute] int saleOrderId)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            string role = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
             if (role == "Admin")
             {
                 try

@@ -7,7 +7,7 @@ const SellerCenter = () => {
   return (
     <div>
       SellerCenter
-      {user && <p>Role claim: {user["https://localhost:7133/api"]}</p>}
+      {user && <p>Role claim: {user["role"]}</p>}
     </div>
   );
 };

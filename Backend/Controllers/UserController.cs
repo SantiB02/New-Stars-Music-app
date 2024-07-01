@@ -23,16 +23,25 @@ namespace Merchanmusic.Controllers
         }
 
         [HttpPost("ensure-user")]
-        public IActionResult EnsureUser([FromBody] UserPostDto userPostDto)
+        public IActionResult EnsureUser()
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            bool isUserEnsured = _userService.EnsureUser(userPostDto, subClaim);
+            string emailClaim = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
+            string roleClaim = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
+            Client client = new()
+            {
+                Id = subClaim,
+                Email = emailClaim,
+                Role = roleClaim
+            };
+
+            bool isUserEnsured = _userService.EnsureUser(client);
             if (isUserEnsured)
             {
                 return Ok();
             } else
             {
-                return BadRequest("Incorrect role or forbidden action");
+                return BadRequest();
             }
         }
 
@@ -60,7 +69,7 @@ namespace Merchanmusic.Controllers
         public IActionResult GetClients([FromRoute] string role)
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string loggedUserRole = _userService.GetUserRole(subClaim);
+            string loggedUserRole = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
             User loggedUser = _userService.GetUserById(subClaim);
 
             if (loggedUserRole == "Admin" && loggedUser.State)
@@ -71,8 +80,8 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpPut]
-        public IActionResult UpdateUser([FromBody] ClientUpdateDto clientUpdateDto)
+        [HttpPut("client")]
+        public IActionResult UpdateClient([FromBody] ClientUpdateDto clientUpdateDto)
         {    
             Client clientToUpdate = new Client()
             {
@@ -82,6 +91,19 @@ namespace Merchanmusic.Controllers
             _userService.UpdateUser(clientToUpdate);
             return Ok();
         }
+
+        [HttpPut("seller")]
+        public IActionResult UpdateSeller([FromBody] ClientUpdateDto clientUpdateDto)
+        {
+            Client clientToUpdate = new Client()
+            {
+                Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value,
+                Address = clientUpdateDto.Address,
+            };
+            _userService.UpdateUser(clientToUpdate);
+            return Ok();
+        }
+
         [HttpDelete]
         public IActionResult DeleteSelfUser()
         {
