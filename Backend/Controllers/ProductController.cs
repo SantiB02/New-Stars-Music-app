@@ -54,7 +54,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-name/{name}")]
         public IActionResult GetProductByName(string name)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
             if (role == "Admin" || role == "Client")
             {
                 var product = _productService.GetProductByName(name);
@@ -73,7 +73,7 @@ namespace Merchanmusic.Controllers
         [HttpPost]
         public IActionResult CreateProduct([FromBody] ProductCreatDto productDto)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
             if (role == "Admin")
             {
                 if (productDto.Name == null || productDto.Price <= 0)
@@ -104,7 +104,7 @@ namespace Merchanmusic.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
             if (role == "Admin")
             {
                 try
@@ -130,7 +130,7 @@ namespace Merchanmusic.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductUpdateDto product)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
             if (role == "Admin")
             {
                 var productToUpdate = _productService.GetProductById(id);

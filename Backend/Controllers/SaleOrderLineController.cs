@@ -20,7 +20,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("{saleOrderId}")]
         public IActionResult GetAllBySaleOrder([FromRoute] int saleOrderId)
         {
-            string role = this.User.Claims.FirstOrDefault(c => c.Type == "role").Value;
+            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
             if (role == "Admin")
             {
                 try
@@ -44,7 +44,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-product/{productId}")]
         public IActionResult GetAllByProduct([FromRoute] int productId)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value.ToString();
+            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
             if (role == "Admin")
             {
                 try

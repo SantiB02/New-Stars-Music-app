@@ -51,7 +51,7 @@ const Dropdown = () => {
               <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
                 <div
                   onClick={() => navigateHandler("/profile")}
-                  class="flex items-center"
+                  className="flex items-center"
                 >
                   <CgProfile className="mr-2" /> Profile
                 </div>

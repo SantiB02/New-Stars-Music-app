@@ -76,6 +76,7 @@ namespace Merchanmusic.Services.Implementations
 
         public void UpdateUser(User user)
         {
+            _context.ChangeTracker.Clear();
             _context.Update(user);
             _context.SaveChanges();
         }

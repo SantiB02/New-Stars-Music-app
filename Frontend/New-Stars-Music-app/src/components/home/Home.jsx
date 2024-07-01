@@ -39,7 +39,13 @@ const Home = () => {
     >
       <div className="flex-grow overflow-auto flex flex-col md:flex-row mb-1">
         <div className="md:w-1/2 p-4">
-          <h1 className="text-4xl">Welcome to New Stars Music!</h1>
+          <h1 className="text-4xl">
+            Welcome back,{" "}
+            <span className="text-orange-800">{user.nickname}</span>!
+          </h1>
+          {user && (
+            <p>Role claim: {user["https://localhost:7133/api/roles"]}</p>
+          )}
           <p>
             The place where you can listen to your favorite songs and explore
             their products in our all-in-one store.

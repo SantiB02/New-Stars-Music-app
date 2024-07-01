@@ -31,11 +31,7 @@ const Banner = () => {
   useEffect(() => {
     if (isAuthenticated && user) {
       const ensureAuthUser = async () => {
-        const userPostDto = {
-          sub: user?.sub,
-          email: user?.email,
-        };
-        await ensureUser(userPostDto);
+        await ensureUser(user?.email);
         navigateHandler("/home");
       };
       ensureAuthUser();
