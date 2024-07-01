@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar } from "@material-tailwind/react";
+import { Avatar, Button } from "@material-tailwind/react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 export const Profile = () => {
   const { user } = useAuth0();
@@ -42,23 +42,21 @@ export const Profile = () => {
             <h3 className="font-semibold">Name</h3>
             <p>{user.name}</p>
           </div>
+          {user.address && (
+            <div className="col-span-2">
+              <h3 className="font-semibold">Address</h3>
+              <p>{user.address}</p>
+            </div>
+          )}
+          {user.phone_number && (
+            <div className="col-span-2">
+              <h3 className="font-semibold">Phone Number</h3>
+              <p>{user.phone_number}</p>
+            </div>
+          )}
 
-          <div className="col-span-2">
-            <h3 className="font-semibold">Zone Info</h3>
-            <p>{user.zoneinfo}</p>
-          </div>
-
-          <div className="col-span-2">
-            <h3 className="font-semibold">Locale</h3>
-            <p>{user.locale}</p>
-          </div>
-          <div className="col-span-2">
-            <h3 className="font-semibold">Address</h3>
-            <p>{user.address}</p>
-          </div>
-          <div className="col-span-2">
-            <h3 className="font-semibold">Phone Number</h3>
-            <p>{user.phone_number}</p>
+          <div className="col-span-2 mt-6">
+            <Button color="red">Delete my profile</Button>
           </div>
         </div>
       </div>
