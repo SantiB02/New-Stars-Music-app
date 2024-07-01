@@ -5,6 +5,7 @@ import { getAllProducts } from "../../services/productsService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { useLocation } from "react-router-dom";
+import { Typography } from "@material-tailwind/react";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -39,17 +40,10 @@ const Home = () => {
     >
       <div className="flex-grow overflow-auto flex flex-col md:flex-row mb-1">
         <div className="md:w-1/2 p-4">
-          <h1 className="text-4xl">
+          <Typography variant="h2" className="font-light">
             Welcome back,{" "}
             <span className="text-orange-800">{user.nickname}</span>!
-          </h1>
-          {user && (
-            <p>Role claim: {user["https://localhost:7133/api/roles"]}</p>
-          )}
-          <p>
-            The place where you can listen to your favorite songs and explore
-            their products in our all-in-one store.
-          </p>
+          </Typography>
           <div className="mt-8">
             <FeaturedProducts products={products} isLoading={isLoading} />
           </div>

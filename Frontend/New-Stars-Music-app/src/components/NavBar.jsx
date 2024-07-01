@@ -73,6 +73,11 @@ export default function NavBar() {
     navigate(path);
   };
 
+  const mobileMenuLinkClickHandler = (path) => {
+    navigateHandler(path);
+    setMobileMenuOpen(false);
+  };
+
   return (
     <header>
       <nav
@@ -186,9 +191,15 @@ export default function NavBar() {
             </a>
             <a
               className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
-              onClick={() => navigateHandler("/seller-center")}
+              onClick={() =>
+                user["https://localhost:7133/api/roles"] === "Seller"
+                  ? navigateHandler("/seller-center")
+                  : navigateHandler("/become-seller")
+              }
             >
-              Seller Center
+              {user["https://localhost:7133/api/roles"] === "Seller"
+                ? "Seller Center"
+                : "Become a Seller"}
             </a>
             <a className="text-sm font-semibold leading-6 text-white hover:cursor-pointer">
               <ToggleTheme />
@@ -198,7 +209,7 @@ export default function NavBar() {
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {isAuthenticated && user ? (
-            <Dropdown />
+            <Dropdown mobileMenuLinkClickHandler={mobileMenuLinkClickHandler} />
           ) : (
             <a
               className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
@@ -215,7 +226,7 @@ export default function NavBar() {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-        <div className="fixed inset-0 z-10 bg-secundary " />
+        <div className="fixed inset-0 z-10 bg-secondary " />
         <Dialog.Panel className="fixed  inset-y-0 right-0 z-10 w-full overflow-y-auto  px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 bg-fourth">
           <div className="flex items-center justify-between bg-fourth">
             <a href="#" className="-m-1.5 p-1.5">
@@ -233,7 +244,7 @@ export default function NavBar() {
           <div className="mt-6 flow-root bg-fourth">
             <div className="-my-6 divide-y divide-gray-500/10 bg-fourth">
               <div className="space-y-2 py-6 bg-fourth">
-                <Disclosure as="div" className="-mx-3 bg-secundary">
+                <Disclosure as="div" className="-mx-3 bg-secondary">
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
@@ -263,21 +274,27 @@ export default function NavBar() {
                 </Disclosure>
                 <a
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  onClick={() => navigateHandler("/store")}
+                  onClick={() => mobileMenuLinkClickHandler("/store")}
                 >
                   Store
                 </a>
                 <a
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  onClick={() => navigateHandler("/search")}
+                  onClick={() => mobileMenuLinkClickHandler("/search")}
                 >
                   Search
                 </a>
                 <a
-                  href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  onClick={() =>
+                    user["https://localhost:7133/api/roles"] === "Seller"
+                      ? mobileMenuLinkClickHandler("/seller-center")
+                      : mobileMenuLinkClickHandler("/become-seller")
+                  }
                 >
-                  Info
+                  {user["https://localhost:7133/api/roles"] === "Seller"
+                    ? "Seller Center"
+                    : "Become a Seller"}
                 </a>
                 <a
                   href="#"
@@ -289,7 +306,9 @@ export default function NavBar() {
               <div className="py-6">
                 {isAuthenticated && user ? (
                   <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 ">
-                    <Dropdown />
+                    <Dropdown
+                      mobileMenuLinkClickHandler={mobileMenuLinkClickHandler}
+                    />
                   </a>
                 ) : (
                   <a

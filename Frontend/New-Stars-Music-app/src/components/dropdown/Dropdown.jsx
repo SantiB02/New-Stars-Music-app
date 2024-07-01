@@ -6,7 +6,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
-const Dropdown = () => {
+const Dropdown = ({ mobileMenuLinkClickHandler }) => {
   const { user, logout } = useAuth0();
   const [open, setOpen] = useState(false);
 
@@ -40,27 +40,27 @@ const Dropdown = () => {
             className="bg-third p-4 w-52 shadow-lg  absolute top-10 right-0 mr-4 rounded border"
           >
             <ul>
-              <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div
-                  onClick={() => navigateHandler("/settings")}
-                  className="flex items-center"
-                >
+              <li
+                className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black"
+                onClick={() => mobileMenuLinkClickHandler("/settings")}
+              >
+                <div className="flex items-center">
                   <IoSettingsOutline className="mr-2" /> Settings
                 </div>
               </li>
-              <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div
-                  onClick={() => navigateHandler("/profile")}
-                  className="flex items-center"
-                >
+              <li
+                className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black"
+                onClick={() => mobileMenuLinkClickHandler("/profile")}
+              >
+                <div className="flex items-center">
                   <CgProfile className="mr-2" /> Profile
                 </div>
               </li>
-              <li className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black">
-                <div
-                  onClick={() => navigateHandler("/cart")}
-                  className="flex items-center"
-                >
+              <li
+                className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black"
+                onClick={() => mobileMenuLinkClickHandler("/cart")}
+              >
+                <div className="flex items-center">
                   <MdOutlineShoppingCart className="mr-2" /> Your cart
                 </div>
               </li>

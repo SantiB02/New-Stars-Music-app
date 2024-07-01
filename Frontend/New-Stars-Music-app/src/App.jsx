@@ -26,6 +26,7 @@ import { Settings } from "./components/settings/Settings";
 import { Cart } from "./components/cart/Cart";
 import { useTheme } from "./services/contexts/ThemeProvider";
 import SellerCenter from "./components/sellerCenter/SellerCenter";
+import BecomeSeller from "./components/becomeSeller/BecomeSeller";
 
 function App() {
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
@@ -55,13 +56,13 @@ function App() {
             />
             <Route path="/info" element={<SiteInfo />} />
             <Route path="*" exact element={<PageNotFound />} />
-            <Route path="/seller-center" element={<SellerCenter />} />
 
             <Route element={<Protected />}>
               <Route path="/home" element={<Home />} />
               <Route path="/search" element={<PlayerMusic />} />
               <Route path="/store" element={<Store />} />
-
+              <Route path="/become-seller" element={<BecomeSeller />} />
+              <Route path="/seller-center" element={<SellerCenter />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/cart" element={<Cart />} />

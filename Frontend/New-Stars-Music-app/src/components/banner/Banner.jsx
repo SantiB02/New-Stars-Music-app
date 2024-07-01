@@ -6,6 +6,7 @@ import { Typography } from "@material-tailwind/react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { ensureUser } from "../../services/userService";
 import { setAuthInterceptor } from "../../api/api";
+import LoadingMessage from "../common/LoadingMessage";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -37,6 +38,10 @@ const Banner = () => {
       ensureAuthUser();
     }
   }, [isAuthenticated, user]);
+
+  if (isLoading && !isAuthenticated) {
+    return <LoadingMessage message="Loading user..." />;
+  }
 
   return (
     <div className={theme ? "bg-primary text-white" : "bg-gray-200 text-black"}>
