@@ -84,7 +84,7 @@ const Banner = () => {
                 className={
                   theme
                     ? "block cursor-pointer w-full rounded border border-secondary px-8 py-3 text-sm font-medium text-white hover:bg-secondary focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
-                    : "block cursor-pointer w-full rounded border border-secondary px-8 py-3 text-sm font-medium text-secondary hover:bg-secondary focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+                    : "block cursor-pointer w-full rounded border border-secondary px-8 py-3 text-sm font-medium text-secondary hover:bg-secondary hover:text-white focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
                 }
                 onClick={() => navigateHandler("/info")}
               >
