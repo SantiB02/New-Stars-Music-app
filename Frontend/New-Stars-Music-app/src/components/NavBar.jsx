@@ -229,7 +229,10 @@ export default function NavBar() {
           )}
 
           {isAuthenticated && user ? (
-            <Dropdown mobileMenuLinkClickHandler={mobileMenuLinkClickHandler} />
+            <Dropdown
+              mobileMenuLinkClickHandler={mobileMenuLinkClickHandler}
+              isMobile={false}
+            />
           ) : (
             <a
               className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
@@ -246,7 +249,7 @@ export default function NavBar() {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-        <div className="fixed inset-0 z-10 bg-secondary " />
+        <div className="fixed bg-blur-100 z-10 bg-secondary " />
         <Dialog.Panel className="fixed  inset-y-0 right-0 z-10 w-full overflow-y-auto  px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 bg-fourth">
           <div className="flex items-center justify-between bg-fourth">
             <a href="#" className="-m-1.5 p-1.5">
@@ -328,6 +331,7 @@ export default function NavBar() {
                   <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 ">
                     <Dropdown
                       mobileMenuLinkClickHandler={mobileMenuLinkClickHandler}
+                      isMobile={true}
                     />
                   </a>
                 ) : (

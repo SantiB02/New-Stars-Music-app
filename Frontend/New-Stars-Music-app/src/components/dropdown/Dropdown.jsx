@@ -5,8 +5,10 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { Typography } from "@material-tailwind/react";
 
-const Dropdown = ({ mobileMenuLinkClickHandler }) => {
+const Dropdown = ({ mobileMenuLinkClickHandler, isMobile }) => {
   const { user, logout } = useAuth0();
   const [open, setOpen] = useState(false);
 
@@ -26,14 +28,21 @@ const Dropdown = ({ mobileMenuLinkClickHandler }) => {
 
   return (
     <div>
-      <div className=" relative">
-        <img
-          ref={imgRef}
+      <div className="relative">
+        <div
+          className="flex items-center hover:cursor-pointer"
           onClick={() => setOpen(!open)}
-          src={user.picture}
-          alt={user.name}
-          className="h-10 w-10 object-cover border-4 border-gray-400 rounded-full hover:cursor-pointer"
-        />
+        >
+          <img
+            ref={imgRef}
+            src={user.picture}
+            alt={user.name}
+            className="h-10 w-10 object-cover border-4 border-gray-400 rounded-full"
+          />
+          {isMobile && (
+            <Typography className="ml-3 underline">{user.nickname}</Typography>
+          )}
+        </div>
         {open && (
           <div
             ref={menuRef}
@@ -61,7 +70,7 @@ const Dropdown = ({ mobileMenuLinkClickHandler }) => {
                 onClick={() => mobileMenuLinkClickHandler("/cart")}
               >
                 <div className="flex items-center">
-                  <MdOutlineShoppingCart className="mr-2" /> Your cart
+                  <ShoppingCartIcon width={16} className="mr-2" /> My Cart
                 </div>
               </li>
               <li

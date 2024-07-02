@@ -17,6 +17,7 @@ namespace Merchanmusic.Data.Entities.Products
         public string Code { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public string ArtistOrBand {  get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public DateTime LastModifiedDate { get; set; } = DateTime.Now;
         public int Stock { get; set; }
