@@ -48,7 +48,7 @@ const Banner = () => {
       <section
         className={theme ? "bg-primary text-white" : "bg-gray-200 text-black"}
       >
-        <div className="mx-auto max-w-screen-xl px-4 mt-16 lg:flex lg:mt-20 lg:items-center">
+        <div className="mx-auto max-w-screen-xl px-4 mt-10 lg:flex lg:mt-14 lg:items-center">
           <div className="mx-auto max-w-3xl text-center">
             <h1
               className={

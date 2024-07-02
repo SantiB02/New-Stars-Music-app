@@ -45,32 +45,30 @@ function App() {
       <div id={theme ? "root" : "root-ligth"}>
         <Toaster /> {/* allows us to use toast messages for every page */}
       </div>
-      <>
-        <NavBar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" exact element={<Banner />} />
-            <Route
-              path="/product-details/:productId"
-              element={<ProductDetails />}
-            />
-            <Route path="/info" element={<SiteInfo />} />
-            <Route path="*" exact element={<PageNotFound />} />
+      {isAuthenticated && <NavBar />}
+      <div className="main-content">
+        <Routes>
+          <Route path="/" exact element={<Banner />} />
+          <Route
+            path="/product-details/:productId"
+            element={<ProductDetails />}
+          />
+          <Route path="/info" element={<SiteInfo />} />
+          <Route path="*" exact element={<PageNotFound />} />
 
-            <Route element={<Protected />}>
-              <Route path="/home" element={<Home />} />
-              <Route path="/search" element={<PlayerMusic />} />
-              <Route path="/store" element={<Store />} />
-              <Route path="/become-seller" element={<BecomeSeller />} />
-              <Route path="/seller-center" element={<SellerCenter />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/cart" element={<Cart />} />
-            </Route>
-          </Routes>
-        </div>
-        <Footer />
-      </>
+          <Route element={<Protected />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/search" element={<PlayerMusic />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/become-seller" element={<BecomeSeller />} />
+            <Route path="/seller-center" element={<SellerCenter />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/cart" element={<Cart />} />
+          </Route>
+        </Routes>
+      </div>
+      <Footer />
     </>
   );
 }
