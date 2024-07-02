@@ -45,7 +45,9 @@ function App() {
       <div id={theme ? "root" : "root-ligth"}>
         <Toaster /> {/* allows us to use toast messages for every page */}
       </div>
-      {isAuthenticated && <NavBar />}
+      {isAuthenticated &&
+        (localStorage.getItem("isAccountDeleted") === null ||
+          localStorage.getItem("isAccountDeleted") === "false") && <NavBar />}
       <div className="main-content">
         <Routes>
           <Route path="/" exact element={<Banner />} />

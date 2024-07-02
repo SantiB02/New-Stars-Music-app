@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import RatingCard from "../home/RatingCard";
-import { Typography } from "@material-tailwind/react";
+import { Alert, Typography } from "@material-tailwind/react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { ensureUser } from "../../services/userService";
-import { setAuthInterceptor } from "../../api/api";
+import api, { setAuthInterceptor } from "../../api/api";
 import LoadingMessage from "../common/LoadingMessage";
+import toast from "react-hot-toast";
+import InfoIcon from "../icons/InfoIcon";
 
 const Banner = () => {
+  const [isAccountDeleted, setIsAccountDeleted] = useState(
+    localStorage.getItem("isAccountDeleted") === "true"
+  );
   const navigate = useNavigate();
   const {
     loginWithRedirect,
@@ -16,6 +21,7 @@ const Banner = () => {
     user,
     isLoading,
     getAccessTokenSilently,
+    logout,
   } = useAuth0();
   const { theme } = useTheme();
 
@@ -32,14 +38,28 @@ const Banner = () => {
   useEffect(() => {
     if (isAuthenticated && user) {
       const ensureAuthUser = async () => {
-        await ensureUser(user?.email);
-        navigateHandler("/home");
+        const response = await api.get(`users/is-deleted/${user?.sub}`);
+        const isUserDeleted = response.data;
+
+        if (!isUserDeleted) {
+          await ensureUser(user?.email);
+          navigateHandler("/home");
+        } else {
+          localStorage.setItem("isAccountDeleted", "true");
+          await logout();
+        }
       };
       ensureAuthUser();
     }
   }, [isAuthenticated, user]);
 
-  if (isLoading && !isAuthenticated) {
+  useEffect(() => {
+    if (!isAuthenticated) {
+      localStorage.removeItem("isAccountDeleted");
+    }
+  }, [isAuthenticated]);
+
+  if (isLoading) {
     return <LoadingMessage message="Loading user..." />;
   }
 
@@ -50,6 +70,20 @@ const Banner = () => {
       >
         <div className="mx-auto max-w-screen-xl px-4 mt-10 lg:flex lg:mt-14 lg:items-center">
           <div className="mx-auto max-w-3xl text-center">
+            {isAccountDeleted && (
+              <Alert className="mb-4 bg-gray-800" icon={<InfoIcon />}>
+                It seems your account has been deleted. This action will be
+                irreversible after 30 days. If you wish to recover your account,
+                please get in touch with us through{" "}
+                <a
+                  href="mailto:support@newstarsmusic.com?subject=Recover%20My%20Deleted%20Account"
+                  target="_blank"
+                  className="italic hover:underline text-orange-600"
+                >
+                  support@newstarsmusic.com
+                </a>
+              </Alert>
+            )}
             <h1
               className={
                 theme

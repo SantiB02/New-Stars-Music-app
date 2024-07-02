@@ -44,6 +44,28 @@ namespace Merchanmusic.Controllers
             }
         }
 
+        [HttpGet("is-deleted/{id}")]
+        public IActionResult IsUserDeleted([FromRoute] string id)
+        {
+            bool userExists = _userService.CheckIfUserExists(id);
+            if (userExists)
+            {
+                bool isUserDeleted = _userService.IsUserDeleted(id);
+                if (isUserDeleted)
+                {
+                    return Ok(true);
+                }
+                else
+                {
+                    return Ok(false);
+                }
+            } else
+            {
+                return NotFound($"User with id {id} doesn't exist");
+            }
+            
+        }
+
         [HttpGet("user-info")]
         public IActionResult GetUserInfo()
         {

@@ -1,11 +1,42 @@
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Button } from "@material-tailwind/react";
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogBody,
+  DialogHeader,
+  DialogFooter,
+} from "@material-tailwind/react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
+import LoadingMessage from "../common/LoadingMessage";
+import toast from "react-hot-toast";
 export const Profile = () => {
-  const { user } = useAuth0();
+  const { user, logout } = useAuth0();
   const { theme } = useTheme();
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleOpen = () => setOpen(!open);
+
+  const deleteAccountHandler = async () => {
+    setIsLoading(true);
+    try {
+      await api.delete("/users");
+      logout();
+    } catch (error) {
+      console.error("Error deleting profile");
+      toast.error(
+        "There was an error deleting your user... Please try again later!"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) return <LoadingMessage message="Deleting your account..." />;
+
   return (
     <div
       className={
@@ -55,9 +86,46 @@ export const Profile = () => {
             </div>
           )}
 
-          <div className="col-span-2 mt-6">
+          <div className="col-span-2 mt-6" onClick={handleOpen}>
             <Button color="red">Delete my profile</Button>
           </div>
+          <Dialog open={open} handler={handleOpen}>
+            <DialogHeader>
+              Are you sure you want to delete your account?
+            </DialogHeader>
+            <DialogBody>
+              Once you confirm this action, your account will be suspended for
+              30 days. After this period, it will be permanently deleted from
+              our database. If you wish to recover your account before this
+              period ends or ask for additional information, please get in touch
+              with us through{" "}
+              <a
+                href="mailto:support@newstarsmusic.com"
+                target="_blank"
+                className="italic hover:underline text-orange-600"
+              >
+                support@newstarsmusic.com
+              </a>
+              .
+            </DialogBody>
+            <DialogFooter>
+              <Button
+                variant="text"
+                color="blue-gray"
+                onClick={handleOpen}
+                className="mr-1"
+              >
+                <span>Cancel</span>
+              </Button>
+              <Button
+                variant="gradient"
+                color="red"
+                onClick={deleteAccountHandler}
+              >
+                <span>Delete my account</span>
+              </Button>
+            </DialogFooter>
+          </Dialog>
         </div>
       </div>
     </div>

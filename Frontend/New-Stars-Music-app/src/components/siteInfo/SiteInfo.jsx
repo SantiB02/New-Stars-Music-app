@@ -1,32 +1,47 @@
+import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { Typography } from "@material-tailwind/react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const SiteInfo = () => {
+  const navigate = useNavigate();
+
   return (
-    <div>
-      <Typography variant="h1">
-        We are a company that specializes in music merchandising.
+    <div className="max-w-7xl mx-auto">
+      <div
+        className="flex hover:cursor-pointer ml-7 mt-6"
+        onClick={() => navigate("/")}
+      >
+        <ArrowLeftCircleIcon width={25} />
+        <Typography className="ml-1 hover:underline">Back to Home</Typography>
+      </div>
+
+      <Typography variant="h3" className="mt-4 mx-8 font-light">
+        About Our Site
       </Typography>
-      <Typography>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores animi
-        fugit cum ducimus quas rem illo, atque a culpa iste! Obcaecati animi
-        nihil possimus culpa dolore repellat, quisquam fugit iusto. Lorem ipsum
-        dolor sit amet consectetur adipisicing elit. Dignissimos, impedit
-        obcaecati. Similique cum nostrum nulla delectus fugiat blanditiis quasi,
-        est placeat deserunt vitae quisquam, tenetur quo, officia voluptatibus
-        iure deleniti? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Praesentium quaerat accusamus ea libero, dignissimos hic nobis
-        accusantium, aspernatur omnis ipsam dolore distinctio maxime nulla
-        molestiae illo doloribus dolorum minus impedit.
+      <Typography className="mx-8 text-justify">
+        Welcome to our unique online store where music meets merchandise! Here,
+        you can explore your favorite artists and discover a variety of products
+        associated with them. From exclusive band t-shirts to limited edition
+        vinyl records, our site offers a one-stop shop for music lovers and
+        merch enthusiasts alike. But that&apos;s not all - we also empower users
+        to become Sellers, allowing them to upload and sell their own products
+        on our platform. Whether you&apos;re an artist looking to connect with
+        fans or a fan wanting to show support, our site is the perfect place for
+        you.
       </Typography>
-      <Typography>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur
-        corporis dolorem molestias, saepe at totam quaerat ipsam fuga suscipit
-        accusamus qui quas culpa odit ipsa voluptates quasi excepturi iusto
-        tempora. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Placeat porro molestias eveniet necessitatibus nesciunt reiciendis et
-        mollitia delectus exercitationem error rem, totam, facilis enim
-        reprehenderit. Corrupti tenetur quos porro omnis!
+      <Typography variant="h3" className="mt-4 mx-8 font-light">
+        Our Story
+      </Typography>
+      <Typography className="mx-8 text-justify">
+        We are a group of five friends from Argentina who share a deep passion
+        for music and creativity. One day, we came up with the idea to create a
+        space where music and merchandise could coexist, offering fans a unique
+        shopping experience and giving artists a new way to reach their
+        audience. After months of brainstorming and hard work, we brought this
+        vision to life. Our mission is to create a community where artists and
+        fans can connect through the power of music and merchandise. Thank you
+        for being a part of our journey!
       </Typography>
     </div>
   );
