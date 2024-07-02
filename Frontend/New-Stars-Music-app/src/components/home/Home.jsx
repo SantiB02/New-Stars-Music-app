@@ -4,7 +4,7 @@ import Music from "./Music";
 import { getAllProducts } from "../../services/productsService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 
 const Home = () => {
@@ -12,6 +12,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth0();
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -38,11 +39,17 @@ const Home = () => {
           : "flex flex-col min-h-screen bg-gray-200 text-black"
       }
     >
-      <div className="flex-grow overflow-auto flex flex-col md:flex-row mb-1">
+      <div className="flex-grow overflow-auto flex flex-col md:flex-row mt-4 mb-10">
         <div className="md:w-1/2 p-4">
-          <Typography variant="h2" className="font-light">
+          <Typography variant="h2" className="ml-6 font-light">
             Welcome back,{" "}
-            <span className="text-orange-800">{user.nickname}</span>!
+            <a
+              className="text-orange-800 cursor-pointer hover:underline"
+              onClick={() => navigate("/profile")}
+            >
+              {user.nickname}
+            </a>
+            !
           </Typography>
           <div className="mt-8">
             <FeaturedProducts products={products} isLoading={isLoading} />

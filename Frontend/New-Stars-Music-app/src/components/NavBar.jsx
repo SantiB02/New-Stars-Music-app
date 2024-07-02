@@ -7,6 +7,7 @@ import {
   ChartPieIcon,
   CursorArrowRaysIcon,
   FingerPrintIcon,
+  ShoppingCartIcon,
   SquaresPlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -23,6 +24,8 @@ import { FaCompactDisc } from "react-icons/fa";
 import { useAuth0 } from "@auth0/auth0-react";
 import Dropdown from "./dropdown/Dropdown";
 import ToggleTheme from "./common/ToggleTheme";
+import { Badge, Tooltip } from "@material-tailwind/react";
+import { useCart } from "../hooks/useCart";
 
 const products = [
   {
@@ -68,6 +71,7 @@ export default function NavBar() {
   const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
 
   const navigate = useNavigate();
+  const { cart } = useCart();
 
   const navigateHandler = (path) => {
     navigate(path);
@@ -114,7 +118,7 @@ export default function NavBar() {
         {isAuthenticated && user && (
           <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
             <Popover className="relative">
-              <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white hover:cursor-pointer">
+              <Popover.Button className="flex hover:text-gray-300 items-center gap-x-1 text-sm font-semibold leading-6 text-white hover:cursor-pointer">
                 Product
                 <ChevronDownIcon
                   className="h-5 w-5 flex-none text-gray-400"
@@ -177,20 +181,20 @@ export default function NavBar() {
             </Popover>
 
             <a
-              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+              className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
               onClick={() => navigateHandler("/search")}
             >
               Search
             </a>
 
             <a
-              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+              className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
               onClick={() => navigateHandler("/store")}
             >
               Store
             </a>
             <a
-              className="text-sm font-semibold leading-6 text-white hover:cursor-pointer"
+              className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
               onClick={() =>
                 user["https://localhost:7133/api/roles"] === "Seller"
                   ? navigateHandler("/seller-center")
@@ -208,6 +212,22 @@ export default function NavBar() {
         )}
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          {cart.length > 0 && (
+            <Badge
+              content={cart.length}
+              color="white"
+              className="mr-6 mt-1 select-none"
+            >
+              <Tooltip content="My Cart" className="bg-gray-700">
+                <ShoppingCartIcon
+                  width={30}
+                  className="mr-6 select-none cursor-pointer hover:text-gray-300"
+                  onClick={() => navigateHandler("/cart")}
+                />
+              </Tooltip>
+            </Badge>
+          )}
+
           {isAuthenticated && user ? (
             <Dropdown mobileMenuLinkClickHandler={mobileMenuLinkClickHandler} />
           ) : (

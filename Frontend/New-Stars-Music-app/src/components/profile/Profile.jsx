@@ -10,8 +10,8 @@ export const Profile = () => {
     <div
       className={
         theme
-          ? "flex items-center justify-center min-h-screen "
-          : "flex items-center justify-center min-h-screen bg-gray-200"
+          ? "flex items-center justify-center mt-16"
+          : "flex items-center justify-center mt-16 bg-gray-200"
       }
     >
       <div

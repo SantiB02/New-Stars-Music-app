@@ -19,12 +19,11 @@ const reducer = (state, action) => {
 
       if (productInCartIndex >= 0) {
         const newState = structuredClone(state);
-        newState[productInCartIndex].quantity++;
         updateLocalStorage(newState);
         return newState;
       }
 
-      const newState = [...state, { ...actionPayload, quantity: 1 }];
+      const newState = [...state, actionPayload];
       updateLocalStorage(newState);
       return newState;
 

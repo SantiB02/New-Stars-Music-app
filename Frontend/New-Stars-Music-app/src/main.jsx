@@ -6,6 +6,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { getAuthSettings } from "./api/settings-api.js";
 import ServerError from "./components/error/ServerError.jsx";
 import ThemeProvider from "./services/contexts/ThemeProvider.jsx";
+import { CartProvider } from "./services/contexts/CartContext.jsx";
 import { BrowserRouter, useLocation } from "react-router-dom";
 
 const Auth0ProviderWithRouter = ({ children }) => {
@@ -46,7 +47,9 @@ const AppWrapper = () => (
   <BrowserRouter>
     <Auth0ProviderWithRouter>
       <ThemeProvider>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </ThemeProvider>
     </Auth0ProviderWithRouter>
   </BrowserRouter>
