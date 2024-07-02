@@ -38,10 +38,14 @@ const Banner = () => {
   useEffect(() => {
     if (isAuthenticated && user) {
       const ensureAuthUser = async () => {
-        const response = await api.get(`users/is-deleted/${user?.sub}`);
+        const response = await api.get(`users/is-deleted/${user?.sub}`, {
+          validateStatus: (status) => {
+            return status === 200 || status === 404; // Accept only 200 y 404 as valid responses (to avoid throwing an error)
+          },
+        });
         const isUserDeleted = response.data;
 
-        if (!isUserDeleted) {
+        if (!isUserDeleted || response.status === 404) {
           await ensureUser(user?.email);
           navigateHandler("/home");
         } else {

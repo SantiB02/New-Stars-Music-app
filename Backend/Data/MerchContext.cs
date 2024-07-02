@@ -35,18 +35,32 @@ namespace Merchanmusic.Data
                 {
                     Email = "leomattsantana@gmail.com",
                     Address = "Rivadavia 111",
+                    City = "Rosario",
+                    PostalCode = "S2000",
+                    Apartment = "8A",
+                    Phone = "+5493416271920",
+                    Country = "Argentina",
                     Id = "default-identifier-3845746332",
                 },
                 new Client
                 {
                     Email = "santi@gmail.com",
                     Address = "J.b.justo 111",
+                    City = "Rosario",
+                    PostalCode = "S2000",
+                    Phone = "+5493413457612",
+                    Country = "Argentina",
                     Id = "default-identifier-945711463132",
                 },
                 new Client
                 {
                     Email = "jgarcia@gmail.com",
                     Address = "San Martin 111",
+                    City = "Rosario",
+                    PostalCode = "S2000",
+                    Apartment = "7B",
+                    Phone = "+5493415678119",
+                    Country = "Argentina",
                     Id = "default-identifier-73619823",
                 });
 
@@ -54,7 +68,6 @@ namespace Merchanmusic.Data
                 new Admin
                 {
                     Email = "bdiaz@gmail.com",
-                    Address = "San Martin 135",
                     Id = "default-identifier-0012827345",
                 });
 
@@ -64,6 +77,11 @@ namespace Merchanmusic.Data
                 Email = "katyperry@gmail.com",
                 Id = "default-identifier-7771829382",
                 Address = "San Martin 111",
+                City = "Rosario",
+                PostalCode = "S2000",
+                Phone = "+5493416781203",
+                Country = "Argentina",
+                BankAccountNumber = "378364817263174"
             });
 
             modelBuilder.Entity<Product>()

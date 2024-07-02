@@ -3,6 +3,7 @@ using System;
 using Merchanmusic.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Merchanmusic.Migrations
 {
     [DbContext(typeof(MerchContext))]
-    partial class MerchContextModelSnapshot : ModelSnapshot
+    [Migration("20240702225607_added location data to User")]
+    partial class addedlocationdatatoUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,10 +115,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "ACDC",
                             Category = "T-shirt",
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 7, 2, 20, 35, 15, 819, DateTimeKind.Local).AddTicks(3687),
+                            CreationDate = new DateTime(2024, 7, 2, 19, 56, 6, 874, DateTimeKind.Local).AddTicks(4647),
                             Description = "Remera ACDC algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 2, 20, 35, 15, 819, DateTimeKind.Local).AddTicks(3697),
+                            LastModifiedDate = new DateTime(2024, 7, 2, 19, 56, 6, 874, DateTimeKind.Local).AddTicks(4660),
                             Name = "Remera ACDC",
                             Price = 12500.71m,
                             Sales = 237,
@@ -130,10 +132,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "Mozart",
                             Category = "T-shirt",
                             Code = "18az4",
-                            CreationDate = new DateTime(2024, 7, 2, 20, 35, 15, 819, DateTimeKind.Local).AddTicks(3703),
+                            CreationDate = new DateTime(2024, 7, 2, 19, 56, 6, 874, DateTimeKind.Local).AddTicks(4667),
                             Description = "Remera Mozart algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 2, 20, 35, 15, 819, DateTimeKind.Local).AddTicks(3704),
+                            LastModifiedDate = new DateTime(2024, 7, 2, 19, 56, 6, 874, DateTimeKind.Local).AddTicks(4667),
                             Name = "Remera Mozart",
                             Price = 23763.34m,
                             Sales = 129,
@@ -147,10 +149,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "Beethoven",
                             Category = "T-shirt",
                             Code = "17zz89",
-                            CreationDate = new DateTime(2024, 7, 2, 20, 35, 15, 819, DateTimeKind.Local).AddTicks(3706),
+                            CreationDate = new DateTime(2024, 7, 2, 19, 56, 6, 874, DateTimeKind.Local).AddTicks(4669),
                             Description = "Remera Beethoven algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 2, 20, 35, 15, 819, DateTimeKind.Local).AddTicks(3706),
+                            LastModifiedDate = new DateTime(2024, 7, 2, 19, 56, 6, 874, DateTimeKind.Local).AddTicks(4670),
                             Name = "Remera Beethoven",
                             Price = 12500.99m,
                             Sales = 83,
@@ -164,10 +166,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "LOVG",
                             Category = "T-shirt",
                             Code = "ax34d",
-                            CreationDate = new DateTime(2024, 7, 2, 20, 35, 15, 819, DateTimeKind.Local).AddTicks(3708),
+                            CreationDate = new DateTime(2024, 7, 2, 19, 56, 6, 874, DateTimeKind.Local).AddTicks(4672),
                             Description = "Remera overside negra",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 2, 20, 35, 15, 819, DateTimeKind.Local).AddTicks(3709),
+                            LastModifiedDate = new DateTime(2024, 7, 2, 19, 56, 6, 874, DateTimeKind.Local).AddTicks(4673),
                             Name = "Remera LOVG",
                             Price = 13200.11m,
                             Sales = 421,
@@ -354,9 +356,6 @@ namespace Merchanmusic.Migrations
                 {
                     b.HasBaseType("Merchanmusic.Data.Entities.User");
 
-                    b.Property<string>("BankAccountNumber")
-                        .HasColumnType("longtext");
-
                     b.HasDiscriminator().HasValue("Seller");
 
                     b.HasData(
@@ -369,8 +368,7 @@ namespace Merchanmusic.Migrations
                             Email = "katyperry@gmail.com",
                             Phone = "+5493416781203",
                             PostalCode = "S2000",
-                            State = true,
-                            BankAccountNumber = "378364817263174"
+                            State = true
                         });
                 });
 
