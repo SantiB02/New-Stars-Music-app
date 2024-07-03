@@ -1,4 +1,5 @@
-﻿using Merchanmusic.Data.Entities.Products;
+﻿using Merchanmusic.Data.Entities;
+using Merchanmusic.Data.Entities.Products;
 using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +15,13 @@ namespace Merchanmusic.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly IUserService _userService;
 
-        public ProductController(IProductService productService)
+
+        public ProductController(IProductService productService, IUserService userService)
         {
             _productService = productService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -54,7 +58,8 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-name/{name}")]
         public IActionResult GetProductByName(string name)
         {
-            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string role = _userService.GetRoleById(subClaim);
             if (role == "Admin" || role == "Client")
             {
                 var product = _productService.GetProductByName(name);
@@ -69,10 +74,11 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpGet("productbyseller/{idSeller}")]
-        public IActionResult GetProductBySeller(string idSeller)
+        [HttpGet("by-seller")]
+        public IActionResult GetProductBySeller()
         {
-            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            string idSeller = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string role = _userService.GetRoleById(idSeller); 
             if (role == "Seller")
             {
                 var product = _productService.GetProductBySeller(idSeller);
@@ -91,7 +97,9 @@ namespace Merchanmusic.Controllers
         [HttpPost]
         public IActionResult CreateProduct([FromBody] ProductCreateDto productDto)
         {
-            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string role = _userService.GetRoleById(subClaim);
+
             if (role == "Admin" || role == "Seller")
             {
                 if (productDto.Name == null || productDto.Price <= 0)
@@ -130,7 +138,8 @@ namespace Merchanmusic.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
-            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string role = _userService.GetRoleById(subClaim);
             if (role == "Admin")
             {
                 try

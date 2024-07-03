@@ -33,12 +33,12 @@ namespace Merchanmusic.Controllers
         public IActionResult EnsureUser([FromRoute] string email)
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string roleClaim = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            string role = _userService.GetRoleById(subClaim);
             Client client = new()
             {
                 Id = subClaim,
                 Email = email,
-                Role = roleClaim
+                Role = role
             };
 
             bool isUserEnsured = _userService.EnsureUser(client);
@@ -97,9 +97,8 @@ namespace Merchanmusic.Controllers
         public IActionResult GetClients([FromRoute] string role)
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string loggedUserRole = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            string loggedUserRole = _userService.GetRoleById(subClaim);
             User loggedUser = _userService.GetUserById(subClaim);
-
             if (loggedUserRole == "Admin" && loggedUser.State)
             {
                 return Ok(_userService.GetUsersByRole(role));
