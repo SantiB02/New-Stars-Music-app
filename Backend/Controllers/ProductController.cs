@@ -72,9 +72,9 @@ namespace Merchanmusic.Controllers
         [HttpGet("productbyseller/{idSeller}")]
         public IActionResult GetProductBySeller(string idSeller)
         {
-          //  string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
-          //  if (role == "Seller")
-          //  {
+            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            if (role == "Seller")
+            {
                 var product = _productService.GetProductBySeller(idSeller);
 
                 if (product == null)
@@ -83,8 +83,8 @@ namespace Merchanmusic.Controllers
                 }
 
                 return Ok(product);
-           // }
-        //    return Forbid();
+            }
+            return Forbid();
         }
 
 
