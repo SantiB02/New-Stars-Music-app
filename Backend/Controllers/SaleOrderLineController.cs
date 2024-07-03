@@ -1,4 +1,5 @@
 ﻿using Merchanmusic.Data.Entities;
+using Merchanmusic.Services.Implementations;
 using Merchanmusic.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +12,19 @@ namespace Merchanmusic.Controllers
     public class SaleOrderLineController : ControllerBase
     {
         private readonly ISaleOrderLineService _solService;
+        private readonly IUserService _userService;
 
-        public SaleOrderLineController(ISaleOrderLineService solService)
+        public SaleOrderLineController(ISaleOrderLineService solService, IUserService userService)
         {
             _solService = solService;
+            _userService = userService;
         }
 
         [HttpGet("{saleOrderId}")]
         public IActionResult GetAllBySaleOrder([FromRoute] int saleOrderId)
         {
-            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string role = _userService.GetRoleById(subClaim);
             if (role == "Admin")
             {
                 try
@@ -44,7 +48,8 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-product/{productId}")]
         public IActionResult GetAllByProduct([FromRoute] int productId)
         {
-            string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string role = _userService.GetRoleById(subClaim);
             if (role == "Admin")
             {
                 try
