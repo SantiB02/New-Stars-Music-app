@@ -86,8 +86,12 @@ export const Profile = () => {
               <p>{user.phone_number}</p>
             </div>
           )}
-
-          <div className="col-span-2 mt-6" onClick={handleOpen}>
+          <div className="col-span-2 mt-6">
+            <Button variant="gradient" color="blue">
+              <span>Changes my account</span>
+            </Button>
+          </div>
+          <div className="col-span-2 mt-2" onClick={handleOpen}>
             <Button color="red">Delete my profile</Button>
           </div>
           <Dialog open={open} handler={handleOpen}>

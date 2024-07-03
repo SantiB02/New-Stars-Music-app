@@ -65,7 +65,7 @@ const ProductCard = ({ product }) => {
         <img
           src={product.imageLink}
           alt="card-image"
-          className="h-full w-full object-cover bg-gray-800"
+          className="h-full w-full object-cover bg-gray-800 "
         />
       </CardHeader>
       <CardBody>
