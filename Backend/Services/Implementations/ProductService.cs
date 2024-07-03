@@ -1,5 +1,7 @@
 ﻿using Merchanmusic.Data;
+using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Entities.Products;
+using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Interfaces;
 
 namespace Merchanmusic.Services.Implementations
@@ -28,7 +30,8 @@ namespace Merchanmusic.Services.Implementations
                 return _context.Products.FirstOrDefault(p => p.Name == name);
             }
 
-            public int CreateProduct(Product product)
+
+        public int CreateProduct(Product product)
             {
                 _context.Products.Add(product);
                 _context.SaveChanges();
@@ -47,12 +50,56 @@ namespace Merchanmusic.Services.Implementations
                 }
             }
 
-            public Product UpdateProduct(Product product)
+        public void UpdateProduct(ProductUpdateDto productUpdateDto)
+        {
+            var product = _context.Products.FirstOrDefault(x => x.Id == productUpdateDto.ProductId);
+
+            if (product == null)
             {
-                _context.Update(product);
-                _context.SaveChanges();
-                return product;
+                throw new Exception("Product not found");
             }
 
+            if (product.SellerId != productUpdateDto.SellerId)
+            {
+                throw new Exception("SellerId mismatch");
+            }
+
+            product.Name = productUpdateDto.Name;
+            product.Description = productUpdateDto.Description;
+            product.Price = productUpdateDto.Price;
+            product.Stock = productUpdateDto.Stock;
+            product.Category = productUpdateDto.Category;
+            product.ImageLink = productUpdateDto.ImageLink;
+
+            _context.Products.Update(product);
+
+            _context.SaveChanges();
+
+            //return product;
         }
+
+        public List<Product> GetProductBySeller(string sellerId)
+        {
+            return _context.Products.Where(x => x.SellerId == sellerId).ToList();
+        }
+
+        //public void DeleteProductBySeller(int id)
+        //{
+        //    var productToDelete = _context.Products.SingleOrDefault(p => p.Id == id);
+
+        //    if (productToDelete != null)
+        //    {
+        //        _context.Products.Remove(productToDelete);
+        //        _context.SaveChanges();
+        //    }
+        //}
+
+        //public Product UpdateProductBySeller(ProductUpdateDto productDto, string sellerId)
+        //{
+        //    _context.Update(product);
+        //    _context.SaveChanges();
+        //    return product;
+        //}
+
+    }
 }
