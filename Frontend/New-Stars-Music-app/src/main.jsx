@@ -8,24 +8,23 @@ import ServerError from "./components/error/ServerError.jsx";
 import ThemeProvider from "./services/contexts/ThemeProvider.jsx";
 import { CartProvider } from "./services/contexts/CartContext.jsx";
 import { BrowserRouter, useLocation } from "react-router-dom";
+import LoadingMessage from "./components/common/LoadingMessage.jsx";
 
-const Auth0ProviderWithRouter = ({ children }) => {
+const AppProviders = ({ children }) => {
   const location = useLocation();
   const [authSettings, setAuthSettings] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getAuthSettings()
-      .then((settings) => setAuthSettings(settings))
-      .catch((err) => setError(err));
+    getAuthSettings(setError).then((settings) => setAuthSettings(settings));
   }, []);
 
-  if (error) {
-    return <ServerError />;
+  if (error !== null) {
+    return <ServerError errorCode={error} />;
   }
 
   if (!authSettings) {
-    return <div>Loading...</div>;
+    return <LoadingMessage message="Loading" />;
   }
 
   return (
@@ -38,20 +37,18 @@ const Auth0ProviderWithRouter = ({ children }) => {
         request_url: window.location.origin + location.pathname,
       }}
     >
-      {children}
+      <ThemeProvider>
+        <CartProvider>{children}</CartProvider>
+      </ThemeProvider>
     </Auth0Provider>
   );
 };
 
 const AppWrapper = () => (
   <BrowserRouter>
-    <Auth0ProviderWithRouter>
-      <ThemeProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
-      </ThemeProvider>
-    </Auth0ProviderWithRouter>
+    <AppProviders>
+      <App />
+    </AppProviders>
   </BrowserRouter>
 );
 
