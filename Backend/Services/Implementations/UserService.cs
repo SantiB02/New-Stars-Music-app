@@ -15,6 +15,12 @@ namespace Merchanmusic.Services.Implementations
             _context = context;
         }
 
+        public string GetRoleById(string id)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Id == id);
+            return user.Role;
+        }
+
         public bool IsUserDeleted(string id)
         {
             return _context.Users.Any(u => u.Id == id && u.State == false);

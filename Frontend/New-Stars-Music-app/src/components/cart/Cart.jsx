@@ -49,12 +49,12 @@ export const Cart = () => {
             </CardHeader>
             <CardBody>
               <Typography>{cart.description}</Typography>
-              <Typography>{cart.quantity}</Typography>
+              <Typography>Quantity: {cart.quantity}</Typography>
               <Typography>
-                <b>Price unit:</b>${cart.price}
+                <b>Unit price: </b>${cart.price}
               </Typography>
               <Typography>
-                <b>Price total:</b> ${cart.price * cart.quantity}
+                <b>Total price: </b> ${cart.price * cart.quantity}
               </Typography>
             </CardBody>
             <CardFooter className="mt-2 flex justify-center">

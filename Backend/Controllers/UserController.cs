@@ -22,6 +22,13 @@ namespace Merchanmusic.Controllers
             _userService = userService;
         }
 
+        [HttpGet("role")]
+        public IActionResult GetRoleById()
+        {
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return Ok(_userService.GetRoleById(subClaim));
+        }
+
         [HttpPost("ensure-user/{email}")]
         public IActionResult EnsureUser([FromRoute] string email)
         {

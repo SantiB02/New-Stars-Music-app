@@ -9,6 +9,7 @@ import { Typography } from "@material-tailwind/react";
 import LoadingMessage from "../common/LoadingMessage";
 import api, { setAuthInterceptor } from "../../api/api";
 import { ensureUser } from "../../services/userService";
+import { useRoles } from "../../hooks/useRoles";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,7 @@ const Home = () => {
   );
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const userRole = useRoles(getAccessTokenSilently);
 
   useEffect(() => {
     if (!isLoading) {
@@ -37,7 +39,7 @@ const Home = () => {
       }
     };
     const ensureAuthUser = async () => {
-      const response = await api.get(`users/is-deleted/${user?.sub}`, {
+      const response = await api.get(`/users/is-deleted/${user?.sub}`, {
         validateStatus: (status) => {
           return status === 200 || status === 404; // Accept only 200 y 404 as valid responses (to avoid throwing an error)
         },
@@ -85,7 +87,7 @@ const Home = () => {
             >
               {user.nickname}
             </a>
-            !
+            ! You are a {userRole}!
           </Typography>
           <div className="mt-8">
             <FeaturedProducts products={products} isLoading={isLoadingPage} />
