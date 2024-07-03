@@ -32,7 +32,7 @@ const AppProviders = ({ children }) => {
       domain={authSettings.domain}
       clientId={authSettings.clientId}
       authorizationParams={{
-        redirect_uri: window.location.origin,
+        redirect_uri: "http://localhost:5173/home",
         audience: "https://dev-a64glq5ygldhuy1g.us.auth0.com/api/v2/",
         request_url: window.location.origin + location.pathname,
       }}

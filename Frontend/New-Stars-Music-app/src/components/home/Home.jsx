@@ -6,6 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
+import LoadingMessage from "../common/LoadingMessage";
 
 const Home = () => {
   const [products, setProducts] = useState([]);

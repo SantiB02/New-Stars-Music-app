@@ -91,7 +91,7 @@ const BecomeSeller = () => {
       </Typography>
       {/* onclick: navegar a "/seller-center", desloguearse y volverse a loguear */}
       <Button className="bg-orange-800 mt-6 ml-8" onClick={handleOpen}>
-        Become a Seller
+        Create Seller Request
       </Button>{" "}
       <Dialog
         size="xs"
@@ -102,15 +102,13 @@ const BecomeSeller = () => {
         <Card className="mx-auto w-full max-w-[24rem]">
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" color="blue-gray">
-              Start selling with us now!
+              Seller Request
             </Typography>
-            <Typography
-              className="font-normal"
-              variant="paragraph"
-              color="gray"
-            >
-              Enter some personal information to proceed. You will need to
-              create your seller account after submiting this form.
+            <Typography className="text-sm" color="gray">
+              Enter some personal information to proceed. Your data will be
+              reviewed by our staff within 48 hours. You will receive a
+              confirmation email after your seller account has been successfully
+              activated.
             </Typography>
             <Typography className="-mb-2" variant="h6">
               Your Location
@@ -157,7 +155,7 @@ const BecomeSeller = () => {
           </CardBody>
           <CardFooter className="pt-0">
             <Button variant="gradient" onClick={handleOpen} fullWidth>
-              Become a Seller
+              Submit Seller Request
             </Button>
           </CardFooter>
         </Card>

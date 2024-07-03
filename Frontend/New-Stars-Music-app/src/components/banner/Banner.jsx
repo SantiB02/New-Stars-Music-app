@@ -45,11 +45,12 @@ const Banner = () => {
         });
         const isUserDeleted = response.data;
 
+        console.log("IS DELETED", isUserDeleted);
+
         if (!isUserDeleted || response.status === 404) {
-          await ensureUser(user?.email);
-          navigateHandler("/home");
+          ensureUser(user?.email);
         } else {
-          localStorage.setItem("isAccountDeleted", "true");
+          localStorage.setItem("isAccountDeleted", "true"); //NUNCA LLEGA A ESTE CÓDIGO! USUARIO BORRADO SE PUEDE LOGUEAR IGUAL. ARREGLAR
           await logout();
         }
       };
