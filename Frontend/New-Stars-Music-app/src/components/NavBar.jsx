@@ -82,6 +82,8 @@ export default function NavBar() {
     setMobileMenuOpen(false);
   };
 
+  if (localStorage.getItem("isAccountDeleted") === "true") return;
+
   return (
     <header>
       <nav

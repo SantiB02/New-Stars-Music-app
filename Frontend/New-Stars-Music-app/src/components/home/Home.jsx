@@ -7,30 +7,65 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import LoadingMessage from "../common/LoadingMessage";
+import api, { setAuthInterceptor } from "../../api/api";
+import { ensureUser } from "../../services/userService";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth0();
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
+  const { user, getAccessTokenSilently, isLoading, logout } = useAuth0();
+  const [isAccountDeleted, setIsAccountDeleted] = useState(
+    localStorage.getItem("isAccountDeleted") === "true"
+  );
   const { theme } = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
     const fetchProducts = async () => {
-      setIsLoading(true);
       try {
         const allProducts = await getAllProducts();
         setProducts(allProducts);
         console.log("USER", user);
       } catch (error) {
         console.error("Error fetching all products:", error);
-      } finally {
-        setIsLoading(false);
+      }
+    };
+    const ensureAuthUser = async () => {
+      const response = await api.get(`users/is-deleted/${user?.sub}`, {
+        validateStatus: (status) => {
+          return status === 200 || status === 404; // Accept only 200 y 404 as valid responses (to avoid throwing an error)
+        },
+      });
+      const isUserDeleted = response.data;
+
+      if (!isUserDeleted || response.status === 404) {
+        localStorage.removeItem("isAccountDeleted");
+        ensureUser(user?.email);
+      } else {
+        localStorage.setItem("isAccountDeleted", "true");
+        await logout();
       }
     };
 
-    fetchProducts();
-  }, []);
+    const initialize = async () => {
+      setIsLoadingPage(true);
+      await ensureAuthUser();
+      await fetchProducts();
+      setIsLoadingPage(false);
+    };
+
+    if (user) {
+      initialize();
+    }
+  }, [user, logout]);
+
+  if (isLoadingPage) return <LoadingMessage message="Loading..." />;
 
   return (
     <div
@@ -53,7 +88,7 @@ const Home = () => {
             !
           </Typography>
           <div className="mt-8">
-            <FeaturedProducts products={products} isLoading={isLoading} />
+            <FeaturedProducts products={products} isLoading={isLoadingPage} />
           </div>
         </div>
         <div className="md:w-1/2 p-4">

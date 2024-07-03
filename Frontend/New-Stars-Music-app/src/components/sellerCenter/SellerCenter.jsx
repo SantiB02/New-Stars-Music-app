@@ -13,15 +13,6 @@ const SellerCenter = () => {
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const ensureAuthUser = async () => {
-        await ensureUser(user?.email);
-      };
-      ensureAuthUser();
-    }
-  }, [isAuthenticated, user]);
-
   return (
     <div>
       SellerCenter

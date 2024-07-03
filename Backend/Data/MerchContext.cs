@@ -15,7 +15,6 @@ namespace Merchanmusic.Data
         public DbSet<Seller> Sellers { get; set; }
         public DbSet<SaleOrderLine> SaleOrderLines { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
 
         //Acá estamos llamando al constructor de DbContext que es el que acepta las opciones

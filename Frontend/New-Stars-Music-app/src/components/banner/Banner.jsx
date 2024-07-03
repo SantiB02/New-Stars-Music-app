@@ -15,14 +15,7 @@ const Banner = () => {
     localStorage.getItem("isAccountDeleted") === "true"
   );
   const navigate = useNavigate();
-  const {
-    loginWithRedirect,
-    isAuthenticated,
-    user,
-    isLoading,
-    getAccessTokenSilently,
-    logout,
-  } = useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   const { theme } = useTheme();
 
   const navigateHandler = (path) => {
@@ -30,43 +23,12 @@ const Banner = () => {
   };
 
   useEffect(() => {
-    if (!isLoading) {
-      setAuthInterceptor(getAccessTokenSilently);
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const ensureAuthUser = async () => {
-        const response = await api.get(`users/is-deleted/${user?.sub}`, {
-          validateStatus: (status) => {
-            return status === 200 || status === 404; // Accept only 200 y 404 as valid responses (to avoid throwing an error)
-          },
-        });
-        const isUserDeleted = response.data;
-
-        console.log("IS DELETED", isUserDeleted);
-
-        if (!isUserDeleted || response.status === 404) {
-          ensureUser(user?.email);
-        } else {
-          localStorage.setItem("isAccountDeleted", "true"); //NUNCA LLEGA A ESTE CÓDIGO! USUARIO BORRADO SE PUEDE LOGUEAR IGUAL. ARREGLAR
-          await logout();
-        }
-      };
-      ensureAuthUser();
-    }
-  }, [isAuthenticated, user]);
-
-  useEffect(() => {
     if (!isAuthenticated) {
       localStorage.removeItem("isAccountDeleted");
+    } else {
+      navigateHandler("/home");
     }
   }, [isAuthenticated]);
-
-  if (isLoading) {
-    return <LoadingMessage message="Loading user..." />;
-  }
 
   return (
     <div className={theme ? "bg-primary text-white" : "bg-gray-200 text-black"}>

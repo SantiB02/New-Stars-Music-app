@@ -21,6 +21,7 @@ export const Profile = () => {
   const handleOpen = () => setOpen(!open);
 
   const deleteAccountHandler = async () => {
+    setOpen(false);
     setIsLoading(true);
     try {
       await api.delete("/users");
