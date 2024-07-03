@@ -5,10 +5,10 @@
   position: relative;
   min-height: 100vh;
 }
-:root-ligth {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    color: black;
-    background-color:#eeeeee ;
-    position: relative;
-    min-height: 100vh;
-  }
+.root-light {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: black;
+  background-color: #eeeeee;
+  position: relative;
+  min-height: 100vh;
+}

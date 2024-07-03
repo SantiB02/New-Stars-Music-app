@@ -26,7 +26,9 @@ const Store = () => {
 
   return (
     <div
-      className={theme ? "min-h-screen" : "min-h-screen bg-gray-200 text-black"}
+      className={
+        theme ? "min-h-screen pt-4" : "min-h-screen pt-4 bg-gray-200 text-black"
+      }
     >
       <div>
         <h1 className="text-3xl text-center">Welcome to our store!</h1>

@@ -103,25 +103,38 @@ namespace Merchanmusic.Controllers
 
         [HttpPut("client")]
         public IActionResult UpdateClient([FromBody] ClientUpdateDto clientUpdateDto)
-        {    
-            Client clientToUpdate = new Client()
-            {
-                Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value,
-                Address = clientUpdateDto.Address,
-            };
-            _userService.UpdateUser(clientToUpdate);
+        {
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var existingClient = _userService.GetUserById(subClaim);
+
+            existingClient.Address = clientUpdateDto.Address;
+            existingClient.Apartment = clientUpdateDto.Apartment;
+            existingClient.Country = clientUpdateDto.Country;
+            existingClient.City = clientUpdateDto.City;
+            existingClient.PostalCode = clientUpdateDto.PostalCode;
+            existingClient.Phone = clientUpdateDto.Phone;
+            existingClient.WaitingValidation = clientUpdateDto.WaitingValidation;
+
+            _userService.UpdateUser(existingClient);
             return Ok();
         }
 
+        //[HttpPut("upgrade-client")] PARA QUE ADMIN CONVIERTA A CLIENT EN SELLER
+
         [HttpPut("seller")]
-        public IActionResult UpdateSeller([FromBody] ClientUpdateDto clientUpdateDto)
+        public IActionResult UpdateSeller([FromBody] SellerUpdateDto sellerUpdateDto)
         {
-            Client clientToUpdate = new Client()
-            {
-                Id = this.User.FindFirst(ClaimTypes.NameIdentifier).Value,
-                Address = clientUpdateDto.Address,
-            };
-            _userService.UpdateUser(clientToUpdate);
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var existingSeller = _userService.GetUserById(subClaim);
+
+            existingSeller.Address = sellerUpdateDto.Address;
+            existingSeller.Apartment = sellerUpdateDto.Apartment;
+            existingSeller.Country = sellerUpdateDto.Country;
+            existingSeller.City = sellerUpdateDto.City;
+            existingSeller.PostalCode = sellerUpdateDto.PostalCode;
+            existingSeller.Phone = sellerUpdateDto.Phone;
+
+            _userService.UpdateUser(existingSeller);
             return Ok();
         }
 

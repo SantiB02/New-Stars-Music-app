@@ -42,13 +42,13 @@ function App() {
 
   return (
     <>
-      <div id={theme ? "root" : "root-ligth"}>
+      <div>
         <Toaster /> {/* allows us to use toast messages for every page */}
       </div>
       {isAuthenticated &&
         (localStorage.getItem("isAccountDeleted") === null ||
           localStorage.getItem("isAccountDeleted") === "false") && <NavBar />}
-      <div className="main-content">
+      <div className={`main-content ${theme ? `root` : `root-light`}`}>
         <Routes>
           <Route path="/" exact element={<Banner />} />
           <Route

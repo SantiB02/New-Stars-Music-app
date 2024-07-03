@@ -18,6 +18,7 @@ namespace Merchanmusic.Data.Entities
         
         public bool State { get; set; } = true;
         public string Role { get; set; }
+        public bool WaitingValidation { get; set; } = false;
 
     }
 }

@@ -90,7 +90,7 @@ const ProductCard = ({ product }) => {
           color={theme ? "white" : "gray"}
           className="font-normal opacity-75"
         >
-          Artist/Band:{product.artist} <br /> ${product.price}
+          Artist/Band: {product.artistOrBand} <br /> ${product.price}
         </Typography>
       </CardBody>
       <CardFooter className="pt-0 flex">
@@ -117,9 +117,7 @@ const ProductCard = ({ product }) => {
               : addToCart({ ...product, quantity })
           }
         >
-          {!isProductInCart
-            ? `Add ${quantity} to cart`
-            : `Remove ${quantity} from cart`}
+          {!isProductInCart ? `Add ${quantity} to cart` : `Remove from cart`}
         </Button>
         {!isProductInCart && (
           <PlusCircleIcon

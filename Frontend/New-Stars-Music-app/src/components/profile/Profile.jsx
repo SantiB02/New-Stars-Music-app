@@ -42,7 +42,7 @@ export const Profile = () => {
       className={
         theme
           ? "flex items-center justify-center mt-16"
-          : "flex items-center justify-center mt-16 bg-gray-200"
+          : "flex items-center justify-center pt-16 bg-gray-200"
       }
     >
       <div

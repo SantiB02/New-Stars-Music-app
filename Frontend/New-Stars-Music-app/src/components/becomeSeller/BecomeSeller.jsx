@@ -9,15 +9,51 @@ import {
   Checkbox,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
+import api from "../../api/api";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const BecomeSeller = () => {
   const [open, setOpen] = useState(false);
+  const [address, setAddress] = useState("");
+  const [apartment, setApartment] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [phone, setPhone] = useState("");
+  const navigate = useNavigate();
+  const { loginWithRedirect, logout } = useAuth0();
+
+  const stateChangeHandler = (e, setState) => {
+    setState(e.target.value);
+  };
 
   const handleOpen = () => setOpen(!open);
 
+  const becomeSellerHandler = async () => {
+    handleOpen();
+    try {
+      const request = {
+        address,
+        apartment,
+        country,
+        city,
+        postalCode,
+        phone,
+        waitingValidation: true,
+      };
+      await api.put("/users/seller", request);
+      toast.success("Your seller request has been submitted!");
+    } catch (error) {
+      toast.error("Error submitting seller request. Please try again!");
+      console.error("Error updating user", error);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto">
-      <Typography variant="h3" className="mt-4 mx-8 font-light">
+      <Typography variant="h3" className="pt-4 mx-8 font-light">
         Become a Seller
       </Typography>
       <Typography className="mx-8 text-justify">
@@ -66,44 +102,63 @@ const BecomeSeller = () => {
         <Card className="mx-auto w-full max-w-[24rem]">
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" color="blue-gray">
-              Become a Seller
+              Start selling with us now!
             </Typography>
             <Typography
-              className="mb-3 font-normal"
+              className="font-normal"
               variant="paragraph"
               color="gray"
             >
-              Enter your email and password to Sign In.
+              Enter some personal information to proceed. You will need to
+              create your seller account after submiting this form.
             </Typography>
             <Typography className="-mb-2" variant="h6">
-              Your Email
+              Your Location
             </Typography>
-            <Input label="Email" size="lg" />
+            <Input
+              label="Country"
+              size="md"
+              value={country}
+              onChange={() => stateChangeHandler(event, setCountry)}
+            />
+            <Input
+              label="City"
+              size="md"
+              value={city}
+              onChange={() => stateChangeHandler(event, setCity)}
+            />
+            <Input
+              label="Postal Code"
+              size="md"
+              value={postalCode}
+              onChange={() => stateChangeHandler(event, setPostalCode)}
+            />
+            <Input
+              label="Address"
+              size="md"
+              value={address}
+              onChange={() => stateChangeHandler(event, setAddress)}
+            />
+            <Input
+              label="Apartment / Floor"
+              size="md"
+              value={apartment}
+              onChange={() => stateChangeHandler(event, setApartment)}
+            />
             <Typography className="-mb-2" variant="h6">
-              Your Password
+              Your Contact Information
             </Typography>
-            <Input label="Password" size="lg" />
-            <div className="-ml-2.5 -mt-3">
-              <Checkbox label="Remember Me" />
-            </div>
+            <Input
+              label="Phone"
+              size="md"
+              value={phone}
+              onChange={() => stateChangeHandler(event, setPhone)}
+            />
           </CardBody>
           <CardFooter className="pt-0">
             <Button variant="gradient" onClick={handleOpen} fullWidth>
-              Sign In
+              Become a Seller
             </Button>
-            <Typography variant="small" className="mt-4 flex justify-center">
-              Don&apos;t have an account?
-              <Typography
-                as="a"
-                href="#signup"
-                variant="small"
-                color="blue-gray"
-                className="ml-1 font-bold"
-                onClick={handleOpen}
-              >
-                Sign up
-              </Typography>
-            </Typography>
           </CardFooter>
         </Card>
       </Dialog>
