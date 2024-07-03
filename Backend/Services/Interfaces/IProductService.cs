@@ -1,4 +1,5 @@
 ﻿using Merchanmusic.Data.Entities.Products;
+using Merchanmusic.Data.Models;
 
 namespace Merchanmusic.Services.Interfaces
 {
@@ -9,7 +10,9 @@ namespace Merchanmusic.Services.Interfaces
             Product? GetProductByName(string name);
             int CreateProduct(Product product);
             void DeleteProduct(int id);
-            Product UpdateProduct(Product product);
+            //Product UpdateProduct(Product product);
+        List<Product> GetProductBySeller(string sellerId);
+         void UpdateProduct(ProductUpdateDto productUpdateDto);
         }
 
 }
