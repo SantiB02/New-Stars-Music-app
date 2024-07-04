@@ -6,17 +6,15 @@ export const useRoles = (getToken) => {
 
   useEffect(() => {
     const getRole = async () => {
-      const token = getToken();
       try {
         const response = await api.get("users/role", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getToken()}`,
           },
         });
         setUserRole(response.data);
       } catch (error) {
         console.error("Error getting user role", error);
-        setUserRole(null);
       }
     };
 
