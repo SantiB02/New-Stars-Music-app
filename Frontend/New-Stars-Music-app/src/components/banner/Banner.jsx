@@ -98,7 +98,7 @@ const Banner = () => {
       <Typography className="text-center mt-12" variant="h4">
         What our clients say...
       </Typography>
-      <div className="flex mx-auto items-start max-w-6xl mb-14">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <RatingCard
           profilePicUrl="Andy-Profile-600.webp"
           fullName="John Doe"
