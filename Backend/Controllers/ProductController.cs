@@ -114,13 +114,10 @@ namespace Merchanmusic.Controllers
                         Price = productDto.Price,
                         Stock = productDto.Stock,
                         ArtistOrBand = productDto.ArtistOrBand,
-                        SellerId = productDto.SellerId,
+                        SellerId = subClaim,
                         Code = productDto.Code,
                         ImageLink = productDto.ImageLink,
                         Category = productDto.Category,
-                        State = productDto.State,
-                        LastModifiedDate = productDto.LastModifiedDate,
-                        CreationDate = DateTime.UtcNow,
                     };
 
                     int id = _productService.CreateProduct(product);
@@ -140,7 +137,7 @@ namespace Merchanmusic.Controllers
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             string role = _userService.GetRoleById(subClaim);
-            if (role == "Admin")
+            if (role == "Admin" || role == "Seller")
             {
                 try
                 {
@@ -151,7 +148,7 @@ namespace Merchanmusic.Controllers
                         return NotFound($"No se encontró ningún producto con el ID: {id}");
                     }
 
-                    _productService.DeleteProduct(id);
+                    _productService.DeleteProduct(id, subClaim);
                     return Ok($"Producto con ID: {id} eliminado");
                 }
                 catch (Exception ex)
@@ -165,8 +162,9 @@ namespace Merchanmusic.Controllers
         //[HttpPut("{id}")]
         //public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductUpdateDto product)
         //{
-        //    string role = this.User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7133/api/roles").Value;
-        //    if (role == "Admin")
+        //    string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    string role = _userService.GetRoleById(subClaim);
+        //    if (role == "Admin" || role == "Seller")
         //    {
         //        var productToUpdate = _productService.GetProductById(id);
         //        if (productToUpdate == null)

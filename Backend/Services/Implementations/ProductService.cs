@@ -83,16 +83,24 @@ namespace Merchanmusic.Services.Implementations
             return _context.Products.Where(x => x.SellerId == sellerId).ToList();
         }
 
-        //public void DeleteProductBySeller(int id)
-        //{
-        //    var productToDelete = _context.Products.SingleOrDefault(p => p.Id == id);
+        public void DeleteProductBySeller(int productId, string sellerId)
+        {
+            var productToDelete = _context.Products.SingleOrDefault(p => p.Id == productId);
 
-        //    if (productToDelete != null)
-        //    {
-        //        _context.Products.Remove(productToDelete);
-        //        _context.SaveChanges();
-        //    }
-        //}
+            if (productToDelete == null)
+            {
+                throw new Exception("Product not found");
+            }
+
+            if (productToDelete.SellerId != sellerId)
+            {
+                throw new Exception("SellerId mismatch");
+            }
+
+            productToDelete.State = false;
+                _context.Products.Update(productToDelete);
+                _context.SaveChanges();
+        }
 
         //public Product UpdateProductBySeller(ProductUpdateDto productDto, string sellerId)
         //{
