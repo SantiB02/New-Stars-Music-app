@@ -9,7 +9,7 @@ namespace Merchanmusic.Services.Interfaces
             Product? GetProductById(int id);
             Product? GetProductByName(string name);
             int CreateProduct(Product product);
-            void DeleteProduct(int id);
+            void DeleteProduct(int id, string sellerId);
             //Product UpdateProduct(Product product);
         List<Product> GetProductBySeller(string sellerId);
          void UpdateProduct(ProductUpdateDto productUpdateDto);
