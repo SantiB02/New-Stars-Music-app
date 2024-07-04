@@ -15,12 +15,8 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const { user, getAccessTokenSilently, isLoading, logout } = useAuth0();
-  const [isAccountDeleted, setIsAccountDeleted] = useState(
-    localStorage.getItem("isAccountDeleted") === "true"
-  );
   const { theme } = useTheme();
   const navigate = useNavigate();
-  const userRole = useRoles(getAccessTokenSilently);
 
   useEffect(() => {
     if (!isLoading) {
@@ -87,7 +83,7 @@ const Home = () => {
             >
               {user.nickname}
             </a>
-            ! You are a {userRole}!
+            !
           </Typography>
           <div className="mt-8">
             <FeaturedProducts products={products} isLoading={isLoadingPage} />

@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
@@ -26,6 +26,8 @@ import Dropdown from "./dropdown/Dropdown";
 import ToggleTheme from "./common/ToggleTheme";
 import { Badge, Tooltip } from "@material-tailwind/react";
 import { useCart } from "../hooks/useCart";
+import { useRoles } from "../hooks/useRoles";
+import { setAuthInterceptor } from "../api/api";
 
 const products = [
   {
@@ -68,10 +70,24 @@ function classNames(...classes) {
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
+  const {
+    loginWithRedirect,
+    getAccessTokenSilently,
+    isAuthenticated,
+    user,
+    isLoading,
+  } = useAuth0();
 
   const navigate = useNavigate();
   const { cart } = useCart();
+
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
+
+  const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
 
   const navigateHandler = (path) => {
     navigate(path);
@@ -195,18 +211,40 @@ export default function NavBar() {
             >
               Store
             </a>
-            <a
-              className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
-              onClick={() =>
-                user["https://localhost:7133/api/roles"] === "Seller"
-                  ? navigateHandler("/seller-center")
-                  : navigateHandler("/become-seller")
-              }
-            >
-              {user["https://localhost:7133/api/roles"] === "Seller"
-                ? "Seller Center"
-                : "Become a Seller"}
-            </a>
+            {/* {userRole === "Client" && (
+              <a
+                className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
+                onClick={() => navigateHandler("/my-orders")}
+              >
+                My Orders
+              </a>
+            )} */}
+            {userRole === "Client" && (
+              <a
+                className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
+                onClick={() => navigateHandler("/become-seller")}
+              >
+                Become a Seller
+              </a>
+            )}
+            {userRole === "Seller" && (
+              <a
+                className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
+                onClick={() => navigateHandler("/seller-center")}
+              >
+                Seller Center
+              </a>
+            )}
+
+            {userRole === "Admin" && (
+              <a
+                className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
+                onClick={() => navigateHandler("/dashboard")}
+              >
+                Dashboard
+              </a>
+            )}
+
             <a className="text-sm font-semibold leading-6 text-white hover:cursor-pointer">
               <ToggleTheme />
             </a>
