@@ -28,14 +28,25 @@ export const Cart = () => {
     <>
       {cart.length === 0 ? (
         <>
-          <div>
-            <Typography variant="h2">
-              Your cart is empty, you can be redirected to the store by pressing
-              the following button:
-            </Typography>
-            <Button color="green" onClick={() => navigateHandler("/home")}>
-              Store
-            </Button>
+          <div className=" pt-10 text-center">
+            <div className="pt-10 pb-10">
+              <Typography variant="h2">
+                Your cart is empty, you can be redirected to the store
+                <br /> by pressing the following button:
+              </Typography>
+            </div>
+            <div className="pt-10">
+              <Button
+                color="green"
+                ripple="light"
+                onClick={() => navigateHandler("/store")}
+              >
+                Store
+              </Button>
+            </div>
+            <div>
+              
+            </div>
           </div>
         </>
       ) : (
