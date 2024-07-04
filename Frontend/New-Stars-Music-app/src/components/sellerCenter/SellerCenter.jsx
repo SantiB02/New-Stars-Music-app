@@ -1,20 +1,49 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import api, { setAuthInterceptor } from "../../api/api";
+import { Typography } from "@material-tailwind/react";
+import ProductCard from "../product/ProductCard";
+import {
+  Typography,
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
 
 const SellerCenter = () => {
+  const [products, setProducts] = useState([]);
   const { getAccessTokenSilently, isLoading } = useAuth0();
 
-  // Estado para almacenar los datos del producto
   const [productData, setProductData] = useState({
     name: "",
     image: "",
     color: "",
-    size: "", 
-    description: "", 
-    stock: 0, 
-    category: "", 
+    size: "",
+    description: "",
+    stock: 0,
+    category: "",
   });
+
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get("/products/by-seller");
+        const allProducts = response.data;
+        setProducts(allProducts);
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,13 +57,10 @@ const SellerCenter = () => {
         productData.stock &&
         productData.category
       ) {
-        // Lógica para enviar los datos al backend (crear o editar)
-        
-        const response = await api.post("/productos", productData); //enrutar
+        const response = await api.post("/products", productData);
 
         if (response.status === 200) {
           console.log("Producto creado/editado exitosamente");
-          // (redireccionar, actualizar estado, etc.)
         } else {
           console.error("Error al crear/editar el producto");
         }
@@ -45,14 +71,13 @@ const SellerCenter = () => {
       console.error("Error al enviar datos al backend:", error);
     }
   };
-  // Función para eliminar un producto
+
   const handleDeleteProduct = async (productId) => {
     try {
-      const response = await api.delete(`/productos/${productId}`); //enrutar
+      const response = await api.delete(`/products/${productId}`);
 
       if (response.status === 200) {
         console.log("Producto eliminado exitosamente");
-        // (actualizar estado, recargar la lista, etc.)
       } else {
         console.error("Error al eliminar el producto");
       }
@@ -69,7 +94,19 @@ const SellerCenter = () => {
 
   return (
     <div>
-      <h1>Seller Center</h1>
+      <Typography variant="h1" className="font-light">
+        Seller Center
+      </Typography>
+      {products.map((product) => (
+        <div key={product.id} className="w-full ">
+          <ProductCard
+            product={product}
+            isSeller={true}
+            handleDeleteProduct={handleDeleteProduct}
+            className="my-2"
+          />
+        </div>
+      ))}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -79,7 +116,6 @@ const SellerCenter = () => {
             setProductData({ ...productData, name: e.target.value })
           }
         />
-        {/* Agregar campos adicionales */}
         <input
           type="text"
           placeholder="URL de la imagen"

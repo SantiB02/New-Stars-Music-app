@@ -13,7 +13,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../hooks/useCart";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, isSeller, handleDeleteProduct }) => {
   const [quantity, setQuantity] = useState(1);
   const [isProductInCart, setIsProductInCart] = useState(false);
   const { theme } = useTheme();
@@ -58,7 +58,7 @@ const ProductCard = ({ product }) => {
   return (
     <Card
       className={
-        theme ? "w-35 bg-black text-white ml-5" : "w-35 bg-gray-400 ml-5"
+        theme ? "w-72 bg-black text-white ml-5" : "w-72 bg-gray-400 ml-5"
       }
     >
       <CardHeader shadow={false} floated={false} className="h-20">
@@ -93,41 +93,74 @@ const ProductCard = ({ product }) => {
           Artist/Band: {product.artistOrBand} <br /> ${product.price}
         </Typography>
       </CardBody>
-      <CardFooter className="pt-0 flex">
-        {!isProductInCart && (
-          <MinusCircleIcon
-            className="cursor-pointer select-none hover:text-orange-800 mr-3"
-            color={theme ? "orange" : "black"}
-            width={45}
-            onClick={decreaseQuantityClickHandler}
-          />
-        )}
+      {!isSeller ? (
+        <CardFooter className="pt-0 flex">
+          {!isProductInCart && (
+            <MinusCircleIcon
+              className="cursor-pointer select-none hover:text-orange-800 mr-3"
+              color={theme ? "orange" : "black"}
+              width={45}
+              onClick={decreaseQuantityClickHandler}
+            />
+          )}
 
-        <Button
-          ripple={false}
-          fullWidth={true}
-          className={
-            theme
-              ? "bg-gray-50 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-              : " shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-          }
-          onClick={() =>
-            isProductInCart
-              ? removeFromCartHandler(product)
-              : addToCart({ ...product, quantity })
-          }
-        >
-          {!isProductInCart ? `Add ${quantity} to cart` : `Remove from cart`}
-        </Button>
-        {!isProductInCart && (
-          <PlusCircleIcon
-            className="cursor-pointer select-none hover:text-orange-800 ml-3"
-            color={theme ? "orange" : "black"}
-            width={45}
-            onClick={increaseQuantityClickHandler}
-          />
-        )}
-      </CardFooter>
+          <Button
+            ripple={false}
+            fullWidth={true}
+            className={
+              theme
+                ? "bg-gray-50 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                : " shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+            }
+            onClick={() =>
+              isProductInCart
+                ? removeFromCartHandler(product)
+                : addToCart({ ...product, quantity })
+            }
+          >
+            {!isProductInCart ? `Add ${quantity} to cart` : `Remove from cart`}
+          </Button>
+          {!isProductInCart && (
+            <PlusCircleIcon
+              className="cursor-pointer select-none hover:text-orange-800 ml-3"
+              color={theme ? "orange" : "black"}
+              width={45}
+              onClick={increaseQuantityClickHandler}
+            />
+          )}
+        </CardFooter>
+      ) : (
+        <CardFooter className="pt-0 flex">
+          <Button
+            ripple={false}
+            fullWidth={true}
+            className={
+              theme
+                ? "mr-2 bg-gray-50 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                : "mr-2  shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+            }
+            onClick={() =>
+              isProductInCart
+                ? removeFromCartHandler(product)
+                : addToCart({ ...product, quantity })
+            }
+          >
+            Edit
+          </Button>
+          <Button
+            ripple={false}
+            fullWidth={true}
+            className={
+              theme
+                ? "ml-2 bg-red-500 text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                : "ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+            }
+            onClick={() => handleDeleteProduct(product.id)}
+          >
+            Delete
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   );
 };

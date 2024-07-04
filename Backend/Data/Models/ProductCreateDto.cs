@@ -13,11 +13,8 @@ namespace Merchanmusic.Data.Models
         [Required]
         public int Stock { get; set; }
         public string? Code { get; set; }
-        public DateTime CreationDate { get; set; }
-        public DateTime LastModifiedDate { get; set; }
         public string? ImageLink { get; set; }
         public string? Category { get; set; }
-        public bool State { get; set; }
         public string? SellerId { get; set; }
         public string? ArtistOrBand { get; set; }
     }

@@ -78,7 +78,7 @@ namespace Merchanmusic.Controllers
         public IActionResult GetProductBySeller()
         {
             string idSeller = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string role = _userService.GetRoleById(idSeller); 
+            string role = _userService.GetRoleById(idSeller);
             if (role == "Seller")
             {
                 var product = _productService.GetProductBySeller(idSeller);
@@ -148,7 +148,7 @@ namespace Merchanmusic.Controllers
                         return NotFound($"No se encontró ningún producto con el ID: {id}");
                     }
 
-                    _productService.DeleteProduct(id, subClaim);
+                    _productService.DeleteProductBySeller(id, subClaim);
                     return Ok($"Producto con ID: {id} eliminado");
                 }
                 catch (Exception ex)
