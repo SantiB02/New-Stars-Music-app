@@ -5,7 +5,6 @@ import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { getAuthSettings } from "./api/settings-api.js";
 import ServerError from "./components/error/ServerError.jsx";
-import { UserProvider } from "./services/contexts/UserContext.jsx";
 import ThemeProvider from "./services/contexts/ThemeProvider.jsx";
 import { CartProvider } from "./services/contexts/CartContext.jsx";
 import { BrowserRouter, useLocation } from "react-router-dom";
@@ -38,11 +37,9 @@ const AppProviders = ({ children }) => {
         request_url: window.location.origin + location.pathname,
       }}
     >
-      <UserProvider>
-        <ThemeProvider>
-          <CartProvider>{children}</CartProvider>
-        </ThemeProvider>
-      </UserProvider>
+      <ThemeProvider>
+        <CartProvider>{children}</CartProvider>
+      </ThemeProvider>
     </Auth0Provider>
   );
 };
