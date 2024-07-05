@@ -103,7 +103,7 @@ namespace Merchanmusic.Controllers
         public IActionResult UpdateClient([FromBody] ClientUpdateDto clientUpdateDto)
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var existingClient = _userService.GetUserById(subClaim);
+            User existingClient = _userService.GetUserById(subClaim);
 
             existingClient.Address = clientUpdateDto.Address;
             existingClient.Apartment = clientUpdateDto.Apartment;
@@ -111,7 +111,7 @@ namespace Merchanmusic.Controllers
             existingClient.City = clientUpdateDto.City;
             existingClient.PostalCode = clientUpdateDto.PostalCode;
             existingClient.Phone = clientUpdateDto.Phone;
-            existingClient.WaitingValidation = clientUpdateDto.WaitingValidation;
+            existingClient.WaitingValidation = clientUpdateDto.WaitingValidation; //ESTE VALOR NO SE ASIGNA NUNCA!!! NO SÉ POR QUÉ
 
             _userService.UpdateUser(existingClient);
             return Ok();
