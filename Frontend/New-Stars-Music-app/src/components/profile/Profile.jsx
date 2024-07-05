@@ -12,6 +12,7 @@ import {
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import LoadingMessage from "../common/LoadingMessage";
 import toast from "react-hot-toast";
+import DataAccordion from "./DataAccordion";
 export const Profile = () => {
   const { user, logout } = useAuth0();
   const { theme } = useTheme();
@@ -74,22 +75,9 @@ export const Profile = () => {
             <h3 className="font-semibold">Name</h3>
             <p>{user.name}</p>
           </div>
-          {user.address && (
-            <div className="col-span-2">
-              <h3 className="font-semibold">Address</h3>
-              <p>{user.address}</p>
-            </div>
-          )}
-          {user.phone_number && (
-            <div className="col-span-2">
-              <h3 className="font-semibold">Phone Number</h3>
-              <p>{user.phone_number}</p>
-            </div>
-          )}
+
           <div className="col-span-2 mt-6">
-            <Button variant="gradient" color="blue">
-              <span>Changes my account</span>
-            </Button>
+            <DataAccordion />
           </div>
           <div className="col-span-2 mt-2" onClick={handleOpen}>
             <Button color="red">Delete my profile</Button>
