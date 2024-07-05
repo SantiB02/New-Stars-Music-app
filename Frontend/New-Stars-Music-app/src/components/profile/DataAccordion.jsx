@@ -40,7 +40,7 @@ const DataAccordion = () => {
           Fill in your additional information, if you have not already done so
         </AccordionHeader>
         <AccordionBody>
-          {user.address ? (
+          {/* {user.address ? (
             <div className="col-span-2">
               <h3 className="font-semibold">Address</h3>
               <p>{user.address}</p>
@@ -61,7 +61,7 @@ const DataAccordion = () => {
               <h3 className="font-semibold">Phone Number</h3>
               <p>{user.phone_number}</p>
             </div>
-          )}
+          )} */}
           <Button variant="gradient" color="blue">
             <span>Changes my account</span>
           </Button>
