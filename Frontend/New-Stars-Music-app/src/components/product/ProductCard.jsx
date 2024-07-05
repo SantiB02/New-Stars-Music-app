@@ -63,11 +63,11 @@ const ProductCard = ({ product, isSeller, handleDeleteProduct }) => {
           : "max-w-72 bg-gray-400 ml-5"
       }
     >
-      <CardHeader shadow={false} floated={false} className="h-20">
+      <CardHeader shadow={false} floated={false} className="h-40">
         <img
           src={product.imageLink}
           alt="card-image"
-          className="h-full w-full object-cover bg-gray-800 "
+          className="h-full w-full object-contain bg-gray-800 "
         />
       </CardHeader>
       <CardBody>

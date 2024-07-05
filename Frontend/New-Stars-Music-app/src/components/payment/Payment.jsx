@@ -4,11 +4,12 @@ import {
   Checkbox,
   Button,
   Typography,
-  useTheme,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
+import { useTheme } from "../../services/contexts/ThemeProvider";
+import toast from "react-hot-toast";
 
 const Payment = () => {
   const [open, setOpen] = useState(false);
@@ -18,13 +19,27 @@ const Payment = () => {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const navigate = useNavigate();
   const { cartTotal } = useCart();
 
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
   };
-  const theme = useTheme();
+  const { theme } = useTheme();
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const makePaymentHandler = async () => {
+    setIsProcessingPayment(true);
+    toast.loading("Processing payment... Please wait", 3000);
+    await delay(3000);
+    toast.dismiss();
+    toast.success("Your order was successfully made!");
+  };
 
   return (
     <div className="ml-10 pt-4">
@@ -44,45 +59,52 @@ const Payment = () => {
           >
             Where will you receive your order?
           </Typography>
-          <Typography color="gray" className="mt-1 font-normal">
+          <Typography
+            className={`mt-1 font-normal ${
+              theme ? "text-gray-500" : "text-gray-600"
+            }`}
+          >
             This information will be saved for future purchases.
           </Typography>
           <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
             <div className="mb-1 flex flex-col gap-6">
               <Input
+                color={theme && "white"}
                 label="Country"
                 size="md"
                 value={country}
                 onChange={() => stateChangeHandler(event, setCountry)}
               />
               <Input
+                color={theme && "white"}
                 label="City"
                 size="md"
                 value={city}
                 onChange={() => stateChangeHandler(event, setCity)}
               />
               <Input
+                color={theme && "white"}
                 label="Postal Code"
                 size="md"
                 value={postalCode}
                 onChange={() => stateChangeHandler(event, setPostalCode)}
               />
               <Input
+                color={theme && "white"}
                 label="Address"
                 size="md"
                 value={address}
                 onChange={() => stateChangeHandler(event, setAddress)}
               />
               <Input
+                color={theme && "white"}
                 label="Apartment / Floor"
                 size="md"
                 value={apartment}
                 onChange={() => stateChangeHandler(event, setApartment)}
               />
-              <Typography className="-mb-2" variant="h6">
-                Your Contact Information
-              </Typography>
               <Input
+                color={theme && "white"}
                 label="Phone"
                 size="md"
                 value={phone}
@@ -99,51 +121,53 @@ const Payment = () => {
           >
             Credit Card Information
           </Typography>
-          <Typography color="gray" className="mt-1 font-normal">
+          <Typography
+            color="gray"
+            className={`mt-1 font-normal ${
+              theme ? "text-gray-500" : "text-gray-600"
+            }`}
+          >
             This data is encrypted end-to-end.
           </Typography>
           <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
             <div className="mb-1 flex flex-col gap-6">
-              <Typography variant="h6" color="blue-gray" className="-mb-3">
-                Your Name
-              </Typography>
               <Input
-                size="lg"
-                placeholder="name@mail.com"
-                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
+                color={theme && "white"}
+                label="Number"
+                type="number"
+                size="md"
+                value={cardNumber}
+                onChange={() => stateChangeHandler(event, setCardNumber)}
               />
-              <Typography variant="h6" color="blue-gray" className="-mb-3">
-                Your Email
-              </Typography>
+
               <Input
-                size="lg"
-                placeholder="name@mail.com"
-                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
+                type="date"
+                color={theme && "white"}
+                label="Expiration Date"
+                size="md"
+                value={expirationDate}
+                onChange={() => stateChangeHandler(event, setExpirationDate)}
               />
-              <Typography variant="h6" color="blue-gray" className="-mb-3">
-                Password
-              </Typography>
               <Input
-                type="password"
-                size="lg"
-                placeholder="********"
-                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
+                color={theme && "white"}
+                label="CVV"
+                type="number"
+                size="md"
+                value={cvv}
+                onChange={() => stateChangeHandler(event, setCvv)}
               />
             </div>
           </form>
         </Card>
       </div>
       <div className="flex justify-center">
-        <Button className="my-6 max-w-28 text-black bg-white" fullWidth>
+        <Button
+          disabled={isProcessingPayment ? true : false}
+          color={theme && "white"}
+          className="my-6 max-w-28"
+          fullWidth
+          onClick={makePaymentHandler}
+        >
           Buy
         </Button>
       </div>

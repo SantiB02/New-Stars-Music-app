@@ -23,7 +23,6 @@ const BecomeSeller = () => {
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
-  const { loginWithRedirect, logout } = useAuth0();
 
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
@@ -154,7 +153,7 @@ const BecomeSeller = () => {
             />
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" onClick={handleOpen} fullWidth>
+            <Button variant="gradient" onClick={becomeSellerHandler} fullWidth>
               Submit Seller Request
             </Button>
           </CardFooter>

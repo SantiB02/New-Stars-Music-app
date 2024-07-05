@@ -85,7 +85,7 @@ export const Cart = () => {
                   }
                   key={cart.id}
                 >
-                  <CardHeader className=" h-40 object-cover ">
+                  <CardHeader className=" h-40 object-contain ">
                     <img
                       src={cart.imageLink}
                       className={theme ? "bg-white" : "bg-gray-700"}
