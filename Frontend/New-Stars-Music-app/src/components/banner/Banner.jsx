@@ -4,10 +4,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import RatingCard from "../home/RatingCard";
 import { Alert, Typography } from "@material-tailwind/react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
-import { ensureUser } from "../../services/userService";
-import api, { setAuthInterceptor } from "../../api/api";
-import LoadingMessage from "../common/LoadingMessage";
-import toast from "react-hot-toast";
 import InfoIcon from "../icons/InfoIcon";
 
 const Banner = () => {
@@ -35,7 +31,7 @@ const Banner = () => {
       <section
         className={theme ? "bg-primary text-white" : "bg-gray-200 text-black"}
       >
-        <div className="mx-auto max-w-screen-xl px-4 mt-10 lg:flex lg:mt-14 lg:items-center">
+        <div className="mx-auto max-w-screen-xl px-4 pt-10 lg:flex lg:pt-14 lg:items-center">
           <div className="mx-auto max-w-3xl text-center">
             {isAccountDeleted && (
               <Alert className="mb-4 bg-gray-800" icon={<InfoIcon />}>

@@ -27,6 +27,7 @@ import { Cart } from "./components/cart/Cart";
 import { useTheme } from "./services/contexts/ThemeProvider";
 import SellerCenter from "./components/sellerCenter/SellerCenter";
 import BecomeSeller from "./components/becomeSeller/BecomeSeller";
+import Payment from "./components/payment/Payment";
 
 function App() {
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
@@ -65,6 +66,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/payment" element={<Payment />} />
           </Route>
         </Routes>
       </div>

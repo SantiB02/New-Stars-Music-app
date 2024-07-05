@@ -24,7 +24,7 @@ const AppProviders = ({ children }) => {
   }
 
   if (!authSettings) {
-    return <LoadingMessage message="Loading" />;
+    return <LoadingMessage message="Loading..." />;
   }
 
   return (

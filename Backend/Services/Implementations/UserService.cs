@@ -15,10 +15,10 @@ namespace Merchanmusic.Services.Implementations
             _context = context;
         }
 
-        public string GetRoleById(string id)
+        public string? GetRoleById(string id)
         {
-            User user = _context.Users.FirstOrDefault(u => u.Id == id);
-            return user.Role;
+            User? user = _context.Users.FirstOrDefault(u => u.Id == id);
+            return user?.Role;
         }
 
         public bool IsUserDeleted(string id)
@@ -36,46 +36,13 @@ namespace Merchanmusic.Services.Implementations
             return _context.Users.Any(u => u.Id == id);
         }
 
-        public bool EnsureUser(User userToEnsure)
+        public void EnsureUser(User userToEnsure)
         {
-            bool isEnsured = false;
             User? user = this.GetUserById(userToEnsure.Id);
             if (user == null) // if the Auth0 user doesn't exist in our DB, we create it
             {
-                switch (userToEnsure.Role)
-                {
-                    case nameof(UserRoleEnum.Client):
-                        Client newClient = new()
-                        {
-                            Id = userToEnsure.Id,
-                            Email = userToEnsure.Email,
-                            Address = userToEnsure.Address,
-                        };
-                        this.CreateUser(newClient);
-                        isEnsured = true;
-                        break;
-                    case nameof(UserRoleEnum.Seller):
-                        Seller newSeller = new()
-                        {
-                            Id = userToEnsure.Id,
-                            Email = userToEnsure.Email,
-                            Address = userToEnsure.Address,
-                        };
-                        this.CreateUser(newSeller);
-                        isEnsured = true;
-                        break;
-                }
-            } else
-            {
-                if (userToEnsure.Role != user.Role) // if the Auth0 user has changed their role, we also change it in our DB
-                {
-                    user.Role = userToEnsure.Role;
-                    this.UpdateUser(userToEnsure);
-                }
-                isEnsured = true;
+                this.CreateUser(userToEnsure);     
             }
-            
-        return isEnsured;
         }
 
         public string CreateUser(User user)

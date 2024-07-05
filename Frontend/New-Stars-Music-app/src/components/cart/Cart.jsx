@@ -12,7 +12,7 @@ import {
 } from "@material-tailwind/react";
 
 export const Cart = () => {
-  const { cart, removeFromCart } = useCart();
+  const { cart, cartTotal, removeFromCart } = useCart();
   const { theme } = useTheme();
   const navigate = useNavigate();
 
@@ -38,27 +38,41 @@ export const Cart = () => {
             <div className="pt-10">
               <Button
                 color="green"
-                ripple="light"
+                ripple={false}
                 onClick={() => navigateHandler("/store")}
               >
                 Store
               </Button>
             </div>
-            <div>
-              
-            </div>
+            <div></div>
           </div>
         </>
       ) : (
         <>
-          <div className="container mx-auto px-4 py-8">
-            <div className=" flex p-4 pb-6">
-              <Typography variant="h5">
-                By clicking on the following button you will proceed to continue
-                with the payment of the cart:
+          <div className="container mx-auto px-4 py-4">
+            <div className="p-4 pb-6">
+              <Typography variant="h2" className="font-light">
+                Your Cart
               </Typography>
-              <div className=" flex pl-4">
-                <Button color="green"> BUY </Button>
+              <Typography variant="h3" className="mb-4 font-light">
+                Total:{" "}
+                <span className="text-orange-600">
+                  ${cartTotal.toFixed(2)} ARS
+                </span>
+              </Typography>
+              <div className="flex items-center">
+                <Typography variant="h5" className="font-light ">
+                  By clicking on the following button you will proceed to the
+                  payment screen:
+                </Typography>
+                <div className=" flex pl-4">
+                  <Button
+                    color="green"
+                    onClick={() => navigateHandler("/payment")}
+                  >
+                    BUY
+                  </Button>
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -81,10 +95,10 @@ export const Cart = () => {
                     <Typography>{cart.description}</Typography>
                     <Typography>Quantity: {cart.quantity}</Typography>
                     <Typography>
-                      <b>Unit price: </b>${cart.price}
+                      <b>Unit price: </b>${cart.price} ARS
                     </Typography>
                     <Typography>
-                      <b>Total price: </b> ${cart.price * cart.quantity}
+                      <b>Total price: </b> ${cart.price * cart.quantity} ARS
                     </Typography>
                   </CardBody>
                   <CardFooter className="mt-2 flex justify-center">

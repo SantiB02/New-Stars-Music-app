@@ -26,6 +26,11 @@ const Dropdown = ({ mobileMenuLinkClickHandler, isMobile }) => {
     navigate(path);
   };
 
+  const logoutHandler = () => {
+    localStorage.clear();
+    logout();
+  };
+
   return (
     <div>
       <div className="relative z-10">
@@ -75,7 +80,7 @@ const Dropdown = ({ mobileMenuLinkClickHandler, isMobile }) => {
               </li>
               <li
                 className="p-2  text-[#a10009] cursor-pointer rounded hover:bg-red-100 hover:text-red-600 border-t-red-600"
-                onClick={() => logout()}
+                onClick={logoutHandler}
               >
                 <div className="flex items-center">
                   <HiOutlineLogout className="mr-2" /> Logout

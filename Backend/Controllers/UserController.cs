@@ -33,22 +33,14 @@ namespace Merchanmusic.Controllers
         public IActionResult EnsureUser([FromRoute] string email)
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string role = _userService.GetRoleById(subClaim);
             Client client = new()
             {
                 Id = subClaim,
                 Email = email,
-                Role = role
             };
 
-            bool isUserEnsured = _userService.EnsureUser(client);
-            if (isUserEnsured)
-            {
-                return Ok();
-            } else
-            {
-                return BadRequest();
-            }
+            _userService.EnsureUser(client);
+            return Ok();
         }
 
         [HttpGet("is-deleted/{id}")]

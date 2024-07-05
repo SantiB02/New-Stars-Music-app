@@ -1,7 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import api, { setAuthInterceptor } from "../../api/api";
-import { Typography } from "@material-tailwind/react";
 import ProductCard from "../product/ProductCard";
 import {
   Typography,

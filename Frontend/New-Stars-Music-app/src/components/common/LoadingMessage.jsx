@@ -2,7 +2,7 @@ import React from "react";
 
 const LoadingMessage = ({ message }) => {
   return (
-    <div className="my-6 flex flex-col items-center" role="status">
+    <div className="py-6 flex flex-col items-center" role="status">
       <p>{message}</p>
       <svg
         aria-hidden="true"

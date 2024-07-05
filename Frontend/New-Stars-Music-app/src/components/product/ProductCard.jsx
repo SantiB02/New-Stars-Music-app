@@ -58,7 +58,9 @@ const ProductCard = ({ product, isSeller, handleDeleteProduct }) => {
   return (
     <Card
       className={
-        theme ? "w-72 bg-black text-white ml-5" : "w-72 bg-gray-400 ml-5"
+        theme
+          ? "max-w-72 bg-black text-white ml-5"
+          : "max-w-72 bg-gray-400 ml-5"
       }
     >
       <CardHeader shadow={false} floated={false} className="h-20">
@@ -90,7 +92,7 @@ const ProductCard = ({ product, isSeller, handleDeleteProduct }) => {
           color={theme ? "white" : "gray"}
           className="font-normal opacity-75"
         >
-          Artist/Band: {product.artistOrBand} <br /> ${product.price}
+          Artist/Band: {product.artistOrBand} <br /> ${product.price} ARS
         </Typography>
       </CardBody>
       {!isSeller ? (

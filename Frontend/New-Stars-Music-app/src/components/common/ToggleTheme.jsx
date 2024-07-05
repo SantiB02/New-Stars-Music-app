@@ -7,7 +7,6 @@ const ToggleTheme = () => {
 
   const onToggleThemeHandler = () => {
     toggleTheme();
-    console.log(theme);
   };
   return (
     <label className="relative inline-flex items-center cursor-pointer">

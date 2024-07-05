@@ -1,47 +1,56 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState } from "react";
 
 export const CartContext = createContext();
 
-const initialState = JSON.parse(window.localStorage.getItem("cart")) || [];
+export function CartProvider({ children }) {
+  const [cartTotal, setCartTotal] = useState(
+    localStorage.getItem("cartTotal")
+      ? Number(localStorage.getItem("cartTotal"))
+      : 0
+  );
+  const initialState = JSON.parse(window.localStorage.getItem("cart")) || [];
 
-// update local storage when cart changes
-export const updateLocalStorage = (state) => {
-  window.localStorage.setItem("cart", JSON.stringify(state));
-};
+  // update local storage when cart changes
+  const updateLocalStorage = (state) => {
+    window.localStorage.setItem("cart", JSON.stringify(state));
+  };
 
-const reducer = (state, action) => {
-  const { type: actionType, payload: actionPayload } = action;
+  const reducer = (state, action) => {
+    const { type: actionType, payload: actionPayload } = action;
 
-  switch (actionType) {
-    case "ADD_TO_CART":
-      const { id } = actionPayload;
-      const productInCartIndex = state.findIndex((item) => item.id === id);
-
-      if (productInCartIndex >= 0) {
-        const newState = structuredClone(state);
+    switch (actionType) {
+      case "ADD_TO_CART":
+        const newState = [...state, actionPayload];
         updateLocalStorage(newState);
+        const productPrice = Number(actionPayload.price);
+        const productQuantity = Number(actionPayload.quantity);
+        const newTotal = cartTotal + productPrice * productQuantity;
+        setCartTotal(newTotal);
+        localStorage.setItem("cartTotal", newTotal);
+        return newState;
+
+      case "REMOVE_FROM_CART": {
+        const productToRemove = state.find(
+          (item) => item.id === actionPayload.id
+        );
+        if (!productToRemove) return state; // Si el producto no se encuentra, no hacer nada
+        const newState = state.filter((item) => item.id !== actionPayload.id);
+        updateLocalStorage(newState);
+        const newTotal =
+          cartTotal - productToRemove.price * productToRemove.quantity;
+        setCartTotal(newTotal);
+        localStorage.setItem("cartTotal", newTotal);
         return newState;
       }
-
-      const newState = [...state, actionPayload];
-      updateLocalStorage(newState);
-      return newState;
-
-    case "REMOVE_FROM_CART": {
-      const newState = state.filter((item) => item.id !== actionPayload.id);
-      updateLocalStorage(newState);
-      return newState;
+      case "CLEAR_CART": {
+        const initialState = [];
+        updateLocalStorage([""]);
+        setCartTotal(0);
+        return initialState;
+      }
+      default:
     }
-    case "CLEAR_CART": {
-      const initialState = [];
-      updateLocalStorage([""]);
-      return initialState;
-    }
-    default:
-  }
-};
-
-export function CartProvider({ children }) {
+  };
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addToCart = (product) => {
@@ -60,6 +69,7 @@ export function CartProvider({ children }) {
     <CartContext.Provider
       value={{
         cart: state,
+        cartTotal,
         addToCart,
         clearCart,
         removeFromCart,
