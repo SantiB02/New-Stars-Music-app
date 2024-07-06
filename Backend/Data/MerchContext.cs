@@ -10,9 +10,6 @@ namespace Merchanmusic.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<Seller> Sellers { get; set; }
         public DbSet<SaleOrderLine> SaleOrderLines { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }

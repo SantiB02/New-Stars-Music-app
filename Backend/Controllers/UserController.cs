@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-
 using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Models;
 using Merchanmusic.Enums;
 using Merchanmusic.Services.Implementations;
 using Merchanmusic.Services.Interfaces;
+using AutoMapper;
 
 
 namespace Merchanmusic.Controllers
@@ -18,14 +18,16 @@ namespace Merchanmusic.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IMapper _mapper;
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         
 
-        [HttpGet("AllUser")]
+        [HttpGet]
         public IActionResult GetAllUsers() 
         {
             var users = _userService.GetAllUsers();
@@ -60,6 +62,7 @@ namespace Merchanmusic.Controllers
             }
             
         }
+
         [HttpGet("role")]
         public IActionResult GetRoleById()
         {
@@ -100,19 +103,7 @@ namespace Merchanmusic.Controllers
             }
             return Forbid();
         }
-        [HttpPost("ensure-user/{email}")]
-        public IActionResult EnsureUser([FromRoute] string email)
-        {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Client client = new()
-            {
-                Id = subClaim,
-                Email = email,
-            };
 
-            _userService.EnsureUser(client);
-            return Ok();
-        }
         [HttpDelete]
         public IActionResult DeleteSelfUser()
         {
@@ -121,6 +112,30 @@ namespace Merchanmusic.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult CreateClient([FromBody] ClientPostDto clientPostDto)
+        {
+            bool userExists = _userService.CheckIfUserExists(clientPostDto.Id);
+            if (!userExists)
+            {
+                Client newClient = new()
+                {
+                    Id = clientPostDto.Id,
+                    Email = clientPostDto.Email,
+                };
+                _userService.CreateUser(newClient);
+            }
+            return Ok();
+        }
+
+        [HttpPut("waiting-validation/{waitingValidation}")]
+        public IActionResult UpdateWaitingValidation([FromRoute] bool waitingValidation)
+        {
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _userService.UpdateValidationStatus(subClaim, waitingValidation);
+            return Ok();
+        }
 
         [HttpPut("client")]
         public IActionResult UpdateClient([FromBody] ClientUpdateDto clientUpdateDto)
@@ -128,13 +143,7 @@ namespace Merchanmusic.Controllers
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             User existingClient = _userService.GetUserById(subClaim);
 
-            existingClient.Address = clientUpdateDto.Address;
-            existingClient.Apartment = clientUpdateDto.Apartment;
-            existingClient.Country = clientUpdateDto.Country;
-            existingClient.City = clientUpdateDto.City;
-            existingClient.PostalCode = clientUpdateDto.PostalCode;
-            existingClient.Phone = clientUpdateDto.Phone;
-            existingClient.WaitingValidation = clientUpdateDto.WaitingValidation; //ESTE VALOR NO SE ASIGNA NUNCA!!! NO SÉ POR QUÉ
+            existingClient = _mapper.Map<User>(clientUpdateDto);
 
             _userService.UpdateUser(existingClient);
             return Ok();

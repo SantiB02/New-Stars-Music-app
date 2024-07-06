@@ -42,7 +42,7 @@ const BecomeSeller = () => {
         phone,
         waitingValidation: true,
       };
-      await api.put("/users/seller", request);
+      await api.put("/users/client", request);
       toast.success("Your seller request has been submitted!");
     } catch (error) {
       toast.error("Error submitting seller request. Please try again!");

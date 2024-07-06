@@ -41,20 +41,19 @@ namespace Merchanmusic.Services.Implementations
             return _context.Users.Any(u => u.Id == id);
         }
 
-        public void EnsureUser(User userToEnsure)
-        {
-            User? user = this.GetUserById(userToEnsure.Id);
-            if (user == null) // if the Auth0 user doesn't exist in our DB, we create it
-            {
-                this.CreateUser(userToEnsure);     
-            }
-        }
-
         public string CreateUser(User user)
         {
             _context.Add(user);
             _context.SaveChanges();
             return user.Id;
+        }
+
+        public void UpdateValidationStatus(string id, bool validationStatus)
+        {
+            User user = _context.Users.SingleOrDefault(u => u.Id == id);
+            user.WaitingValidation = validationStatus;
+            _context.Update(user);
+            _context.SaveChanges();
         }
 
         public void UpdateUser(User user)

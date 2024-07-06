@@ -1,4 +1,8 @@
+using AutoMapper;
 using Merchanmusic.Data;
+using Merchanmusic.Data.Entities;
+using Merchanmusic.Data.Mapping_Profiles;
+using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Implementations;
 using Merchanmusic.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,6 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["Database:LocalConnectionString"];
 var serverVersion = new MySqlServerVersion(new Version(6, 0, 1));
 
+builder.Services.AddAutoMapper(typeof(ClientUpdateDtoMappingProfile));
 
 // Add services to the container.
 

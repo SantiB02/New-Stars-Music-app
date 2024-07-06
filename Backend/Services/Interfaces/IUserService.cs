@@ -9,8 +9,8 @@ public interface IUserService
     public bool IsUserDeleted(string id);
     public User? GetUserById(string id);
     public bool CheckIfUserExists(string id);
-    public void EnsureUser(User userToEnsure);
     public string CreateUser(User user);
+    public void UpdateValidationStatus(string id, bool validationStatus);
     public void UpdateUser(User user);
     public void DeleteUser(string id);
     public Task<List<User>> GetUsersByRole(string roleName);
