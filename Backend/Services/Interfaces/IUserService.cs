@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 public interface IUserService
 {
+    List<User> GetAllUsers();
     public string? GetRoleById(string id);
     public bool IsUserDeleted(string id);
     public User? GetUserById(string id);

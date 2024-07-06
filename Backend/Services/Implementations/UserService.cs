@@ -15,6 +15,11 @@ namespace Merchanmusic.Services.Implementations
             _context = context;
         }
 
+        public List<User> GetAllUsers()
+        {
+            return _context.Users.ToList();
+        }
+
         public string? GetRoleById(string id)
         {
             User? user = _context.Users.FirstOrDefault(u => u.Id == id);
@@ -72,5 +77,7 @@ namespace Merchanmusic.Services.Implementations
         
 
     }
+
+        
     }
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../../api/api";
+import api, { setAuthInterceptor } from "../../api/api";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   Avatar,
@@ -13,11 +13,40 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 import LoadingMessage from "../common/LoadingMessage";
 import toast from "react-hot-toast";
 import DataAccordion from "./DataAccordion";
+import { getAllUsers } from "../../services/userService";
 export const Profile = () => {
-  const { user, logout } = useAuth0();
+  const { user, logout, getAccessTokenSilently } = useAuth0();
+  const [users, setUsers] = useState([]);
   const { theme } = useTheme();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setAuthInterceptor(getAccessTokenSilently);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const allUsers = await getAllUsers();
+        setUsers(allUsers);
+        console.log("USER", users);
+      } catch (error) {
+        console.error("Error fetching all Users:", error);
+      }
+    };
+
+    const initialize = async () => {
+      await fetchUsers();
+    };
+
+    if (user) {
+      initialize();
+    }
+  }),
+    [user];
 
   const handleOpen = () => setOpen(!open);
 

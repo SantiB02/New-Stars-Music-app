@@ -7,6 +7,7 @@ using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Models;
 using Merchanmusic.Enums;
 using Merchanmusic.Services.Implementations;
+using Merchanmusic.Services.Interfaces;
 
 
 namespace Merchanmusic.Controllers
@@ -22,25 +23,20 @@ namespace Merchanmusic.Controllers
             _userService = userService;
         }
 
-        [HttpGet("role")]
-        public IActionResult GetRoleById()
-        {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return Ok(_userService.GetRoleById(subClaim));
-        }
+        
 
-        [HttpPost("ensure-user/{email}")]
-        public IActionResult EnsureUser([FromRoute] string email)
+        [HttpGet("AllUser")]
+        public IActionResult GetAllUsers() 
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Client client = new()
+            var users = _userService.GetAllUsers();
+            try
             {
-                Id = subClaim,
-                Email = email,
-            };
-
-            _userService.EnsureUser(client);
-            return Ok();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("is-deleted/{id}")]
@@ -63,6 +59,12 @@ namespace Merchanmusic.Controllers
                 return NotFound($"User with id {id} doesn't exist");
             }
             
+        }
+        [HttpGet("role")]
+        public IActionResult GetRoleById()
+        {
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return Ok(_userService.GetRoleById(subClaim));
         }
 
         [HttpGet("user-info")]
@@ -98,6 +100,27 @@ namespace Merchanmusic.Controllers
             }
             return Forbid();
         }
+        [HttpPost("ensure-user/{email}")]
+        public IActionResult EnsureUser([FromRoute] string email)
+        {
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Client client = new()
+            {
+                Id = subClaim,
+                Email = email,
+            };
+
+            _userService.EnsureUser(client);
+            return Ok();
+        }
+        [HttpDelete]
+        public IActionResult DeleteSelfUser()
+        {
+            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            _userService.DeleteUser(subClaim);
+            return Ok();
+        }
+
 
         [HttpPut("client")]
         public IActionResult UpdateClient([FromBody] ClientUpdateDto clientUpdateDto)
@@ -136,13 +159,7 @@ namespace Merchanmusic.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public IActionResult DeleteSelfUser()
-        {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _userService.DeleteUser(subClaim);
-            return Ok();
-        }
+        
     }
 
 }
