@@ -59,31 +59,17 @@ builder.Services.AddSwaggerGen(setupAction =>
 
 builder.Configuration.AddUserSecrets<Program>();
 
-//builder.Services.AddDbContext<MerchContext>(dbContextOptions =>
+builder.Services.AddHttpContextAccessor();
 
-//{
-//    var connectionString = builder.Configuration.GetConnectionString("MyConnectionString");
-//    var dbPassword = builder.Configuration["DbPassword"];
-
-//    connectionString = connectionString.Replace("{DbPassword}", dbPassword); //uso de un user-secret para no publicar la contraseña de acceso SQL Server al repositorio público de GitHub
-
-//    //dbContextOptions.UseSqlServer(connectionString); //cambiamos el motor de la base de datos de SQLite a SQL Server para poder deployar el back-end en Azure (no admite SQLite nativamente)
-//});
-
-
-
-
-
-
-//#regionServices
+#region Services
 
 builder.Services.AddScoped<IUserService, UserService>(); 
 builder.Services.AddScoped<ISaleOrderService, SaleOrderService>();
+builder.Services.AddScoped<ISaleOrderLineService, SaleOrderLineService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
-//#endregion
-
-//builder.Services.AddHttpContextAccessor();
+#endregion
 
 var certificate = @"-----BEGIN CERTIFICATE-----
 MIIDHTCCAgWgAwIBAgIJYvWcgGRO6CKMMA0GCSqGSIb3DQEBCwUAMCwxKjAoBgNV
@@ -133,7 +119,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration();
     }
 );
-builder.Services.AddCors(options => //habilitamos las solicitudes Cross-Origin para deployar correctamente el back-end en Azure
+builder.Services.AddCors(options => //habilitamos las solicitudes Cross-Origin
 {
     options.AddPolicy("AllowAll", builder =>
     {

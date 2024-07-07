@@ -26,6 +26,11 @@ namespace Merchanmusic.Services.Implementations
             return user?.Role;
         }
 
+        public bool IsWaitingValidation(string id)
+        {
+            return _context.Users.Any(u => u.Id == id && u.WaitingValidation == true);
+        }
+
         public bool IsUserDeleted(string id)
         {
             return _context.Users.Any(u => u.Id == id && u.State == false);
@@ -58,7 +63,6 @@ namespace Merchanmusic.Services.Implementations
 
         public void UpdateUser(User user)
         {
-            _context.ChangeTracker.Clear();
             _context.Update(user);
             _context.SaveChanges();
         }
@@ -70,14 +74,11 @@ namespace Merchanmusic.Services.Implementations
             _context.Update(userToBeDeleted);
             _context.SaveChanges();
         }
+
         public async Task<List<User>> GetUsersByRole(string roleName)
         {
             List<User> results = await _context.Users.Where(u => u.Role == roleName).ToListAsync();
             return results;
-        
-
-    }
-
-        
+        }
     }
 }

@@ -12,8 +12,8 @@ namespace Merchanmusic.Services.Interfaces
             void DeleteProduct(int id);
             void DeleteProductBySeller(int productId, string sellerId);
             //Product UpdateProduct(Product product);
-        List<Product> GetProductBySeller(string sellerId);
-         void UpdateProduct(ProductUpdateDto productUpdateDto);
+            List<Product> GetProductBySeller(string sellerId);
+            void UpdateProduct(ProductUpdateDto productUpdateDto);
         }
 
 }

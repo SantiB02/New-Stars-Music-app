@@ -8,7 +8,7 @@ import {
   Input,
   Checkbox,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../api/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +22,21 @@ const BecomeSeller = () => {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("");
-  const navigate = useNavigate();
+  const [isProcessingRequest, setIsProcessingRequest] = useState(false);
+  const [requestAlreadySubmitted, setRequestAlreadySubmitted] = useState(false);
+
+  useEffect(() => {
+    const fetchUserValidationStatus = async () => {
+      const response = await api.get("/users/is-waiting-validation");
+      const isWaitingValidation = response.data;
+
+      if (isWaitingValidation) {
+        setRequestAlreadySubmitted(true);
+      }
+    };
+
+    fetchUserValidationStatus();
+  }, []);
 
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
@@ -31,6 +45,7 @@ const BecomeSeller = () => {
   const handleOpen = () => setOpen(!open);
 
   const becomeSellerHandler = async () => {
+    setIsProcessingRequest(true);
     handleOpen();
     try {
       const request = {
@@ -44,9 +59,12 @@ const BecomeSeller = () => {
       };
       await api.put("/users/client", request);
       toast.success("Your seller request has been submitted!");
+      setRequestAlreadySubmitted(true);
     } catch (error) {
       toast.error("Error submitting seller request. Please try again!");
       console.error("Error updating user", error);
+    } finally {
+      setIsProcessingRequest(false);
     }
   };
 
@@ -89,9 +107,15 @@ const BecomeSeller = () => {
         become a Seller now and let your products shine!
       </Typography>
       {/* onclick: navegar a "/seller-center", desloguearse y volverse a loguear */}
-      <Button className="bg-orange-800 mt-6 ml-8" onClick={handleOpen}>
-        Create Seller Request
-      </Button>{" "}
+      <Button
+        disabled={isProcessingRequest || requestAlreadySubmitted}
+        className="bg-orange-800 mt-6 ml-8"
+        onClick={handleOpen}
+      >
+        {!requestAlreadySubmitted
+          ? "Create Seller Request"
+          : "Seller Request Already Sent"}
+      </Button>
       <Dialog
         size="xs"
         open={open}

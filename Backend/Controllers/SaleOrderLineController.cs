@@ -13,17 +13,19 @@ namespace Merchanmusic.Controllers
     {
         private readonly ISaleOrderLineService _solService;
         private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
 
-        public SaleOrderLineController(ISaleOrderLineService solService, IUserService userService)
+        public SaleOrderLineController(ISaleOrderLineService solService, IUserService userService, ITokenService tokenService)
         {
             _solService = solService;
             _userService = userService;
+            _tokenService = tokenService;
         }
 
         [HttpGet("{saleOrderId}")]
         public IActionResult GetAllBySaleOrder([FromRoute] int saleOrderId)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             string role = _userService.GetRoleById(subClaim);
             if (role == "Admin")
             {
@@ -48,7 +50,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-product/{productId}")]
         public IActionResult GetAllByProduct([FromRoute] int productId)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             string role = _userService.GetRoleById(subClaim);
             if (role == "Admin")
             {

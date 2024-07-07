@@ -19,10 +19,12 @@ namespace Merchanmusic.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        public UserController(IUserService userService, IMapper mapper)
+        private readonly ITokenService _tokenService;
+        public UserController(IUserService userService, IMapper mapper, ITokenService tokenService)
         {
             _userService = userService;
             _mapper = mapper;
+            _tokenService = tokenService;
         }
 
         
@@ -66,14 +68,14 @@ namespace Merchanmusic.Controllers
         [HttpGet("role")]
         public IActionResult GetRoleById()
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             return Ok(_userService.GetRoleById(subClaim));
         }
 
         [HttpGet("user-info")]
         public IActionResult GetUserInfo()
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             User? user = _userService.GetUserById(subClaim);
 
             if (user != null && user.State)
@@ -93,7 +95,7 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-role/{role}")]
         public IActionResult GetClients([FromRoute] string role)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             string loggedUserRole = _userService.GetRoleById(subClaim);
             User loggedUser = _userService.GetUserById(subClaim);
             if (loggedUserRole == "Admin" && loggedUser.State)
@@ -107,7 +109,7 @@ namespace Merchanmusic.Controllers
         [HttpDelete]
         public IActionResult DeleteSelfUser()
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             _userService.DeleteUser(subClaim);
             return Ok();
         }
@@ -132,15 +134,23 @@ namespace Merchanmusic.Controllers
         [HttpPut("waiting-validation/{waitingValidation}")]
         public IActionResult UpdateWaitingValidation([FromRoute] bool waitingValidation)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             _userService.UpdateValidationStatus(subClaim, waitingValidation);
             return Ok();
+        }
+
+        [HttpGet("is-waiting-validation")]
+        public IActionResult IsWaitingValidation()
+        {
+            string subClaim = _tokenService.GetUserId();
+            bool isWaitingValidation = _userService.IsWaitingValidation(subClaim);
+            return Ok(isWaitingValidation);
         }
 
         [HttpPut("client")]
         public IActionResult UpdateClient([FromBody] ClientUpdateDto clientUpdateDto)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             var existingClient = _userService.GetUserById(subClaim);
 
             if (existingClient is Client && existingClient != null)
@@ -159,7 +169,7 @@ namespace Merchanmusic.Controllers
         [HttpPut("seller")]
         public IActionResult UpdateSeller([FromBody] SellerUpdateDto sellerUpdateDto)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             var existingSeller = _userService.GetUserById(subClaim);
 
             _mapper.Map(sellerUpdateDto, existingSeller);

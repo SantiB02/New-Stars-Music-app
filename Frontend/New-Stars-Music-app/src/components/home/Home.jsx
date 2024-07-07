@@ -47,7 +47,6 @@ const Home = () => {
 
       if (!isUserDeleted) {
         localStorage.removeItem("isAccountDeleted");
-        ensureUser(user?.email);
       } else if (isUserDeleted === true) {
         localStorage.setItem("isAccountDeleted", "true");
         await logout();

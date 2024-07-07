@@ -16,49 +16,48 @@ namespace Merchanmusic.Controllers
     {
         private readonly IProductService _productService;
         private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
 
-
-        public ProductController(IProductService productService, IUserService userService)
+        public ProductController(IProductService productService, IUserService userService, ITokenService tokenService)
         {
             _productService = productService;
             _userService = userService;
+            _tokenService = tokenService;
         }
 
         [HttpGet]
         [AllowAnonymous]
         public IActionResult GetProducts()
-        {
-            
-                var products = _productService.GetProducts();
-                try
-                {
-                    return Ok(products);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
-            
+        {     
+            var products = _productService.GetProducts();
+            try
+            {
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
 
         [HttpGet("{id}")]
         public IActionResult GetProductById(int id)
         {
-                var product = _productService.GetProductById(id);
+            var product = _productService.GetProductById(id);
 
-                if (product == null)
-                {
-                    return NotFound($"El producto con el ID: {id} no fue encontrado");
-                }
+            if (product == null)
+            {
+                return NotFound($"El producto con el ID: {id} no fue encontrado");
+            }
 
-                return Ok(product);
+            return Ok(product);
         }
 
 
         [HttpGet("by-name/{name}")]
         public IActionResult GetProductByName(string name)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             string role = _userService.GetRoleById(subClaim);
             if (role == "Admin" || role == "Client")
             {
@@ -77,11 +76,11 @@ namespace Merchanmusic.Controllers
         [HttpGet("by-seller")]
         public IActionResult GetProductBySeller()
         {
-            string idSeller = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            string role = _userService.GetRoleById(idSeller);
+            string sellerId = _tokenService.GetUserId();
+            string role = _userService.GetRoleById(sellerId);
             if (role == "Seller")
             {
-                var product = _productService.GetProductBySeller(idSeller);
+                var product = _productService.GetProductBySeller(sellerId);
 
                 if (product == null)
                 {
@@ -97,7 +96,7 @@ namespace Merchanmusic.Controllers
         [HttpPost]
         public IActionResult CreateProduct([FromBody] ProductCreateDto productDto)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             string role = _userService.GetRoleById(subClaim);
 
             if (role == "Admin" || role == "Seller")
@@ -135,7 +134,7 @@ namespace Merchanmusic.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
-            string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string subClaim = _tokenService.GetUserId();
             string role = _userService.GetRoleById(subClaim);
             if (role == "Admin" || role == "Seller")
             {
@@ -162,7 +161,7 @@ namespace Merchanmusic.Controllers
         //[HttpPut("{id}")]
         //public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductUpdateDto product)
         //{
-        //    string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    string subClaim = _tokenService.GetUserId();
         //    string role = _userService.GetRoleById(subClaim);
         //    if (role == "Admin" || role == "Seller")
         //    {
