@@ -12,7 +12,8 @@ export const ensureUser = async (userEmail) => {
 //method for search the user in our DB
 export const getAllUsers = async () => {
   try {
-    await api.get("/users/AllUser");
+    const response = await api.get("/users");
+    return response.data;
   } catch (error) {
     console.log("Error", error);
   }

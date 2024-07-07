@@ -3,6 +3,7 @@ import {
   AccordionBody,
   AccordionHeader,
   Button,
+  Input,
   Typography,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
@@ -28,7 +29,7 @@ function Icon({ id, open }) {
   );
 }
 
-const DataAccordion = () => {
+const DataAccordion = ({ users }) => {
   const [open, setOpen] = useState(0);
 
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
@@ -40,31 +41,40 @@ const DataAccordion = () => {
           Fill in your additional information, if you have not already done so
         </AccordionHeader>
         <AccordionBody>
-          {/* {user.address ? (
-            <div className="col-span-2">
-              <h3 className="font-semibold">Address</h3>
-              <p>{user.address}</p>
+          {users.address ? (
+            <div className="col-span-2 pt-4">
+              <Input
+                label={`Address: ${users.address}`}
+                placeholder="enter your address"
+                
+              />
             </div>
           ) : (
-            <div className="col-span-2">
-              <h3 className="font-semibold">Address</h3>
-              <p>{user.address}</p>
+            <div className="col-span-2 pt-4">
+              <Input label="Addres" placeholder="enter your address" />
             </div>
           )}
-          {user.phone_number ? (
-            <div className="col-span-2">
-              <h3 className="font-semibold">Phone Number</h3>
-              <p>{user.phone_number}</p>
+          {users.phone ? (
+            <div className="col-span-2 pt-4">
+              <Input
+                label={`Phone number: ${users.address}`}
+                placeholder="enter your phone number"
+                
+              />
             </div>
           ) : (
-            <div className="col-span-2">
-              <h3 className="font-semibold">Phone Number</h3>
-              <p>{user.phone_number}</p>
+            <div className="col-span-2 pt-4">
+              <Input
+                label="Phone Number:"
+                placeholder="enter your phone number"
+              />
             </div>
-          )} */}
-          <Button variant="gradient" color="blue">
-            <span>Changes my account</span>
-          </Button>
+          )}
+          <div className="pt-4">
+            <Button variant="gradient" color="blue">
+              <span>Changes my account</span>
+            </Button>
+          </div>
         </AccordionBody>
       </Accordion>
     </div>

@@ -31,8 +31,9 @@ export const Profile = () => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        setUsers(allUsers);
-        console.log("USER", users);
+        const userFilter = allUsers.filter((u) => u.email === user.email);
+        console.log("USER", userFilter);
+        setUsers(userFilter);
       } catch (error) {
         console.error("Error fetching all Users:", error);
       }
@@ -45,8 +46,7 @@ export const Profile = () => {
     if (user) {
       initialize();
     }
-  }),
-    [user];
+  }, [user]);
 
   const handleOpen = () => setOpen(!open);
 
@@ -72,7 +72,7 @@ export const Profile = () => {
     <div
       className={
         theme
-          ? "flex items-center justify-center mt-16 "
+          ? "flex items-center justify-center mt-16 pb-16 "
           : "flex items-center justify-center pt-16 pb-16 bg-gray-200"
       }
     >
@@ -105,8 +105,8 @@ export const Profile = () => {
             <p>{user.name}</p>
           </div>
 
-          <div className="col-span-2 mt-6">
-            <DataAccordion />
+          <div className="col-span-2 mt-6 ">
+            <DataAccordion users={users} />
           </div>
           <div className="col-span-2 mt-2" onClick={handleOpen}>
             <Button color="red">Delete my profile</Button>

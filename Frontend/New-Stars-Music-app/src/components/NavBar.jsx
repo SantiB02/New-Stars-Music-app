@@ -32,31 +32,31 @@ import { setAuthInterceptor } from "../api/api";
 const products = [
   {
     name: "Cap",
-    description: "Get a better understanding of your traffic",
+    description: "",
     href: "#",
     icon: GiBilledCap,
   },
   {
     name: "Bags",
-    description: "Speak directly to your customers",
+    description: "",
     href: "#",
     icon: GiSchoolBag,
   },
   {
     name: "T-shirt",
-    description: "Your customers’ data will be safe and secure",
+    description: "",
     href: "#",
     icon: FaTshirt,
   },
   {
     name: "CDs",
-    description: "Connect with third-party tools",
+    description: "",
     href: "#",
     icon: FaCompactDisc,
   },
   {
     name: "Posters",
-    description: "Build strategic funnels that will convert",
+    description: "",
     href: "#",
     icon: RiFilePaperFill,
   },
