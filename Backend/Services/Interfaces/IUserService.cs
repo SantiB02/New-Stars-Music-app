@@ -7,6 +7,7 @@ public interface IUserService
     List<User> GetAllUsers();
     public string? GetRoleById(string id);
     public bool IsWaitingValidation(string id);
+    public bool HasPersonalInfo(string id);
     public bool IsUserDeleted(string id);
     public User? GetUserById(string id);
     public bool CheckIfUserExists(string id);

@@ -31,6 +31,23 @@ namespace Merchanmusic.Services.Implementations
             return _context.Users.Any(u => u.Id == id && u.WaitingValidation == true);
         }
 
+        public bool HasPersonalInfo(string id)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var propertiesToCheck = new[] { "Address", "Apartment", "Country", "City", "Phone", "PostalCode" };
+
+            foreach (var propertyName in propertiesToCheck)
+            {
+                var property = user.GetType().GetProperty(propertyName);
+                if (property.GetValue(user) == null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public bool IsUserDeleted(string id)
         {
             return _context.Users.Any(u => u.Id == id && u.State == false);

@@ -147,6 +147,14 @@ namespace Merchanmusic.Controllers
             return Ok(isWaitingValidation);
         }
 
+        [HttpGet("has-personal-info")]
+        public IActionResult HasPersonalInfo()
+        {
+            string subClaim = _tokenService.GetUserId();
+            bool hasPersonalInfo = _userService.HasPersonalInfo(subClaim);
+            return Ok(hasPersonalInfo);
+        }
+
         [HttpPut("client")]
         public IActionResult UpdateClient([FromBody] ClientUpdateDto clientUpdateDto)
         {
@@ -162,6 +170,14 @@ namespace Merchanmusic.Controllers
             {
                 return BadRequest($"User with id {subClaim} is not a Client or doesn't exist");
             }
+        }
+
+        [HttpPut("validation-status/{validationStatus}")]
+        public IActionResult UpdateValidationStatus([FromRoute] bool validationStatus)
+        {
+            string subClaim = _tokenService.GetUserId();
+            _userService.UpdateValidationStatus(subClaim, validationStatus);
+            return Ok();
         }
 
         //[HttpPut("upgrade-client")] PARA QUE ADMIN CONVIERTA A CLIENT EN SELLER

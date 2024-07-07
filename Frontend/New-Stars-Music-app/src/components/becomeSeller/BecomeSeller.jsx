@@ -6,13 +6,13 @@ import {
   CardFooter,
   Typography,
   Input,
-  Checkbox,
+  Alert,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import api from "../../api/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import InfoIcon from "../icons/InfoIcon";
 
 const BecomeSeller = () => {
   const [open, setOpen] = useState(false);
@@ -24,6 +24,10 @@ const BecomeSeller = () => {
   const [phone, setPhone] = useState("");
   const [isProcessingRequest, setIsProcessingRequest] = useState(false);
   const [requestAlreadySubmitted, setRequestAlreadySubmitted] = useState(false);
+  const [personalInfoAlreadySubmitted, setPersonalInfoAlreadySubmitted] =
+    useState(false);
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserValidationStatus = async () => {
@@ -32,10 +36,22 @@ const BecomeSeller = () => {
 
       if (isWaitingValidation) {
         setRequestAlreadySubmitted(true);
+      } else {
+        const response = await api.get("/users/has-personal-info");
+        const hasPersonalInfo = response.data;
+        if (hasPersonalInfo) {
+          setPersonalInfoAlreadySubmitted(true);
+        }
       }
     };
 
-    fetchUserValidationStatus();
+    const initialize = async () => {
+      setIsLoadingPage(true);
+      await fetchUserValidationStatus();
+      setIsLoadingPage(false);
+    };
+
+    initialize();
   }, []);
 
   const stateChangeHandler = (e, setState) => {
@@ -63,6 +79,24 @@ const BecomeSeller = () => {
     } catch (error) {
       toast.error("Error submitting seller request. Please try again!");
       console.error("Error updating user", error);
+    } finally {
+      setIsProcessingRequest(false);
+    }
+  };
+
+  const becomeSellerWithSavedInfoHandler = async () => {
+    setIsProcessingRequest(true);
+    handleOpen();
+    try {
+      await api.put("/users/validation-status/true");
+      toast.success("Your seller request has been submitted!");
+      setRequestAlreadySubmitted(true);
+    } catch (error) {
+      toast.error("Error submitting seller request. Please try again!");
+      console.error(
+        "Error submitting seller request with saved personal info",
+        error
+      );
     } finally {
       setIsProcessingRequest(false);
     }
@@ -106,16 +140,17 @@ const BecomeSeller = () => {
         Don&apos;t miss out on the chance to reach fans around the world -
         become a Seller now and let your products shine!
       </Typography>
-      {/* onclick: navegar a "/seller-center", desloguearse y volverse a loguear */}
-      <Button
-        disabled={isProcessingRequest || requestAlreadySubmitted}
-        className="bg-orange-800 mt-6 ml-8"
-        onClick={handleOpen}
-      >
-        {!requestAlreadySubmitted
-          ? "Create Seller Request"
-          : "Seller Request Already Sent"}
-      </Button>
+      {!isLoadingPage && (
+        <Button
+          disabled={isProcessingRequest || requestAlreadySubmitted}
+          className="bg-orange-800 mt-6 ml-8"
+          onClick={handleOpen}
+        >
+          {!requestAlreadySubmitted
+            ? "Create Seller Request"
+            : "Seller Request Already Sent"}
+        </Button>
+      )}
       <Dialog
         size="xs"
         open={open}
@@ -133,51 +168,75 @@ const BecomeSeller = () => {
               confirmation email after your seller account has been successfully
               activated.
             </Typography>
-            <Typography className="-mb-2" variant="h6">
-              Your Location
-            </Typography>
-            <Input
-              label="Country"
-              size="md"
-              value={country}
-              onChange={() => stateChangeHandler(event, setCountry)}
-            />
-            <Input
-              label="City"
-              size="md"
-              value={city}
-              onChange={() => stateChangeHandler(event, setCity)}
-            />
-            <Input
-              label="Postal Code"
-              size="md"
-              value={postalCode}
-              onChange={() => stateChangeHandler(event, setPostalCode)}
-            />
-            <Input
-              label="Address"
-              size="md"
-              value={address}
-              onChange={() => stateChangeHandler(event, setAddress)}
-            />
-            <Input
-              label="Apartment / Floor"
-              size="md"
-              value={apartment}
-              onChange={() => stateChangeHandler(event, setApartment)}
-            />
-            <Typography className="-mb-2" variant="h6">
-              Your Contact Information
-            </Typography>
-            <Input
-              label="Phone"
-              size="md"
-              value={phone}
-              onChange={() => stateChangeHandler(event, setPhone)}
-            />
+            {!personalInfoAlreadySubmitted ? (
+              <>
+                <Typography className="-mb-2" variant="h6">
+                  Your Location
+                </Typography>
+                <Input
+                  label="Country"
+                  size="md"
+                  value={country}
+                  onChange={() => stateChangeHandler(event, setCountry)}
+                />
+                <Input
+                  label="City"
+                  size="md"
+                  value={city}
+                  onChange={() => stateChangeHandler(event, setCity)}
+                />
+                <Input
+                  label="Postal Code"
+                  size="md"
+                  value={postalCode}
+                  onChange={() => stateChangeHandler(event, setPostalCode)}
+                />
+                <Input
+                  label="Address"
+                  size="md"
+                  value={address}
+                  onChange={() => stateChangeHandler(event, setAddress)}
+                />
+                <Input
+                  label="Apartment / Floor"
+                  size="md"
+                  value={apartment}
+                  onChange={() => stateChangeHandler(event, setApartment)}
+                />
+                <Typography className="-mb-2" variant="h6">
+                  Your Contact Information
+                </Typography>
+                <Input
+                  label="Phone"
+                  size="md"
+                  value={phone}
+                  onChange={() => stateChangeHandler(event, setPhone)}
+                />
+              </>
+            ) : (
+              <Alert icon={<InfoIcon />}>
+                Your personal information is already saved in your profile. You
+                can submit this request with it or modify it in your{" "}
+                <a
+                  className="text-orange-800 cursor-pointer hover:underline"
+                  onClick={() => navigate("/profile")}
+                >
+                  Profile
+                </a>{" "}
+                page.
+              </Alert>
+            )}
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" onClick={becomeSellerHandler} fullWidth>
+            <Button
+              variant="gradient"
+              onClick={
+                !personalInfoAlreadySubmitted
+                  ? becomeSellerHandler
+                  : becomeSellerWithSavedInfoHandler
+              }
+              fullWidth
+            >
               Submit Seller Request
             </Button>
           </CardFooter>
