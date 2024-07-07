@@ -2,9 +2,7 @@
 {
     public class SaleOrderLineDto
     {
-        public int Amount { get; set; }
-        public decimal UnitPrice { get; set; }
+        public int Quantity { get; set; }
         public int ProductId { get; set; }
-        public int SaleOrderId { get; set; }
     }
 }

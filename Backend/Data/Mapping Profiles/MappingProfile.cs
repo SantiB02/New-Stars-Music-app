@@ -10,6 +10,8 @@ namespace Merchanmusic.Data.Mapping_Profiles
         {
             CreateMap<ClientUpdateDto, Client>();
             CreateMap<SellerUpdateDto, Seller>();
+            CreateMap<SaleOrderDto, SaleOrder>();
+            CreateMap<SaleOrderLineDto, SaleOrderLine>();
         }
     }
 }

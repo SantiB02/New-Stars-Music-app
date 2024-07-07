@@ -27,8 +27,6 @@ namespace Merchanmusic.Controllers
             _tokenService = tokenService;
         }
 
-        
-
         [HttpGet]
         public IActionResult GetAllUsers() 
         {

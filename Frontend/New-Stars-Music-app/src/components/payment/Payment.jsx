@@ -4,12 +4,16 @@ import {
   Checkbox,
   Button,
   Typography,
+  Alert,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import toast from "react-hot-toast";
+import api from "../../api/api";
+import LoadingMessage from "../common/LoadingMessage";
+import InfoIcon from "../icons/InfoIcon";
 
 const Payment = () => {
   const [open, setOpen] = useState(false);
@@ -23,13 +27,36 @@ const Payment = () => {
   const [expirationDate, setExpirationDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [personalInfoAlreadySubmitted, setPersonalInfoAlreadySubmitted] =
+    useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { cartTotal } = useCart();
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    const fetchUserPersonalInfoStatus = async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.get("/users/has-personal-info");
+        const hasPersonalInfo = response.data;
+
+        if (hasPersonalInfo) {
+          setPersonalInfoAlreadySubmitted(true);
+        }
+      } catch (error) {
+        console.error("Error fetching user's personal info status", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserPersonalInfoStatus();
+  }, []);
 
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
   };
-  const { theme } = useTheme();
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -41,6 +68,8 @@ const Payment = () => {
     toast.success("Your order was successfully made!");
   };
 
+  if (isLoading) return <LoadingMessage message="Loading..." />;
+
   return (
     <div className="ml-10 pt-4">
       <Typography variant="h2" className="font-light">
@@ -50,69 +79,86 @@ const Payment = () => {
         Total:{" "}
         <span className="text-orange-600">${cartTotal.toFixed(2)} ARS</span>
       </Typography>
+      {personalInfoAlreadySubmitted && (
+        <div className="mr-16 mb-4">
+          <Alert className={theme && "bg-gray-800"} icon={<InfoIcon />}>
+            Your shipping location is already saved in your profile. You can pay
+            for this order with it or modify it in your{" "}
+            <a
+              className="text-orange-800 cursor-pointer hover:underline"
+              onClick={() => navigate("/profile")}
+            >
+              Profile
+            </a>{" "}
+            page.
+          </Alert>
+        </div>
+      )}
       <div className="flex justify-center gap-16">
-        <Card color="transparent" shadow={false}>
-          <Typography
-            variant="h4"
-            className="font-light"
-            color={theme ? "white" : "blue-gray"}
-          >
-            Where will you receive your order?
-          </Typography>
-          <Typography
-            className={`mt-1 font-normal ${
-              theme ? "text-gray-500" : "text-gray-600"
-            }`}
-          >
-            This information will be saved for future purchases.
-          </Typography>
-          <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
-            <div className="mb-1 flex flex-col gap-6">
-              <Input
-                color={theme && "white"}
-                label="Country"
-                size="md"
-                value={country}
-                onChange={() => stateChangeHandler(event, setCountry)}
-              />
-              <Input
-                color={theme && "white"}
-                label="City"
-                size="md"
-                value={city}
-                onChange={() => stateChangeHandler(event, setCity)}
-              />
-              <Input
-                color={theme && "white"}
-                label="Postal Code"
-                size="md"
-                value={postalCode}
-                onChange={() => stateChangeHandler(event, setPostalCode)}
-              />
-              <Input
-                color={theme && "white"}
-                label="Address"
-                size="md"
-                value={address}
-                onChange={() => stateChangeHandler(event, setAddress)}
-              />
-              <Input
-                color={theme && "white"}
-                label="Apartment / Floor"
-                size="md"
-                value={apartment}
-                onChange={() => stateChangeHandler(event, setApartment)}
-              />
-              <Input
-                color={theme && "white"}
-                label="Phone"
-                size="md"
-                value={phone}
-                onChange={() => stateChangeHandler(event, setPhone)}
-              />
-            </div>
-          </form>
-        </Card>
+        {!personalInfoAlreadySubmitted && (
+          <Card color="transparent" shadow={false}>
+            <Typography
+              variant="h4"
+              className="font-light"
+              color={theme ? "white" : "blue-gray"}
+            >
+              Where will you receive your order?
+            </Typography>
+            <Typography
+              className={`mt-1 font-normal ${
+                theme ? "text-gray-500" : "text-gray-600"
+              }`}
+            >
+              This information will be saved for future purchases.
+            </Typography>
+            <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+              <div className="mb-1 flex flex-col gap-6">
+                <Input
+                  color={theme && "white"}
+                  label="Country"
+                  size="md"
+                  value={country}
+                  onChange={() => stateChangeHandler(event, setCountry)}
+                />
+                <Input
+                  color={theme && "white"}
+                  label="City"
+                  size="md"
+                  value={city}
+                  onChange={() => stateChangeHandler(event, setCity)}
+                />
+                <Input
+                  color={theme && "white"}
+                  label="Postal Code"
+                  size="md"
+                  value={postalCode}
+                  onChange={() => stateChangeHandler(event, setPostalCode)}
+                />
+                <Input
+                  color={theme && "white"}
+                  label="Address"
+                  size="md"
+                  value={address}
+                  onChange={() => stateChangeHandler(event, setAddress)}
+                />
+                <Input
+                  color={theme && "white"}
+                  label="Apartment / Floor"
+                  size="md"
+                  value={apartment}
+                  onChange={() => stateChangeHandler(event, setApartment)}
+                />
+                <Input
+                  color={theme && "white"}
+                  label="Phone"
+                  size="md"
+                  value={phone}
+                  onChange={() => stateChangeHandler(event, setPhone)}
+                />
+              </div>
+            </form>
+          </Card>
+        )}
         <Card color="transparent" shadow={false}>
           <Typography
             variant="h4"

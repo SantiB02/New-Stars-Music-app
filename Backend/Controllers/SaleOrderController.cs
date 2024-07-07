@@ -1,4 +1,5 @@
-﻿using Merchanmusic.Data.Entities;
+﻿using AutoMapper;
+using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Implementations;
 using Merchanmusic.Services.Interfaces;
@@ -16,12 +17,14 @@ namespace Merchanmusic.Controllers
         private readonly ISaleOrderService _saleOrderService;
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        public SaleOrderController(ISaleOrderService saleOrderService, IUserService userService, ITokenService tokenService)
+        public SaleOrderController(ISaleOrderService saleOrderService, IUserService userService, ITokenService tokenService, IMapper mapper)
         {
             _saleOrderService = saleOrderService;
             _userService = userService;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         [HttpGet("by-client/{clientId}")]
@@ -103,29 +106,29 @@ namespace Merchanmusic.Controllers
         public IActionResult CreateSaleOrder([FromBody] SaleOrderDto dto)
         {
             string subClaim = _tokenService.GetUserId();
-            string loggedUserRole = _userService.GetRoleById(subClaim);
-            if (loggedUserRole == "Admin" || loggedUserRole == "Client")
+     
+            if (dto == null)
             {
-                if (dto == null)
-                {
-                    return BadRequest("Por favor complete los campos");
-                }
-                try
-                {
-                    var newSaleOrder = new SaleOrder()
-                    {
-                        ClientId = dto.ClientId,
-                        Date = DateTime.Now
-                    };
-                    newSaleOrder = _saleOrderService.CreateSaleOrder(newSaleOrder);
-                    return Ok($"Orden de venta creada exitosamente con ID: {newSaleOrder.Id}");
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                return BadRequest("Sale Order can't be empty");
             }
-            return Forbid();
+            try
+            {
+                SaleOrder newSaleOrder = new()
+                {
+                    OrderCode = Guid.NewGuid().ToString(),
+                    Date = DateTime.Now,
+                    Total = dto.Total,
+                    ClientId = dto.ClientId
+                };
+                _mapper.Map(dto.Lines, newSaleOrder.SaleOrderLines);
+              
+                newSaleOrder = _saleOrderService.CreateSaleOrder(newSaleOrder);
+                return Ok($"Sale Order successfully created with ID: {newSaleOrder.Id}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
