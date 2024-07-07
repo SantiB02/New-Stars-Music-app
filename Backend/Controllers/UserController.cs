@@ -141,12 +141,17 @@ namespace Merchanmusic.Controllers
         public IActionResult UpdateClient([FromBody] ClientUpdateDto clientUpdateDto)
         {
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            User existingClient = _userService.GetUserById(subClaim);
+            var existingClient = _userService.GetUserById(subClaim);
 
-            existingClient = _mapper.Map<User>(clientUpdateDto);
-
-            _userService.UpdateUser(existingClient);
-            return Ok();
+            if (existingClient is Client && existingClient != null)
+            {
+                _mapper.Map(clientUpdateDto, existingClient);
+                _userService.UpdateUser(existingClient);
+                return Ok();
+            } else
+            {
+                return BadRequest($"User with id {subClaim} is not a Client or doesn't exist");
+            }
         }
 
         //[HttpPut("upgrade-client")] PARA QUE ADMIN CONVIERTA A CLIENT EN SELLER

@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["Database:LocalConnectionString"];
 var serverVersion = new MySqlServerVersion(new Version(6, 0, 1));
 
-builder.Services.AddAutoMapper(typeof(ClientUpdateDtoMappingProfile));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Add services to the container.
 

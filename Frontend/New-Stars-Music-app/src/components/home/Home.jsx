@@ -8,8 +8,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import LoadingMessage from "../common/LoadingMessage";
 import api, { setAuthInterceptor } from "../../api/api";
-import { ensureUser } from "../../services/userService";
-import { useRoles } from "../../hooks/useRoles";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -42,10 +40,15 @@ const Home = () => {
       });
       const isUserDeleted = response.data;
 
-      if (!isUserDeleted || response.status === 404) {
+      if (response.status === 404) {
+        const newUser = { id: user.sub, email: user.email };
+        await api.post("/users", newUser);
+      }
+
+      if (!isUserDeleted) {
         localStorage.removeItem("isAccountDeleted");
         ensureUser(user?.email);
-      } else {
+      } else if (isUserDeleted === true) {
         localStorage.setItem("isAccountDeleted", "true");
         await logout();
       }
