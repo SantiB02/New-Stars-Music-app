@@ -9,6 +9,7 @@ namespace Merchanmusic.Data.Mapping_Profiles
         public MappingProfile()
         {
             CreateMap<ClientUpdateDto, Client>();
+            CreateMap<SellerUpdateDto, Seller>();
         }
     }
 }

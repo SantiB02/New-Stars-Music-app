@@ -162,12 +162,7 @@ namespace Merchanmusic.Controllers
             string subClaim = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var existingSeller = _userService.GetUserById(subClaim);
 
-            existingSeller.Address = sellerUpdateDto.Address;
-            existingSeller.Apartment = sellerUpdateDto.Apartment;
-            existingSeller.Country = sellerUpdateDto.Country;
-            existingSeller.City = sellerUpdateDto.City;
-            existingSeller.PostalCode = sellerUpdateDto.PostalCode;
-            existingSeller.Phone = sellerUpdateDto.Phone;
+            _mapper.Map(sellerUpdateDto, existingSeller);
 
             _userService.UpdateUser(existingSeller);
             return Ok();
