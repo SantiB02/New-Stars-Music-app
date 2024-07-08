@@ -112,20 +112,26 @@ namespace Merchanmusic.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public IActionResult CreateClient([FromBody] ClientPostDto clientPostDto)
+        private static readonly object _lock = new object();
+
+        [HttpPost("{email}")]
+        public IActionResult CreateClient([FromRoute] string email)
         {
-            bool userExists = _userService.CheckIfUserExists(clientPostDto.Id);
-            if (!userExists)
+            string subClaim = _tokenService.GetUserId();
+            lock (_lock)
             {
-                Client newClient = new()
+                bool userExists = _userService.CheckIfUserExists(subClaim);
+                if (!userExists)
                 {
-                    Id = clientPostDto.Id,
-                    Email = clientPostDto.Email,
-                };
-                _userService.CreateUser(newClient);
+                    Client newClient = new()
+                    {
+                        Id = subClaim,
+                        Email = email,
+                    };
+                    _userService.CreateUser(newClient);
+                }
             }
+            
             return Ok();
         }
 

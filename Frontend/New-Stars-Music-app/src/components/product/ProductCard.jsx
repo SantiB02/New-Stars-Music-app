@@ -25,7 +25,6 @@ const ProductCard = ({ product, isSeller, isAdmin, handleDeleteProduct }) => {
   };
 
   useEffect(() => {
-    console.log("CURRENT CART:", cart);
     if (checkProductInCart(product)) {
       setIsProductInCart(true);
     } else {

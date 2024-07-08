@@ -82,13 +82,21 @@ namespace Merchanmusic.Data
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Price)
-                .HasColumnType("DECIMAL(7, 2)");
+                .HasColumnType("DECIMAL(9, 2)");
+
+            modelBuilder.Entity<SaleOrder>()
+                .Property(so => so.Total)
+                .HasColumnType("DECIMAL(9, 2)");
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.CreationDate)
                 .HasColumnType("DATETIME(0)");
             modelBuilder.Entity<Product>()
                 .Property(p => p.LastModifiedDate)
+                .HasColumnType("DATETIME(0)");
+
+            modelBuilder.Entity<SaleOrder>()
+                .Property(so => so.Date)
                 .HasColumnType("DATETIME(0)");
 
             modelBuilder.Entity<Product>().HasData(

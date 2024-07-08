@@ -13,7 +13,6 @@ export const setAuthInterceptor = (getToken) => {
   api.interceptors.request.use(
     async (config) => {
       const token = await getToken();
-      console.log("TOKEN:", { token });
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     },

@@ -27,7 +27,6 @@ const Home = () => {
       try {
         const allProducts = await getAllProducts();
         setProducts(allProducts);
-        console.log("USER", user);
       } catch (error) {
         console.error("Error fetching all products:", error);
       }
@@ -41,8 +40,8 @@ const Home = () => {
       const isUserDeleted = response.data;
 
       if (response.status === 404) {
-        const newUser = { id: user.sub, email: user.email };
-        await api.post("/users", newUser);
+        console.log("CREATING NEW USER");
+        await api.post(`/users/${user.email}`);
       }
 
       if (!isUserDeleted) {

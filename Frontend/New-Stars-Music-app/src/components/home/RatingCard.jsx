@@ -2,7 +2,7 @@ import React from "react";
 
 const RatingCard = ({ profilePicUrl, fullName, description, rating }) => {
   return (
-    <div className="flex items-center justify-center mt-6 mx-10 ">
+    <div className="flex items-center justify-center mt-6 mb-6 mx-10 ">
       <div className=" mx-auto bg-white rounded-3xl shadow-xl">
         <div className="rounded-3xl max-w-[370px] shadow-sm bg-slate-100  flex-col">
           <img
@@ -49,12 +49,6 @@ const RatingCard = ({ profilePicUrl, fullName, description, rating }) => {
                       />{" "}
                     </g>
                   </svg>
-                </span>
-              </div>
-              <div className="flex flex-col items-end">
-                <div className="h-7" />
-                <span className="text-3xl  font-bold  gap-x-2 text-slate-300">
-                  # 8
                 </span>
               </div>
             </div>

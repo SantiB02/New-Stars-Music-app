@@ -31,7 +31,7 @@ const Payment = () => {
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { cartTotal } = useCart();
+  const { cart, cartTotal } = useCart();
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -62,13 +62,40 @@ const Payment = () => {
 
   const makePaymentHandler = async () => {
     setIsProcessingPayment(true);
-    toast.loading("Processing payment... Please wait", 3000);
-    await delay(3000);
-    toast.dismiss();
-    toast.success("Your order was successfully made!");
+    try {
+      if (!personalInfoAlreadySubmitted) {
+        const request = {
+          address,
+          apartment,
+          country,
+          city,
+          postalCode,
+          phone,
+        };
+        await api.put("/users/client", request);
+      }
+
+      const saleOrderLines = [];
+
+      cart.forEach((product) => {
+        const saleOrderLine = {
+          quantity: product.quantity,
+          productId: product.id,
+        };
+        saleOrderLines.push(saleOrderLine);
+      });
+
+      const newSaleOrder = { linesDto: saleOrderLines, total: cartTotal };
+      await api.post("/sale-orders", newSaleOrder);
+
+      await delay(3000);
+      toast.dismiss();
+    } catch (error) {}
   };
 
   if (isLoading) return <LoadingMessage message="Loading..." />;
+
+  if (cart.length === 0) navigate("/home");
 
   return (
     <div className="ml-10 pt-4">
@@ -81,7 +108,10 @@ const Payment = () => {
       </Typography>
       {personalInfoAlreadySubmitted && (
         <div className="mr-16 mb-4">
-          <Alert className={theme && "bg-gray-800"} icon={<InfoIcon />}>
+          <Alert
+            className={theme ? "bg-gray-800" : undefined}
+            icon={<InfoIcon />}
+          >
             Your shipping location is already saved in your profile. You can pay
             for this order with it or modify it in your{" "}
             <a
@@ -114,42 +144,42 @@ const Payment = () => {
             <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
               <div className="mb-1 flex flex-col gap-6">
                 <Input
-                  color={theme && "white"}
+                  color={theme ? "white" : undefined}
                   label="Country"
                   size="md"
                   value={country}
                   onChange={() => stateChangeHandler(event, setCountry)}
                 />
                 <Input
-                  color={theme && "white"}
+                  color={theme ? "white" : undefined}
                   label="City"
                   size="md"
                   value={city}
                   onChange={() => stateChangeHandler(event, setCity)}
                 />
                 <Input
-                  color={theme && "white"}
+                  color={theme ? "white" : undefined}
                   label="Postal Code"
                   size="md"
                   value={postalCode}
                   onChange={() => stateChangeHandler(event, setPostalCode)}
                 />
                 <Input
-                  color={theme && "white"}
+                  color={theme ? "white" : undefined}
                   label="Address"
                   size="md"
                   value={address}
                   onChange={() => stateChangeHandler(event, setAddress)}
                 />
                 <Input
-                  color={theme && "white"}
+                  color={theme ? "white" : undefined}
                   label="Apartment / Floor"
                   size="md"
                   value={apartment}
                   onChange={() => stateChangeHandler(event, setApartment)}
                 />
                 <Input
-                  color={theme && "white"}
+                  color={theme ? "white" : undefined}
                   label="Phone"
                   size="md"
                   value={phone}
@@ -178,7 +208,7 @@ const Payment = () => {
           <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
             <div className="mb-1 flex flex-col gap-6">
               <Input
-                color={theme && "white"}
+                color={theme ? "white" : undefined}
                 label="Number"
                 type="number"
                 size="md"
@@ -188,14 +218,14 @@ const Payment = () => {
 
               <Input
                 type="date"
-                color={theme && "white"}
+                color={theme ? "white" : undefined}
                 label="Expiration Date"
                 size="md"
                 value={expirationDate}
                 onChange={() => stateChangeHandler(event, setExpirationDate)}
               />
               <Input
-                color={theme && "white"}
+                color={theme ? "white" : undefined}
                 label="CVV"
                 type="number"
                 size="md"
@@ -209,7 +239,7 @@ const Payment = () => {
       <div className="flex justify-center">
         <Button
           disabled={isProcessingPayment ? true : false}
-          color={theme && "white"}
+          color={theme ? "white" : undefined}
           className="my-6 max-w-28"
           fullWidth
           onClick={makePaymentHandler}
