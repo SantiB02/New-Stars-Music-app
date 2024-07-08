@@ -118,9 +118,9 @@ namespace Merchanmusic.Controllers
                     OrderCode = Guid.NewGuid().ToString(),
                     Date = DateTime.Now,
                     Total = dto.Total,
-                    ClientId = dto.ClientId
+                    ClientId = subClaim
                 };
-                _mapper.Map(dto.Lines, newSaleOrder.SaleOrderLines);
+                _mapper.Map(dto.LinesDto, newSaleOrder.SaleOrderLines);
               
                 newSaleOrder = _saleOrderService.CreateSaleOrder(newSaleOrder);
                 return Ok($"Sale Order successfully created with ID: {newSaleOrder.Id}");

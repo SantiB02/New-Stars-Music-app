@@ -7,8 +7,7 @@ namespace Merchanmusic.Data.Models
 {
     public class SaleOrderDto
     {
-        public string ClientId { get; set; }
-        public ICollection<SaleOrderLineDto> Lines { get; set; }
+        public ICollection<SaleOrderLineDto> LinesDto { get; set; }
         public decimal Total {  get; set; }
     }
 }

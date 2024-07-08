@@ -163,7 +163,7 @@ namespace Merchanmusic.Data
                 });
 
             // // Relación entre Cliente y OrdenDeVenta (uno a muchos)
-            modelBuilder.Entity<Client>()
+            modelBuilder.Entity<User>()
            .HasMany(c => c.SaleOrders)
            .WithOne(o => o.Client)
            .HasForeignKey(o => o.ClientId);
@@ -171,7 +171,7 @@ namespace Merchanmusic.Data
             // Relación entre OrdenDeVenta y LineaDeVenta (uno a muchos)
             modelBuilder.Entity<SaleOrder>()
                 .HasMany(o => o.SaleOrderLines)
-                .WithOne(l => l.SaleOrder)
+                .WithOne()
                 .HasForeignKey(l => l.SaleOrderId);
 
 

@@ -15,7 +15,8 @@ namespace Merchanmusic.Data.Entities
         public string? City { get; set; }
         public string? PostalCode { get; set; }
         public string? Phone { get; set; }
-        
+        public ICollection<SaleOrder> SaleOrders { get; set; } = new List<SaleOrder>();
+
         public bool State { get; set; } = true;
         public string Role { get; set; }
         public bool WaitingValidation { get; set; } = false;
