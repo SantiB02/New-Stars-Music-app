@@ -58,8 +58,6 @@ const Payment = () => {
     setState(e.target.value);
   };
 
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   const makePaymentHandler = async () => {
     setIsProcessingPayment(true);
     try {
@@ -86,10 +84,12 @@ const Payment = () => {
       });
 
       const newSaleOrder = { linesDto: saleOrderLines, total: cartTotal };
-      await api.post("/sale-orders", newSaleOrder);
+      const response = await api.post("/sale-orders", newSaleOrder);
+      const newSaleOrderId = response.data;
 
-      await delay(3000);
-      toast.dismiss();
+      localStorage.removeItem("cart");
+      localStorage.removeItem("cartTotal");
+      navigate(`/shipping-details/${newSaleOrderId}`);
     } catch (error) {}
   };
 

@@ -81,25 +81,22 @@ namespace Merchanmusic.Controllers
         {
             string subClaim = _tokenService.GetUserId();
             string loggedUserRole = _userService.GetRoleById(subClaim);
-            if (loggedUserRole == "Admin")
+            
+            try
             {
-                try
-                {
-                    var saleOrder = _saleOrderService.GetOne(orderId);
+                SaleOrder? saleOrder = _saleOrderService.GetOne(orderId);
 
-                    if (saleOrder == null)
-                    {
-                        return NotFound($"Orden de venta con id {orderId} no encontrada");
-                    }
-
-                    return Ok(saleOrder);
-                }
-                catch (Exception ex)
+                if (saleOrder == null)
                 {
-                    return BadRequest($"Error: {ex.Message}");
+                    return NotFound($"Sale Order with ID {orderId} wasn't found");
                 }
+
+                return Ok(saleOrder);
             }
-            return Forbid();
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         [HttpPost]
@@ -123,7 +120,7 @@ namespace Merchanmusic.Controllers
                 _mapper.Map(dto.LinesDto, newSaleOrder.SaleOrderLines);
               
                 newSaleOrder = _saleOrderService.CreateSaleOrder(newSaleOrder);
-                return Ok($"Sale Order successfully created with ID: {newSaleOrder.Id}");
+                return Ok(newSaleOrder.Id);
             }
             catch (Exception ex)
             {
