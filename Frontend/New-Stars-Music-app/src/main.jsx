@@ -33,7 +33,7 @@ const AppProviders = ({ children }) => {
       clientId={authSettings.clientId}
       authorizationParams={{
         redirect_uri: "http://localhost:5173/home",
-        audience: "https://dev-a64glq5ygldhuy1g.us.auth0.com/api/v2/",
+        audience: authSettings.audience,
       }}
     >
       <ThemeProvider>
@@ -52,4 +52,8 @@ const AppWrapper = () => (
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<AppWrapper />);
+root.render(
+  <React.StrictMode>
+    <AppWrapper />
+  </React.StrictMode>
+);

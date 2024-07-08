@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import StoreProducts from "./StoreProducts";
 import { getAllProducts } from "../../services/productsService";
 import { useTheme } from "../../services/contexts/ThemeProvider";
+import { useRoles } from "../../hooks/useRoles";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Store = () => {
   const { theme } = useTheme();
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,7 +41,11 @@ const Store = () => {
         </p>
       </div>
       <div>
-        <StoreProducts products={products} isLoading={isLoading} />
+        <StoreProducts
+          products={products}
+          isLoading={isLoading}
+          userRole={userRole}
+        />
       </div>
     </div>
   );

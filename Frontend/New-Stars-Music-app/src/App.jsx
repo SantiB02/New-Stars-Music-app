@@ -35,6 +35,7 @@ import { setAuthInterceptor } from "./api/api";
 import { Settings } from "./components/settings/Settings";
 
 import { useTheme } from "./services/contexts/ThemeProvider";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
@@ -74,6 +75,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Route>
         </Routes>
       </div>

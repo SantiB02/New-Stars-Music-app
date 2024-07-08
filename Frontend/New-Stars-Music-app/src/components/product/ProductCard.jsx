@@ -13,7 +13,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../hooks/useCart";
 
-const ProductCard = ({ product, isSeller, handleDeleteProduct }) => {
+const ProductCard = ({ product, isSeller, isAdmin, handleDeleteProduct }) => {
   const [quantity, setQuantity] = useState(1);
   const [isProductInCart, setIsProductInCart] = useState(false);
   const { theme } = useTheme();
@@ -95,7 +95,7 @@ const ProductCard = ({ product, isSeller, handleDeleteProduct }) => {
           Artist/Band: {product.artistOrBand} <br /> ${product.price} ARS
         </Typography>
       </CardBody>
-      {!isSeller ? (
+      {!isAdmin && !isSeller ? (
         <CardFooter className="pt-0 flex">
           {!isProductInCart && (
             <MinusCircleIcon
@@ -132,36 +132,38 @@ const ProductCard = ({ product, isSeller, handleDeleteProduct }) => {
           )}
         </CardFooter>
       ) : (
-        <CardFooter className="pt-0 flex">
-          <Button
-            ripple={false}
-            fullWidth={true}
-            className={
-              theme
-                ? "mr-2 bg-gray-50 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-                : "mr-2  shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-            }
-            onClick={() =>
-              isProductInCart
-                ? removeFromCartHandler(product)
-                : addToCart({ ...product, quantity })
-            }
-          >
-            Edit
-          </Button>
-          <Button
-            ripple={false}
-            fullWidth={true}
-            className={
-              theme
-                ? "ml-2 bg-red-500 text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-                : "ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-            }
-            onClick={() => handleDeleteProduct(product.id)}
-          >
-            Delete
-          </Button>
-        </CardFooter>
+        isSeller && (
+          <CardFooter className="pt-0 flex">
+            <Button
+              ripple={false}
+              fullWidth={true}
+              className={
+                theme
+                  ? "mr-2 bg-gray-50 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                  : "mr-2  shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+              }
+              onClick={() =>
+                isProductInCart
+                  ? removeFromCartHandler(product)
+                  : addToCart({ ...product, quantity })
+              }
+            >
+              Edit
+            </Button>
+            <Button
+              ripple={false}
+              fullWidth={true}
+              className={
+                theme
+                  ? "ml-2 bg-red-500 text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                  : "ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+              }
+              onClick={() => handleDeleteProduct(product.id)}
+            >
+              Delete
+            </Button>
+          </CardFooter>
+        )
       )}
     </Card>
   );

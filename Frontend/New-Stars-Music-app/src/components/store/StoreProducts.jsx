@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCard from "../product/ProductCard";
 
-const StoreProducts = ({ products, isLoading }) => {
+const StoreProducts = ({ products, isLoading, userRole }) => {
   if (isLoading) {
     return (
       <div className="mt-8">
@@ -16,7 +16,11 @@ const StoreProducts = ({ products, isLoading }) => {
       <h2 className="text-3xl">Featured Products</h2>
       <ul className=" flex flex-col mt-4 md:flex-row m-10 ">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard
+            isAdmin={userRole === "Admin"}
+            key={product.id}
+            product={product}
+          />
         ))}
       </ul>
     </div>
