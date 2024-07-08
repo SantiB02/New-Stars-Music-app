@@ -160,7 +160,7 @@ namespace Merchanmusic.Controllers
 
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSaleOrder([FromRoute] int id, [FromBody] SaleOrderDto dto)
+        public IActionResult CompleteSaleOrder([FromRoute] int id)
         {
             string subClaim = _tokenService.GetUserId();
             string loggedUserRole = _userService.GetRoleById(subClaim);
@@ -169,19 +169,19 @@ namespace Merchanmusic.Controllers
                 var soToUpdate = _saleOrderService.GetOne(id);
                 if (soToUpdate == null)
                 {
-                    return NotFound($"Orden de venta con ID {id} no encontrada");
+                    return NotFound($"Sale Order with ID {id} not found");
                 }
 
                 try
                 {
-                    soToUpdate.ClientId = dto.ClientId;
+                    soToUpdate.Completed = true;
 
                     soToUpdate = _saleOrderService.UpdateSaleOrder(soToUpdate);
-                    return Ok($"Orden de venta actualizada exitosamente");
+                    return Ok($"Sale Order completed successfully");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest($"Error al actualizar Orden de venta: {ex.Message}");
+                    return BadRequest($"Error updating Sale Order: {ex.Message}");
                 }
             }
             return Forbid();

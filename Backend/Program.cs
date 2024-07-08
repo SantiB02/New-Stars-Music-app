@@ -65,7 +65,6 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IUserService, UserService>(); 
 builder.Services.AddScoped<ISaleOrderService, SaleOrderService>();
-builder.Services.AddScoped<ISaleOrderLineService, SaleOrderLineService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
