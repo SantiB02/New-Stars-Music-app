@@ -103,7 +103,7 @@ namespace Merchanmusic.Controllers
             {
                 if (productDto.Name == null || productDto.Price <= 0)
                 {
-                    return BadRequest("Producto no creado, por favor completar los campos");
+                    return BadRequest("Product can't be created because of incorrect or empty fields");
                 }
                 try
                 {
@@ -116,12 +116,12 @@ namespace Merchanmusic.Controllers
                         SellerId = subClaim,
                         Code = productDto.Code,
                         ImageLink = productDto.ImageLink,
-                        Category = productDto.Category,
+                        CategoryId = productDto.CategoryId,
                     };
 
                     int id = _productService.CreateProduct(product);
 
-                    return Ok($"Producto creado exitosamente con id: {id}");
+                    return Ok($"Product created successfully with id: {id}");
                 }
                 catch (Exception ex)
                 {

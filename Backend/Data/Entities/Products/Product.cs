@@ -24,7 +24,9 @@ namespace Merchanmusic.Data.Entities.Products
         public int Sales {  get; set; } = 0;
         public decimal Price { get; set; }
         public string ImageLink { get; set; }
-        public string Category { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+        public int CategoryId { get; set; }
         public bool State { get; set; } = true; 
         //public Product() { }
         [ForeignKey("SellerId")]

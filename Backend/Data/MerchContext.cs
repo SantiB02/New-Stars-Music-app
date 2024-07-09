@@ -10,6 +10,7 @@ namespace Merchanmusic.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<SaleOrderLine> SaleOrderLines { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
@@ -99,6 +100,34 @@ namespace Merchanmusic.Data
                 .Property(so => so.Date)
                 .HasColumnType("DATETIME(0)");
 
+            modelBuilder.Entity<Category>().HasData(
+                new Category
+                {
+                    Id = 1,
+                    Name = "T-shirts"
+                },
+                new Category
+                {
+                    Id = 2,
+                    Name = "CDs"
+                },
+                new Category
+                {
+                    Id = 3,
+                    Name = "Caps"
+                },
+                new Category
+                {
+                    Id = 4,
+                    Name = "Bags"
+                },
+                new Category
+                {
+                    Id = 5,
+                    Name = "Posters"
+                }
+                );
+
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
@@ -110,7 +139,7 @@ namespace Merchanmusic.Data
                     Price = 12500.71M,
                     Stock = 19,
                     Sales = 237,
-                    Category = "T-shirt",
+                    CategoryId = 1,
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
 
@@ -126,7 +155,7 @@ namespace Merchanmusic.Data
                     Price = 23763.34M,
                     Stock = 24,
                     Sales = 129,
-                    Category = "T-shirt",
+                    CategoryId = 1,
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
 
@@ -141,7 +170,7 @@ namespace Merchanmusic.Data
                     Price = 12500.99M,
                     Stock = 10,
                     Sales = 83,
-                    Category = "T-shirt",
+                    CategoryId = 1,
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
 
@@ -156,7 +185,7 @@ namespace Merchanmusic.Data
                     Price = 13200.11M,
                     Stock = 15,
                     Sales = 421,
-                    Category = "T-shirt",
+                    CategoryId = 1,
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
                 });
@@ -170,7 +199,13 @@ namespace Merchanmusic.Data
                     UserId = "default-identifier-3845746332"
                 });
 
-            // // Relación entre Cliente y OrdenDeVenta (uno a muchos)
+            // Relación entre Producto y Categoría
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany()
+                .HasForeignKey(p => p.CategoryId);
+
+            // Relación entre Cliente y OrdenDeVenta (uno a muchos)
             modelBuilder.Entity<User>()
            .HasMany(c => c.SaleOrders)
            .WithOne(o => o.Client)

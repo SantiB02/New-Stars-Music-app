@@ -67,7 +67,7 @@ namespace Merchanmusic.Services.Implementations
             product.Description = productUpdateDto.Description;
             product.Price = productUpdateDto.Price;
             product.Stock = productUpdateDto.Stock;
-            product.Category = productUpdateDto.Category;
+            product.CategoryId = productUpdateDto.CategoryId;
             product.ImageLink = productUpdateDto.ImageLink;
 
             _context.Products.Update(product);

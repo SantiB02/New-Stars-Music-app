@@ -11,6 +11,6 @@
         public string ArtistOrBand { get; set; }
         public DateTime LastModifiedDate { get; set; } = DateTime.Now;
         public string ImageLink { get; set; }
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
     }
 }
