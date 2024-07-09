@@ -74,6 +74,7 @@ const Payment = () => {
       }
 
       const saleOrderLines = [];
+      const productsToUpdate = [];
 
       cart.forEach((product) => {
         const saleOrderLine = {
@@ -81,13 +82,17 @@ const Payment = () => {
           productId: product.id,
         };
         saleOrderLines.push(saleOrderLine);
+        productsToUpdate.push({
+          id: product.id,
+          quantityToBuy: product.quantity,
+        });
       });
 
       const newSaleOrder = { linesDto: saleOrderLines, total: cartTotal };
       const response = await api.post("/sale-orders", newSaleOrder);
       const newSaleOrderId = response.data;
 
-      localStorage.removeItem("cart");
+      await localStorage.removeItem("cart");
       localStorage.removeItem("cartTotal");
       navigate(`/shipping-details/${newSaleOrderId}`);
     } catch (error) {}

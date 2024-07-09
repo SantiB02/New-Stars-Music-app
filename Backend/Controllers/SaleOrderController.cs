@@ -27,8 +27,8 @@ namespace Merchanmusic.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("by-client/{clientId}")]
-        public IActionResult GetAllByClient([FromRoute] string clientId)
+        [HttpGet("by-client")]
+        public IActionResult GetAllByClient()
         {
             string subClaim = _tokenService.GetUserId();
             string loggedUserRole = _userService.GetRoleById(subClaim);
@@ -36,7 +36,7 @@ namespace Merchanmusic.Controllers
             {
                 try
                 {
-                    List<SaleOrder> saleOrders = _saleOrderService.GetAllByClient(clientId);
+                    List<SaleOrder> saleOrders = _saleOrderService.GetAllByClient(subClaim);
                     if (saleOrders.Count == 0)
                     {
                         return NotFound("Sale Orders not found");

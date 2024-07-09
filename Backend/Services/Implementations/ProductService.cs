@@ -38,6 +38,37 @@ namespace Merchanmusic.Services.Implementations
             return (product.Id);
         }
 
+        // Retorna true si se compraron todos los productos con éxito, false si algún producto no tiene stock suficiente o null si la lista de productos o alguno no existe:
+        public bool? BuyProducts(List<ProductBuyOrder> buyOrders)
+        {
+            if (buyOrders.Count > 0)
+            {
+                _context.Database.BeginTransaction();
+                foreach (ProductBuyOrder buyOrder in buyOrders)
+                {
+                    Product? product = _context.Products.FirstOrDefault(p => p.Id == buyOrder.Id);
+                    if (product != null)
+                    {
+                        if (product.Stock >= buyOrder.QuantityToBuy)
+                        {
+                            product.Stock -= buyOrder.QuantityToBuy;
+                            product.Sales += buyOrder.QuantityToBuy;
+                            _context.SaveChanges();
+                        }
+                        else
+                        {
+                            _context.Database.RollbackTransaction();
+                            return false; // el producto no tiene stock suficiente así que frenamos la iteración y salimos del método
+                        }
+                    }
+                    else return null; // el producto no existe
+                }
+                _context.Database.CommitTransaction();
+                return true; // sólo cuando todos los productos fueron comprados retornamos true
+            }
+            else return null; // la lista de productos a comprar está vacía
+        }
+
         public void DeleteProduct(int id)
         {
             var productToDelete = _context.Products.SingleOrDefault(p => p.Id == id);
