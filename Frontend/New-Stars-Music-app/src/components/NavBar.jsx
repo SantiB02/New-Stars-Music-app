@@ -134,7 +134,7 @@ export default function NavBar() {
           </button>
         </div>
         {isAuthenticated && user && (
-          <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-12">
+          <Popover.Group className="hidden lg:flex lg:items-center lg:gap-x-8">
             <Popover className="relative">
               <Popover.Button className="flex hover:text-gray-300 items-center gap-x-1 text-sm font-semibold leading-6 text-white hover:cursor-pointer">
                 Product
@@ -211,14 +211,14 @@ export default function NavBar() {
             >
               Store
             </a>
-            {/* {userRole === "Client" && (
+            {userRole === "Client" && (
               <a
                 className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
                 onClick={() => navigateHandler("/my-orders")}
               >
                 My Orders
               </a>
-            )} */}
+            )}
             {userRole === "Client" && (
               <a
                 className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"

@@ -32,14 +32,14 @@ namespace Merchanmusic.Controllers
         {
             string subClaim = _tokenService.GetUserId();
             string loggedUserRole = _userService.GetRoleById(subClaim);
-            if (loggedUserRole == "Admin" || loggedUserRole == "Client")
+            if (loggedUserRole != "Admin")
             {
                 try
                 {
-                    var saleOrders = _saleOrderService.GetAllByClient(clientId);
+                    List<SaleOrder> saleOrders = _saleOrderService.GetAllByClient(clientId);
                     if (saleOrders.Count == 0)
                     {
-                        return NotFound("Órdenes de venta no encontradas");
+                        return NotFound("Sale Orders not found");
                     }
                     return Ok(saleOrders);
 
