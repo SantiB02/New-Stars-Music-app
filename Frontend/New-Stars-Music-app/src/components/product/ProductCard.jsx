@@ -32,11 +32,6 @@ const ProductCard = ({ product, isSeller, isAdmin, handleDeleteProduct }) => {
     }
   }, [cart]);
 
-  // const clickBuyHandler = () => {
-  //   //navigate("/product-details", { state: { productId: product.id } });
-  //   navigate(`/product-details/${product.id}`);
-  // };
-
   const decreaseQuantityClickHandler = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);

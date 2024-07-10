@@ -37,6 +37,7 @@ import { Settings } from "./components/settings/Settings";
 import { useTheme } from "./services/contexts/ThemeProvider";
 import Dashboard from "./components/dashboard/Dashboard";
 import ShippingDetails from "./components/shippingDetails/ShippingDetails";
+import MyOrders from "./components/myOrders/MyOrders";
 
 function App() {
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
@@ -70,6 +71,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/search" element={<PlayerMusic />} />
             <Route path="/store" element={<Store />} />
+            <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/become-seller" element={<BecomeSeller />} />
             <Route path="/seller-center" element={<SellerCenter />} />
             <Route path="/profile" element={<Profile />} />

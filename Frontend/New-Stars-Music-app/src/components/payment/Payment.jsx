@@ -31,7 +31,7 @@ const Payment = () => {
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { cart, cartTotal } = useCart();
+  const { cart, cartTotal, clearCart } = useCart();
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -56,6 +56,20 @@ const Payment = () => {
 
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
+  };
+
+  const cardNumberChangeHandler = (e) => {
+    const cardNumberString = e.target.value.toString();
+    if (cardNumberString.length <= 12) {
+      setCardNumber(e.target.value);
+    }
+  };
+
+  const cvvChangeHandler = (e) => {
+    const cvvString = e.target.value.toString();
+    if (cvvString.length <= 4) {
+      setCvv(e.target.value);
+    }
   };
 
   const makePaymentHandler = async () => {
@@ -94,6 +108,7 @@ const Payment = () => {
 
       await api.put("/products/buy", productsToUpdate);
 
+      clearCart();
       localStorage.removeItem("cart");
       localStorage.removeItem("cartTotal");
       navigate(`/shipping-details/${newSaleOrderId}`);
@@ -225,7 +240,7 @@ const Payment = () => {
                 type="number"
                 size="md"
                 value={cardNumber}
-                onChange={() => stateChangeHandler(event, setCardNumber)}
+                onChange={cardNumberChangeHandler}
               />
 
               <Input
@@ -242,7 +257,7 @@ const Payment = () => {
                 type="number"
                 size="md"
                 value={cvv}
-                onChange={() => stateChangeHandler(event, setCvv)}
+                onChange={cvvChangeHandler}
               />
             </div>
           </form>
