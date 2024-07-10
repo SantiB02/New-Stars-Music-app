@@ -92,10 +92,17 @@ const Payment = () => {
       const response = await api.post("/sale-orders", newSaleOrder);
       const newSaleOrderId = response.data;
 
-      await localStorage.removeItem("cart");
+      await api.put("/products/buy", productsToUpdate);
+
+      localStorage.removeItem("cart");
       localStorage.removeItem("cartTotal");
       navigate(`/shipping-details/${newSaleOrderId}`);
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Error buying product/s. Please try again later!");
+      console.error("Error buying product");
+    } finally {
+      setIsProcessingPayment(false);
+    }
   };
 
   if (isLoading) return <LoadingMessage message="Loading..." />;

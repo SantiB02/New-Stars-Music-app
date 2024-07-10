@@ -131,6 +131,22 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
+        [HttpPut("buy")]
+        public IActionResult BuyProducts([FromBody] List<ProductBuyOrder> productBuyOrders)
+        {
+            bool? productsBought = _productService.BuyProducts(productBuyOrders);
+            if (productsBought == true)
+            {
+                return Ok("Products were bought successfully");
+            } else if (productsBought == false)
+            {
+                return BadRequest("One or more products don't have enough stock");
+            } else
+            {
+                return BadRequest("Empty products list or one or more products don't exist");
+            }
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] int id)
         {
