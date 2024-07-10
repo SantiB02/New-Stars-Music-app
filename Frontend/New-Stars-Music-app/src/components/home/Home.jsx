@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FeaturedProducts from "./FeaturedProducts";
 import Music from "./Music";
-import { getAllProducts } from "../../services/productsService";
+import { getFeaturedProducts } from "../../services/productsService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import LoadingMessage from "../common/LoadingMessage";
 import api, { setAuthInterceptor } from "../../api/api";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const { user, getAccessTokenSilently, isLoading, logout } = useAuth0();
   const { theme } = useTheme();
@@ -23,10 +23,10 @@ const Home = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchFeaturedProducts = async () => {
       try {
-        const allProducts = await getAllProducts();
-        setProducts(allProducts);
+        const featuredProducts = await getFeaturedProducts(100);
+        setFeaturedProducts(featuredProducts);
       } catch (error) {
         console.error("Error fetching all products:", error);
       }
@@ -55,7 +55,7 @@ const Home = () => {
     const initialize = async () => {
       setIsLoadingPage(true);
       await ensureAuthUser();
-      await fetchProducts();
+      await fetchFeaturedProducts();
       setIsLoadingPage(false);
     };
 
@@ -87,7 +87,10 @@ const Home = () => {
             !
           </Typography>
           <div className="mt-8">
-            <FeaturedProducts products={products} isLoading={isLoadingPage} />
+            <FeaturedProducts
+              products={featuredProducts}
+              isLoading={isLoadingPage}
+            />
           </div>
         </div>
         <div className="md:w-1/2 p-4">

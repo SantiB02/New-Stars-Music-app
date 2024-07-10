@@ -3,14 +3,25 @@ import ProductCard from "../product/ProductCard";
 import LoadingMessage from "../common/LoadingMessage";
 import { useRoles } from "../../hooks/useRoles";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Alert } from "@material-tailwind/react";
+import InfoIcon from "../icons/InfoIcon";
+import { useTheme } from "../../services/contexts/ThemeProvider";
 
 const FeaturedProducts = ({ products, isLoading }) => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
+  const { theme } = useTheme();
 
   if (isLoading) {
     return <LoadingMessage message="Loading featured products..." />;
   }
+
+  if (!products)
+    return (
+      <Alert className={theme ? "bg-gray-800" : undefined} icon={<InfoIcon />}>
+        No featured products yet!
+      </Alert>
+    );
 
   return (
     <div className="container mx-auto px-4">

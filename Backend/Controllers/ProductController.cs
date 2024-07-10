@@ -28,16 +28,35 @@ namespace Merchanmusic.Controllers
         [HttpGet]
         [AllowAnonymous]
         public IActionResult GetProducts()
-        {     
-            var products = _productService.GetProducts();
+        {
             try
             {
+                List<Product> products = _productService.GetProducts();
                 return Ok(products);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }            
+        }
+
+        [HttpGet("featured")]
+        public IActionResult GetFeaturedProducts([FromQuery] int minimumSales)
+        {
+            try
+            {
+                List<Product> featuredProducts = _productService.GetFeaturedProducts(minimumSales);
+                if (featuredProducts.Count > 0)
+                {
+                    return Ok(featuredProducts);
+                } else
+                {
+                    return NotFound("No product meets the minimum sales criteria");
+                }
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
@@ -160,11 +179,11 @@ namespace Merchanmusic.Controllers
 
                     if (existingProduct == null)
                     {
-                        return NotFound($"No se encontró ningún producto con el ID: {id}");
+                        return NotFound($"No product found with ID: {id}");
                     }
 
                     _productService.DeleteProductBySeller(id, subClaim);
-                    return Ok($"Producto con ID: {id} eliminado");
+                    return Ok($"Product with ID: {id} was successfully deleted");
                 }
                 catch (Exception ex)
                 {

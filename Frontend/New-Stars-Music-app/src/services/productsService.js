@@ -9,15 +9,23 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getFeaturedProducts = async (quantity, minimumSales) => {
+export const getFeaturedProducts = async (minimumSales) => {
   try {
     const response = await api.get("/products/featured", {
       params: {
-        quantity,
         minimumSales,
       },
+      validateStatus: (status) => {
+        return status === 200 || status === 404; // Accept only 200 y 404 as valid responses (to avoid throwing an error)
+      },
     });
-    return response.data;
+    if (response.status === 200) return response.data;
+    else {
+      console.error(
+        "No product meets the minimum sales criteria (Featured Products)"
+      );
+      return null;
+    }
   } catch (error) {
     console.error("Error getting featured products:", error);
   }

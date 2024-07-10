@@ -20,6 +20,11 @@ namespace Merchanmusic.Services.Implementations
             return _context.Products.ToList();
         }
 
+        public List<Product> GetFeaturedProducts(int minimumSales)
+        {
+            return _context.Products.Where(p => p.Sales >= minimumSales).Take(4).ToList();
+        }
+
         public Product? GetProductById(int id)
         {
             return _context.Products.FirstOrDefault(p => p.Id == id);
