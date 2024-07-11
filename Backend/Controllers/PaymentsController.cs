@@ -1,4 +1,5 @@
-﻿using Merchanmusic.Services.Interfaces;
+﻿using Merchanmusic.Data.Models;
+using Merchanmusic.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

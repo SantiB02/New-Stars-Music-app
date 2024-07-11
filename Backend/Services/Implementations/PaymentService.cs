@@ -15,7 +15,7 @@ namespace Merchanmusic.Services.Implementations
                 _ => throw new ArgumentException("Invalid payment method")
             };
 
-            IPaymentService payment = factory.CreatePayment();
+            IPayment payment = factory.CreatePayment();
             payment.ProcessPayment(amount);
         }
     }
