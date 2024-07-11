@@ -43,6 +43,10 @@ namespace Merchanmusic.Controllers
         [HttpGet("featured")]
         public IActionResult GetFeaturedProducts([FromQuery] int minimumSales)
         {
+            if (minimumSales <= 0)
+            {
+                return BadRequest("Minimum sales must be greater than 0");
+            }
             try
             {
                 List<Product> featuredProducts = _productService.GetFeaturedProducts(minimumSales);
