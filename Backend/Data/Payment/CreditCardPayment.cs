@@ -2,7 +2,7 @@
 
 namespace Merchanmusic.Data.Payment
 {
-    public class CreditCardPayment : IPayment
+    public class CreditCardPayment : IPaymentService
     {
         public void ProcessPayment(decimal amount)
         {

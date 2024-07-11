@@ -4,6 +4,6 @@ namespace Merchanmusic.Data.Payment
 {
     public abstract class PaymentFactory
     {
-        public abstract IPayment CreatePayment();
+        public abstract IPaymentService CreatePayment();
     }
 }

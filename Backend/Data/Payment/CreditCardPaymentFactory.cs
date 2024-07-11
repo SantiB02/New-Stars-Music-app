@@ -4,7 +4,7 @@ namespace Merchanmusic.Data.Payment
 {
     public class CreditCardPaymentFactory : PaymentFactory
     {
-        public override IPayment CreatePayment()
+        public override IPaymentService CreatePayment()
         {
             return new CreditCardPayment();
         }
