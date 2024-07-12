@@ -41,6 +41,21 @@ namespace Merchanmusic.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetUserById(string id)
+        {
+
+            var user = _userService.GetUserById(id);
+
+            if (user == null)
+            {
+                return NotFound($"El producto con el ID: {id} no fue encontrado");
+            }
+
+            return Ok(user);
+
+        }
+
         [HttpGet("is-deleted/{id}")]
         public IActionResult IsUserDeleted([FromRoute] string id)
         {

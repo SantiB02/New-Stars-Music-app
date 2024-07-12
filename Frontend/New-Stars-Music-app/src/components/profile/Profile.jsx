@@ -31,7 +31,7 @@ export const Profile = () => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        const userFilter = allUsers.filter((u) => u.email === user.email);
+        const userFilter = allUsers.filter((u) => u.id === user.sub);
         console.log("USER", userFilter);
         setUsers(userFilter);
       } catch (error) {

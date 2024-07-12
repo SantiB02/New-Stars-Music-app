@@ -51,7 +51,7 @@ const DataAccordion = ({ users }) => {
             </div>
           ) : (
             <div className="col-span-2 pt-4">
-              <Input label="Addres" placeholder="enter your address" />
+              <Input label="Addres:" placeholder="enter your address" />
             </div>
           )}
           {users.phone ? (

@@ -20,6 +20,11 @@ namespace Merchanmusic.Services.Implementations
             return _context.Users.ToList();
         }
 
+        public User GetUserById(string id) {
+            User user = _context.Users.FirstOrDefault(x => x.Id == id);
+            return user;
+                }
+
         public string? GetRoleById(string id)
         {
             User? user = _context.Users.FirstOrDefault(u => u.Id == id);
