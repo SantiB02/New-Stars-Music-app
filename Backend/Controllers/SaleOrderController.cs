@@ -27,6 +27,28 @@ namespace Merchanmusic.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            string subClaim = _tokenService.GetUserId();
+            string loggedUserRole = _userService.GetRoleById(subClaim);
+            if (loggedUserRole == "Admin")
+            {
+                try
+                {
+                    List<SaleOrder> saleOrders = _saleOrderService.GetAllSaleOrders();
+
+                    return Ok(saleOrders);
+
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest($"Error: {ex.Message}");
+                }
+            }
+            return Forbid();
+        }
+
         [HttpGet("by-client")]
         public IActionResult GetAllByClient()
         {
@@ -41,27 +63,6 @@ namespace Merchanmusic.Controllers
                     {
                         return NotFound("Sale Orders not found");
                     }
-                    return Ok(saleOrders);
-
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest($"Error: {ex.Message}");
-                }
-            }
-            return Forbid();
-        }
-        [HttpGet("GetSaleOrdersForAdmin")]
-        public IActionResult GetAllSaleOrders()
-        {
-            string subClaim = _tokenService.GetUserId();
-            string loggedUserRole = _userService.GetRoleById(subClaim);
-            if (loggedUserRole == "Admin")
-            {
-                try
-                {
-                    List<SaleOrder> saleOrders = _saleOrderService.GetAllSaleOrders();
-    
                     return Ok(saleOrders);
 
                 }
@@ -162,11 +163,11 @@ namespace Merchanmusic.Controllers
 
                     if (existingSO == null)
                     {
-                        return NotFound($"No se encontró orden de venta con el ID: {id}");
+                        return NotFound($"Sale Order with ID: {id} was not found");
                     }
 
                     _saleOrderService.DeleteSaleOrder(id);
-                    return Ok($"Orden de venta con ID: {id} eliminada");
+                    return Ok($"Sale Order with ID: {id} was deleted successfully");
                 }
                 catch (Exception ex)
                 {
