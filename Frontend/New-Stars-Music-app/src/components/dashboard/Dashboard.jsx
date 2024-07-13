@@ -16,9 +16,9 @@ const Dashboard = () => {
       try {
         const [productListResponse, usersResponse, saleOrdersResponse] =
           await Promise.all([
-            api.get("products"),
-            api.get("users"),
-            api.get("sale-orders/GetSaleOrdersForAdmin"),
+            api.get("/products"),
+            api.get("/users"),
+            api.get("/sale-orders"),
           ]);
 
         setUsers(usersResponse.data);
@@ -52,7 +52,7 @@ const Dashboard = () => {
             {users && users.length > 0 ? (
               <div>
                 <Typography variant="h4">Users</Typography>
-                <table className={styles["data-table"]}> 
+                <table className={styles["data-table"]}>
                   <thead>
                     <tr>
                       <th>Email</th>
@@ -79,7 +79,7 @@ const Dashboard = () => {
             {products && products.length > 0 ? (
               <div>
                 <Typography variant="h4">Products</Typography>
-                <table className={styles["data-table"]}> 
+                <table className={styles["data-table"]}>
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -105,7 +105,7 @@ const Dashboard = () => {
             {saleOrders !== null ? (
               saleOrders.data !== "Sale Orders not found" ? (
                 saleOrders.length > 0 ? (
-                  <table className={styles["data-table"]}> 
+                  <table className={styles["data-table"]}>
                     <thead>
                       <tr>
                         <th>Order ID</th>
