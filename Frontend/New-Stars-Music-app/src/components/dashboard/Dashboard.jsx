@@ -40,7 +40,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <div className="max-w-7xl mx-8 py-6">
       <Typography variant="h2" className="font-light">
         Dashboard
       </Typography>
@@ -84,13 +84,15 @@ const Dashboard = () => {
                     <tr>
                       <th>Name</th>
                       <th>Price</th>
+                      <th>Seller</th>
                     </tr>
                   </thead>
                   <tbody>
                     {products.map((product) => (
                       <tr key={product.id}>
                         <td>{product.name}</td>
-                        <td>${product.price}</td>
+                        <td>${product.price} ARS</td>
+                        <td>{product.sellerId}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -109,23 +111,37 @@ const Dashboard = () => {
                     <thead>
                       <tr>
                         <th>Order ID</th>
-                        <th>Customer Name</th>
+                        <th>Buyer</th>
+                        <th>Shipping Address</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>Postal Code</th>
                       </tr>
                     </thead>
                     <tbody>
                       {saleOrders.map((order) => (
                         <tr key={order.id}>
                           <td>{order.id}</td>
-                          <td>{order.customerName}</td>
+                          <td>{order.client.email}</td>
+                          <td>
+                            {order.client.address +
+                              " " +
+                              (order.client.apartment
+                                ? order.client.apartment
+                                : "")}
+                          </td>
+                          <td>{order.client.country}</td>
+                          <td>{order.client.city}</td>
+                          <td>{order.client.postalCode}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 ) : (
-                  "No hay órdenes de venta"
+                  "No sale orders yet"
                 )
               ) : (
-                "No hay órdenes de venta"
+                "No sale orders yet"
               )
             ) : (
               "Loading sale orders..."
