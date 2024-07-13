@@ -68,6 +68,14 @@ namespace Merchanmusic.Services.Implementations
                 }
 
             }
+        public List<SaleOrder> GetAllSaleOrders() 
+        {
+            return _context.SaleOrders
+                .Include(so => so.Client)
+                .Include(so => so.SaleOrderLines)
+                .ThenInclude(so => so.Product)
+                .ToList();
         }
+    }
 }
 

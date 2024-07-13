@@ -3,6 +3,7 @@ using System;
 using Merchanmusic.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Merchanmusic.Migrations
 {
     [DbContext(typeof(MerchContext))]
-    partial class MerchContextModelSnapshot : ModelSnapshot
+    [Migration("20240712233107_Migración de Leo")]
+    partial class MigracióndeLeo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

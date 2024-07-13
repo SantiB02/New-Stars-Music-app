@@ -51,6 +51,27 @@ namespace Merchanmusic.Controllers
             }
             return Forbid();
         }
+        [HttpGet("GetSaleOrdersForAdmin")]
+        public IActionResult GetAllSaleOrders()
+        {
+            string subClaim = _tokenService.GetUserId();
+            string loggedUserRole = _userService.GetRoleById(subClaim);
+            if (loggedUserRole == "Admin")
+            {
+                try
+                {
+                    List<SaleOrder> saleOrders = _saleOrderService.GetAllSaleOrders();
+    
+                    return Ok(saleOrders);
+
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest($"Error: {ex.Message}");
+                }
+            }
+            return Forbid();
+        }
 
         [HttpGet("by-date/{date}")]
         public IActionResult GetAllByDate([FromRoute] DateTime date)

@@ -115,10 +115,10 @@ namespace Merchanmusic.Controllers
             {
                 return Ok(_userService.GetUsersByRole(role));
 
-            }
+            
+}
             return Forbid();
         }
-
         [HttpDelete]
         public IActionResult DeleteSelfUser()
         {

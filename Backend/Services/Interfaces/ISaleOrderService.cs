@@ -10,5 +10,6 @@ namespace Merchanmusic.Services.Interfaces
         SaleOrder CreateSaleOrder(SaleOrder saleOrder);
         SaleOrder UpdateSaleOrder(SaleOrder saleOrder);
         void DeleteSaleOrder(int id);
+        List<SaleOrder> GetAllSaleOrders();
     }
 }

@@ -58,10 +58,10 @@ namespace Merchanmusic.Services.Implementations
             return _context.Users.Any(u => u.Id == id && u.State == false);
         }
 
-        public User? GetUserById(string id)
-        {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
-        }
+        //public User? GetUserById(string id)
+        //{
+        //    return _context.Users.FirstOrDefault(u => u.Id == id);
+        //}
 
         public bool CheckIfUserExists(string id)
         {
