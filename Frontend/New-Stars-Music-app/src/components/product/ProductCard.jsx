@@ -93,7 +93,7 @@ const ProductCard = ({ product, isSeller, isAdmin, handleDeleteProduct }) => {
         <CardFooter className="pt-0 flex">
           {!isProductInCart && (
             <MinusCircleIcon
-              className="cursor-pointer select-none hover:text-orange-800 mr-3"
+              className="cursor-pointer md:min-w-6 select-none hover:text-orange-800 mr-3"
               color={theme ? "orange" : "black"}
               width={45}
               onClick={decreaseQuantityClickHandler}
@@ -118,7 +118,7 @@ const ProductCard = ({ product, isSeller, isAdmin, handleDeleteProduct }) => {
           </Button>
           {!isProductInCart && (
             <PlusCircleIcon
-              className="cursor-pointer select-none hover:text-orange-800 ml-3"
+              className="cursor-pointer md:min-w-6 select-none hover:text-orange-800 ml-3"
               color={theme ? "orange" : "black"}
               width={45}
               onClick={increaseQuantityClickHandler}
