@@ -1,9 +1,8 @@
-// Dashboard.jsx
-
-import { Typography } from "@material-tailwind/react";
+import { Typography, Button } from "@material-tailwind/react";
 import React, { useState, useEffect } from "react";
 import api from "../../api/api";
 import styles from "./Dashboard.module.css";
+import Swal from 'sweetalert2'
 
 const Dashboard = () => {
   const [users, setUsers] = useState(null);
@@ -38,6 +37,91 @@ const Dashboard = () => {
       setSaleOrders(null);
     };
   }, []);
+  
+
+  const completeSaleOrder = async (orderId) => {
+    try {
+      const result = await Swal.fire({
+        title: "¿Completar orden?",
+        text: "Confirma para completar la orden.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Completar orden"
+      });
+
+      if (result.isConfirmed) {
+        const response = await api.put(`/sale-orders/${orderId}`);
+
+        if (response.status === 200) {
+          Swal.fire({
+            title: "Orden completada",
+            text: "La orden ha sido completada correctamente.",
+            icon: "success",
+          });
+
+          const updatedSaleOrders = await api.get("/sale-orders");
+          setSaleOrders(updatedSaleOrders.data);
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al completar la orden.",
+            icon: "error",
+          });
+        }
+      }
+    } catch (error) {
+      console.log("Error", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al completar la orden.",
+        icon: "error",
+      });
+    }
+  };
+
+  const deleteSaleOrder = async (orderId) => {
+    try {
+      const result = await Swal.fire({
+        title: "¿Eliminar orden?",
+        text: "Confirma para eliminar la orden.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Eliminar orden"
+      });
+
+      if (result.isConfirmed) {
+        const response = await api.delete(`/sale-orders/${orderId}`);
+
+        if (response.status === 200) {
+          Swal.fire({
+            title: "Orden eliminada",
+            text: "La orden ha sido eliminada correctamente.",
+            icon: "success",
+          });
+
+          const updatedSaleOrders = await api.get("/sale-orders");
+          setSaleOrders(updatedSaleOrders.data);
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al eliminar la orden.",
+            icon: "error",
+          });
+        }
+      }
+    } catch (error) {
+      console.log("Error", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al eliminar la orden.",
+        icon: "error",
+      });
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-8 py-6">
@@ -105,41 +189,58 @@ const Dashboard = () => {
           <div>
             <Typography variant="h4">Sale Orders</Typography>
             {saleOrders !== null ? (
-              saleOrders.data !== "Sale Orders not found" ? (
-                saleOrders.length > 0 ? (
-                  <table className={styles["data-table"]}>
-                    <thead>
-                      <tr>
-                        <th>Order ID</th>
-                        <th>Buyer</th>
-                        <th>Shipping Address</th>
-                        <th>Country</th>
-                        <th>City</th>
-                        <th>Postal Code</th>
+              saleOrders.length > 0 ? (
+                <table className={styles["data-table"]}>
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Buyer</th>
+                      <th>Shipping Address</th>
+                      <th>Country</th>
+                      <th>City</th>
+                      <th>Postal Code</th>
+                      <th>Completed</th>
+
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {saleOrders.map((order) => (
+                      <tr key={order.id}>
+                        <td>{order.id}</td>
+                        <td>{order.client.email}</td>
+                        <td>
+                          {order.client.address +
+                            " " +
+                            (order.client.apartment
+                              ? order.client.apartment
+                              : "")}
+                        </td>
+                        <td>{order.client.country}</td>
+                        <td>{order.client.city}</td>
+                        <td>{order.client.postalCode}</td>
+                        <td>{order.completed ? "Sí" : "No"}</td>                        
+                        <td>
+                        <td>{!order.completed ? <Button
+                            onClick={() => completeSaleOrder(order.id)}
+                            color="green"
+                            size="sm"
+                          >
+                            Complete
+                          </Button> : <></>}</td>                        
+
+                          <Button
+                            onClick={() => deleteSaleOrder(order.id)}
+                            color="red"
+                            size="sm"
+                          >
+                            Delete
+                          </Button>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {saleOrders.map((order) => (
-                        <tr key={order.id}>
-                          <td>{order.id}</td>
-                          <td>{order.client.email}</td>
-                          <td>
-                            {order.client.address +
-                              " " +
-                              (order.client.apartment
-                                ? order.client.apartment
-                                : "")}
-                          </td>
-                          <td>{order.client.country}</td>
-                          <td>{order.client.city}</td>
-                          <td>{order.client.postalCode}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  "No sale orders yet"
-                )
+                    ))}
+                  </tbody>
+                </table>
               ) : (
                 "No sale orders yet"
               )
