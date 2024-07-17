@@ -3,10 +3,15 @@ import {
   AccordionBody,
   AccordionHeader,
   Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
   Input,
   Typography,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
+import { useTheme } from "../../services/contexts/ThemeProvider";
+import FormProfile from "./FormProfile";
 
 function Icon({ id, open }) {
   return (
@@ -31,47 +36,76 @@ function Icon({ id, open }) {
 
 const DataAccordion = ({ users }) => {
   const [open, setOpen] = useState(0);
+  const [openChange, setOpenChange] = useState(false);
+
+  const { theme } = useTheme();
 
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
+  const openDialogHandler = () => {
+    setOpenChange(!openChange);
+    console.log(users);
+  };
 
   return (
     <div>
       <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
-        <AccordionHeader onClick={() => handleOpen(1)}>
-          Fill in your additional information, if you have not already done so
+        <AccordionHeader
+          className={theme ? "text-white hover:text-gray-400" : "text-black"}
+          onClick={() => handleOpen(1)}
+        >
+          Additional data
         </AccordionHeader>
         <AccordionBody>
-          {users.address ? (
-            <div className="col-span-2 pt-4">
-              <Input
-                label={`Address: ${users.address}`}
-                placeholder="enter your address"
-                
-              />
-            </div>
+          {!users.address ? (
+            <>debe ingresar su direccion</>
           ) : (
-            <div className="col-span-2 pt-4">
-              <Input label="Addres:" placeholder="enter your address" />
-            </div>
+            <Typography>your addres is : {users.address}</Typography>
           )}
-          {users.phone ? (
-            <div className="col-span-2 pt-4">
-              <Input
-                label={`Phone number: ${users.address}`}
-                placeholder="enter your phone number"
-                
-              />
-            </div>
+          {!users.apartment ? (
+            <Typography>debe ingresar tu numero de apartamento</Typography>
           ) : (
-            <div className="col-span-2 pt-4">
-              <Input
-                label="Phone Number:"
-                placeholder="enter your phone number"
-              />
-            </div>
+            <Typography>your apartment is : {users.apartment}</Typography>
           )}
+          {!users.city ? (
+            <Typography>debe ingresar su ciudad</Typography>
+          ) : (
+            <Typography>your city is : {users.city}</Typography>
+          )}
+          {!users.country ? (
+            <Typography>debe ingresar su pais</Typography>
+          ) : (
+            <Typography>your country is : {users.country}</Typography>
+          )}
+
+          {!users.phone ? (
+            <Typography>debe ingresar su telefono</Typography>
+          ) : (
+            <Typography>your phone is : {users.phone}</Typography>
+          )}
+          {!users.postalcode ? (
+            <Typography>debe ingresar su codigo postal</Typography>
+          ) : (
+            <Typography>your postalcode is : {users.postalcode}</Typography>
+          )}
+          <Dialog
+            open={openChange}
+            className={theme ? "bg-primary text-white" : "bg-white text-black"}
+            handler={() => setOpenChange(false)}
+          >
+            <DialogHeader>
+              <Typography variant="h2"  color={theme ? "white" : "black"}>
+                Additional data
+              </Typography>
+            </DialogHeader>
+            <DialogBody className="flex items-center justify-center ">
+              <div className="w-full max-w-md">
+                <FormProfile setOpenChange={setOpenChange}/>
+              </div>
+            </DialogBody>
+          </Dialog>
+
           <div className="pt-4">
-            <Button variant="gradient" color="blue">
+            <Button variant="gradient" onClick={openDialogHandler} color="blue">
               <span>Changes my account</span>
             </Button>
           </div>

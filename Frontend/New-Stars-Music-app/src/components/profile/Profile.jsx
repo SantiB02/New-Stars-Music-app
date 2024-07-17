@@ -13,7 +13,7 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 import LoadingMessage from "../common/LoadingMessage";
 import toast from "react-hot-toast";
 import DataAccordion from "./DataAccordion";
-import { getAllUsers } from "../../services/userService";
+import { getUserbyId } from "../../services/userService";
 export const Profile = () => {
   const { user, logout, getAccessTokenSilently } = useAuth0();
   const [users, setUsers] = useState([]);
@@ -30,10 +30,9 @@ export const Profile = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const allUsers = await getAllUsers();
-        const userFilter = allUsers.filter((u) => u.id === user.sub);
-        console.log("USER", userFilter);
-        setUsers(userFilter);
+        const usersById = await getUserbyId(user.sub);
+        console.log("USER", usersById);
+        setUsers(usersById);
       } catch (error) {
         console.error("Error fetching all Users:", error);
       }

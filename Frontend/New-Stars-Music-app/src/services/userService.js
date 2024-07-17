@@ -8,6 +8,15 @@ export const ensureUser = async (userEmail) => {
     console.error("Error ensuring the Auth0 user in our database!");
   }
 };
+//method for search the user by ID in out DB
+export const getUserbyId = async (id) => {
+  try {
+    const response = await api.get(`/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //method for search the user in our DB
 export const getAllUsers = async () => {
