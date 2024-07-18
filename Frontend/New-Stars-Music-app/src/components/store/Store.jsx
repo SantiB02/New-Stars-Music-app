@@ -45,6 +45,7 @@ const Store = () => {
           products={products}
           isLoading={isLoading}
           userRole={userRole}
+          setProducts={setProducts}
         />
       </div>
     </div>
