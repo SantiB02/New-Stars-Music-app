@@ -13,6 +13,9 @@ const FormProfile = ({ setOpenChange }) => {
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
   };
+  const changeDataHandler = () => {
+    
+  };
 
   const { theme } = useTheme();
   return (
@@ -70,7 +73,9 @@ const FormProfile = ({ setOpenChange }) => {
         </div>
         <div className="flex justify-center gap-4 mt-4">
           <div>
-            <Button color="blue">Change</Button>
+            <Button color="blue" onClick={changeDataHandler}>
+              Change
+            </Button>
           </div>
           <div>
             <Button color="red" onClick={() => setOpenChange(false)}>

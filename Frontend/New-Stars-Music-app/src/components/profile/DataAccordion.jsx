@@ -82,10 +82,10 @@ const DataAccordion = ({ users }) => {
           ) : (
             <Typography>your phone is : {users.phone}</Typography>
           )}
-          {!users.postalcode ? (
+          {!users.postalCode ? (
             <Typography>debe ingresar su codigo postal</Typography>
           ) : (
-            <Typography>your postalcode is : {users.postalcode}</Typography>
+            <Typography>your postalcode is : {users.postalCode}</Typography>
           )}
           <Dialog
             open={openChange}
