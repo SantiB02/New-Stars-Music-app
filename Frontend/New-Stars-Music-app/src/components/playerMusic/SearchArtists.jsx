@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import NavBar from "../NavBar";
-import Footer from "../Footer";
-import MessagePlayer from "./MessagePlayer";
+import NoArtistsMessage from "./NoArtistsMessage";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import toast from "react-hot-toast";
 import { findArtistsByName } from "../../api/discogs-api";
 import { Typography } from "@material-tailwind/react";
 
-const PlayerMusic = () => {
+const SearchArtists = ({ isHomePage = false }) => {
   const [artistName, setArtistName] = useState("");
   const [artists, setArtists] = useState([]);
   const { theme } = useTheme();
@@ -27,7 +25,7 @@ const PlayerMusic = () => {
     <div
       className={
         theme
-          ? "flex flex-col min-h-screen"
+          ? "flex flex-col"
           : " bg-gray-200 text-black flex flex-col min-h-screen"
       }
     >
@@ -65,15 +63,17 @@ const PlayerMusic = () => {
       </div>
       <div>
         {artists.length > 0 ? (
-          <div className="flex flex-wrap mt-4  ">
+          <div className="flex flex-wrap mt-4">
             {artists.map((artist) => (
               <div
-                className="card w-full md:w-1/2 lg:w-1/3 p-4 text-center"
+                className={`card w-full ${
+                  isHomePage ? "lg:w-1/2" : "md:w-1/2 lg:w-1/3"
+                }  p-4 text-center`}
                 key={artist.id}
               >
                 <div className="group relative block bg-black">
                   <img
-                    alt=""
+                    alt={artist.title}
                     src={
                       !artist.cover_image.includes("spacer.gif")
                         ? artist.cover_image
@@ -82,7 +82,7 @@ const PlayerMusic = () => {
                     className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
                   />
                   <div className="relative p-4 sm:p-6 lg:p-8">
-                    <p className="text-xl inline-block px-4 font-bold bg-black bg-opacity-60 rounded-md text-orange-700 sm:text-2xl">
+                    <p className="text-xl inline-block px-4 py-1 font-bold bg-black bg-opacity-60 rounded-md text-orange-700 sm:text-2xl">
                       {" "}
                       {artist.title}
                     </p>
@@ -106,11 +106,11 @@ const PlayerMusic = () => {
             ))}
           </div>
         ) : (
-          <MessagePlayer theme={theme} />
+          <NoArtistsMessage theme={theme} />
         )}
       </div>
     </div>
   );
 };
 
-export default PlayerMusic;
+export default SearchArtists;

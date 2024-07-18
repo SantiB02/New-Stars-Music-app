@@ -3,7 +3,7 @@ import ProductCard from "../product/ProductCard";
 import LoadingMessage from "../common/LoadingMessage";
 import { useRoles } from "../../hooks/useRoles";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Alert } from "@material-tailwind/react";
+import { Alert, Typography } from "@material-tailwind/react";
 import InfoIcon from "../icons/InfoIcon";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 
@@ -25,7 +25,9 @@ const FeaturedProducts = ({ products, isLoading }) => {
 
   return (
     <div className="container mx-auto px-4">
-      <h2 className="text-3xl">Featured Products</h2>
+      <Typography variant="h3" className="font-light">
+        Featured Products
+      </Typography>
       <div className="grid grid-cols-1 sm:grid-cols-2  gap-4 mt-4">
         {products.map((product) => (
           <div key={product.id} className="w-full ">
