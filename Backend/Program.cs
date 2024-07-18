@@ -36,27 +36,27 @@ builder.Services.AddDbContext<MerchContext>(
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(setupAction =>
-{
-    setupAction.AddSecurityDefinition("MerchanmusicBearerAuth", new OpenApiSecurityScheme() //Esto va a permitir usar swagger con el token.
-    {
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        Description = "Acá pegar el token generado al loguearse."
-    });
+//builder.Services.AddSwaggerGen(setupAction =>
+//{
+//    setupAction.AddSecurityDefinition("MerchanmusicBearerAuth", new OpenApiSecurityScheme() //Esto va a permitir usar swagger con el token.
+//    {
+//        Type = SecuritySchemeType.Http,
+//        Scheme = "Bearer",
+//        Description = "Acá pegar el token generado al loguearse."
+//    });
 
-    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "MerchanmusicBearerAuth" }
-                }, new List<string>() }
-    });
-}); ;
+//    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+//    {
+//        {
+//            new OpenApiSecurityScheme
+//            {
+//                Reference = new OpenApiReference
+//                {
+//                    Type = ReferenceType.SecurityScheme,
+//                    Id = "MerchanmusicBearerAuth" }
+//                }, new List<string>() }
+//    });
+//}); ;
 
 builder.Configuration.AddUserSecrets<Program>();
 
@@ -133,11 +133,11 @@ builder.Services.AddCors(options => //habilitamos las solicitudes Cross-Origin
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
 
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();

@@ -23,6 +23,7 @@ namespace Merchanmusic.Controllers
             _productService = productService;
             _userService = userService;
             _tokenService = tokenService;
+            
         }
 
         [HttpGet]
@@ -197,6 +198,30 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadImage([FromForm] IFormFile file)
+        {
+            string subClaim = _tokenService.GetUserId();
+            string role = _userService.GetRoleById(subClaim);
+            if (role == "Admin" || role == "Seller")
+            {
+                if (file == null || file.Length == 0)
+                {
+                    return BadRequest(new { error = "No file uploaded" });
+                }
+                try
+                {
+                    var url = await _productService.UploadImageAsync(file);
+                    return Ok(new { url });
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(500, new { error = ex.Message });
+                }
+            }
+            return Forbid();
+           
+        }
         //[HttpPut("{id}")]
         //public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductUpdateDto product)
         //{

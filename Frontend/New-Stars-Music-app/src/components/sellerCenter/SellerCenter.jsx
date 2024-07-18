@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import api, { setAuthInterceptor } from "../../api/api";
 import ProductCard from "../product/ProductCard";
 import {
@@ -10,11 +11,13 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
+import styles from './SellerCenter.module.css';
 
 const SellerCenter = () => {
   const [products, setProducts] = useState([]);
   const { getAccessTokenSilently, isLoading } = useAuth0();
-
+  const [file, setFile] = useState(null);
+  const [username, setUsername] = useState("pepe");
   const [productData, setProductData] = useState({
     name: "",
     image: "",
@@ -29,24 +32,50 @@ const SellerCenter = () => {
     if (!isLoading) {
       setAuthInterceptor(getAccessTokenSilently);
     }
-  }, [isLoading]);
+  }, [isLoading, getAccessTokenSilently]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await api.get("/products/by-seller");
-        const allProducts = response.data;
-        setProducts(allProducts);
+        setProducts(response.data);
       } catch (error) {
-        console.error("Error fetching all products:", error);
+        console.error("Error fetching products:", error);
       }
     };
     fetchProducts();
   }, []);
 
+  const handleImageUpload = async () => {
+    const formData = new FormData();
+    formData.append("file", file);
+  
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await api.post("/products/upload", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data.url;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (file) {
+        const imageUrl = await handleImageUpload();
+        setProductData((prevData) => ({
+          ...prevData,
+          image: imageUrl,
+        }));
+      }
+
       if (
         productData.name &&
         productData.image &&
@@ -60,6 +89,7 @@ const SellerCenter = () => {
 
         if (response.status === 200) {
           console.log("Producto creado/editado exitosamente");
+          setProducts((prevProducts) => [...prevProducts, response.data]);
         } else {
           console.error("Error al crear/editar el producto");
         }
@@ -77,6 +107,7 @@ const SellerCenter = () => {
 
       if (response.status === 200) {
         console.log("Producto eliminado exitosamente");
+        setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
       } else {
         console.error("Error al eliminar el producto");
       }
@@ -85,42 +116,30 @@ const SellerCenter = () => {
     }
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      setAuthInterceptor(getAccessTokenSilently);
-    }
-  }, [isLoading]);
-
   return (
-    <div>
+    <div className="seller-center">
       <Typography variant="h1" className="font-light">
         Seller Center
       </Typography>
-      {products.map((product) => (
-        <div key={product.id} className="w-full ">
-          <ProductCard
-            product={product}
-            isSeller={true}
-            handleDeleteProduct={handleDeleteProduct}
-            className="my-2"
-          />
-        </div>
-      ))}
-      <form onSubmit={handleSubmit}>
+      <div className="product-list">
+        {products.map((product) => (
+          <div key={product.id} className="product-item">
+            <ProductCard
+              product={product}
+              isSeller={true}
+              handleDeleteProduct={handleDeleteProduct}
+              className="my-2"
+            />
+          </div>
+        ))}
+      </div>
+      <form onSubmit={handleSubmit} className="product-form">
         <input
           type="text"
           placeholder="Nombre del producto"
           value={productData.name}
           onChange={(e) =>
             setProductData({ ...productData, name: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="URL de la imagen"
-          value={productData.image}
-          onChange={(e) =>
-            setProductData({ ...productData, image: e.target.value })
           }
         />
         <input
@@ -163,11 +182,14 @@ const SellerCenter = () => {
             setProductData({ ...productData, category: e.target.value })
           }
         />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setFile(e.target.files[0])}
+          required
+        />
         <button type="submit">Guardar producto</button>
       </form>
-      <button onClick={() => handleDeleteProduct(productId)}>
-        Eliminar producto
-      </button>
     </div>
   );
 };

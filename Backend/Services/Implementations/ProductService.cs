@@ -3,12 +3,16 @@ using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Entities.Products;
 using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Interfaces;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace Merchanmusic.Services.Implementations
 {
     public class ProductService : IProductService
     {
         private readonly MerchContext _context;
+        private const string ClientId = "f115d780765b543"; // Reemplaza con tu Client ID de Imgur
+        private const string     ClientSecret = "4d51c578206efe43340912782033678d21935864\t"; // Reemplaza con tu Client Secret de Imgur
 
         public ProductService(MerchContext context)
         {
@@ -133,6 +137,42 @@ namespace Merchanmusic.Services.Implementations
             productToDelete.State = false;
                 _context.Products.Update(productToDelete);
                 _context.SaveChanges();
+        }
+
+        public async Task<string> UploadImageAsync(IFormFile file)
+        {
+           
+            using (var client = new HttpClient())
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                var content = new ByteArrayContent(stream.ToArray());
+                content.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+
+                var base64String = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes($"{ClientId}:{ClientSecret}"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64String);
+
+                var response = await client.PostAsync("https://api.imgur.com/3/image", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception("Failed to upload to Imgur: " + response.ReasonPhrase);
+                }
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var imgurResponse = JsonConvert.DeserializeObject<ImgurResponse>(responseContent);
+
+                return imgurResponse.Data.Link;
+            }
+        }
+
+        private class ImgurResponse
+        {
+            public ImgurData Data { get; set; }
+        }
+
+        private class ImgurData
+        {
+            public string Link { get; set; }
         }
 
         //public Product UpdateProductBySeller(ProductUpdateDto productDto, string sellerId)
