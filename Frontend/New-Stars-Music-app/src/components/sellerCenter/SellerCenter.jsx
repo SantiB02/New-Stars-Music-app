@@ -11,7 +11,6 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
-import styles from './SellerCenter.module.css';
 
 const SellerCenter = () => {
   const [products, setProducts] = useState([]);
@@ -49,7 +48,7 @@ const SellerCenter = () => {
   const handleImageUpload = async () => {
     const formData = new FormData();
     formData.append("file", file);
-  
+
     try {
       const token = await getAccessTokenSilently();
       const response = await api.post("/products/upload", formData, {
@@ -107,7 +106,9 @@ const SellerCenter = () => {
 
       if (response.status === 200) {
         console.log("Producto eliminado exitosamente");
-        setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product.id !== productId)
+        );
       } else {
         console.error("Error al eliminar el producto");
       }

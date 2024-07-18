@@ -4,11 +4,13 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 import toast from "react-hot-toast";
 import { findArtistsByName } from "../../api/discogs-api";
 import { Typography } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 const SearchArtists = ({ isHomePage = false }) => {
   const [artistName, setArtistName] = useState("");
   const [artists, setArtists] = useState([]);
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -93,11 +95,12 @@ const SearchArtists = ({ isHomePage = false }) => {
                           do you want to explore {artist.title}'s products?
                           click here 👇{" "}
                         </p>
-                        <a href="blank">
-                          <button className="text-zinc-700 hover:text-zinc-200 backdrop-blur-lg bg-gradient-to-tr from-transparent bg-secondary to-transparent rounded-md py-2 px-6 shadow hover:bg-third duration-700">
-                            Explore Products
-                          </button>
-                        </a>
+                        <button
+                          onClick={() => navigate("/store")}
+                          className="text-zinc-700 hover:text-zinc-200 backdrop-blur-lg bg-gradient-to-tr from-transparent bg-secondary to-transparent rounded-md py-2 px-6 shadow hover:bg-third duration-700"
+                        >
+                          Explore Products
+                        </button>
                       </div>
                     </div>
                   </div>
