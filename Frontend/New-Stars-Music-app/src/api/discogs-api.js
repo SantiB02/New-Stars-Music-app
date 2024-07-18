@@ -1,23 +1,28 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
-const options = {
-  method: "GET",
-  url: "https://spotify23.p.rapidapi.com/search/",
-  params: {
-    type: "multi",
-    offset: "0",
-    limit: "10",
-    numberOfTopResults: "5",
-  },
-  headers: {
-    "x-rapidapi-key": "f01df68517mshdbe3f29cad6aa80p12a68bjsnc9f078de4e26",
-    "x-rapidapi-host": "spotify23.p.rapidapi.com",
-  },
+const discogsApiUrl = "https://api.discogs.com";
+const consumerKey = "CZbMdPnbDrFxxfPKkShV";
+const consumerSecret = "SBTsfIBEqpuxysGhutQERXQQfFsQTAuO";
+
+export const findArtistsByName = async (artist) => {
+  const options = {
+    method: "GET",
+    url: `${discogsApiUrl}/database/search`,
+    params: {
+      q: artist,
+      type: "artist",
+      per_page: 6,
+      key: consumerKey,
+      secret: consumerSecret,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    return response.data.results;
+  } catch (error) {
+    console.error("Error findind artists by name", error);
+    toast.error("Error getting artists!");
+  }
 };
-
-try {
-  const response = await axios.request(options);
-  console.log(response.data);
-} catch (error) {
-  console.error(error);
-}
