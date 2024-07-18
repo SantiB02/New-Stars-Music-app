@@ -18,7 +18,7 @@ namespace Merchanmusic.Services.Interfaces
             List<Product> GetProductBySeller(string sellerId);
             void UpdateProduct(ProductUpdateDto productUpdateDto);
         Task<string> UploadImageAsync(IFormFile file);
-
+        Task<ICollection<Category>> GetCategoriesAsync();
         }
 
 }

@@ -17,7 +17,7 @@ const SellerCenter = () => {
   const [products, setProducts] = useState([]);
   const { getAccessTokenSilently, isLoading } = useAuth0();
   const [file, setFile] = useState(null);
-  const [username, setUsername] = useState("pepe");
+  const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
     name: "",
     image: "",
@@ -43,7 +43,16 @@ const SellerCenter = () => {
         console.error("Error fetching products:", error);
       }
     };
+    const fetchCategories = async () => {
+      try {
+        const response = await api.get("/products/categories");
+        setCategories(response.data.url);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const handleImageUpload = async () => {
@@ -174,14 +183,23 @@ const SellerCenter = () => {
             setProductData({ ...productData, stock: e.target.value })
           }
         />
-        <input
-          type="text"
-          placeholder="Categoría"
-          value={productData.category}
-          onChange={(e) =>
-            setProductData({ ...productData, category: e.target.value })
-          }
-        />
+{!categories ? (
+  <div>Loading categories...</div>
+) : (
+  <select
+    value={productData.category}
+    onChange={(e) =>
+      setProductData({ ...productData, category: e.target.value })
+    }
+  >
+    <option value="">Select a category</option>
+    {categories.map((category) => (
+      <option key={category.id} value={category.name}>
+        {category.name}
+      </option>
+    ))}
+  </select>
+)}
         <input
           type="file"
           accept="image/*"

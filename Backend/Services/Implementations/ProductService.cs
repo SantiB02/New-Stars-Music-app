@@ -3,6 +3,7 @@ using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Entities.Products;
 using Merchanmusic.Data.Models;
 using Merchanmusic.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -165,6 +166,8 @@ namespace Merchanmusic.Services.Implementations
             }
         }
 
+
+
         private class ImgurResponse
         {
             public ImgurData Data { get; set; }
@@ -173,6 +176,11 @@ namespace Merchanmusic.Services.Implementations
         private class ImgurData
         {
             public string Link { get; set; }
+        }
+
+        public async Task<ICollection<Category>> GetCategoriesAsync()
+        {
+            return await _context.Categories.ToListAsync();
         }
 
         //public Product UpdateProductBySeller(ProductUpdateDto productDto, string sellerId)

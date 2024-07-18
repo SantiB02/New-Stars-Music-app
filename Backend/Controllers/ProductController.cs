@@ -222,6 +222,21 @@ namespace Merchanmusic.Controllers
             return Forbid();
            
         }
+
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetCategories()
+        {
+                try
+                {
+                    var url = await _productService.GetCategoriesAsync();
+                    return Ok(new { url });
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(500, new { error = ex.Message });
+                }
+            
+        }
         //[HttpPut("{id}")]
         //public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductUpdateDto product)
         //{
