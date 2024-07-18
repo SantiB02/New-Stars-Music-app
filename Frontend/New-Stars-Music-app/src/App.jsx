@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import "./App.css";
 
 import Home from "./components/home/Home";
-import PlayerMusic from "./components/playerMusic/PlayerMusic";
+import SearchArtists from "./components/playerMusic/SearchArtists";
 import PageNotFound from "./components/pageNotFound/PageNotFound";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -18,22 +18,11 @@ import Banner from "./components/banner/Banner";
 import LoadingMessage from "./components/common/LoadingMessage";
 import { Profile } from "./components/profile/Profile";
 import { Cart } from "./components/cart/Cart";
-
 import { Toaster } from "react-hot-toast";
-
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-
-import { getToken } from "./api/auth";
+import { Routes, Route } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setAuthInterceptor } from "./api/api";
-
 import { Settings } from "./components/settings/Settings";
-
 import { useTheme } from "./services/contexts/ThemeProvider";
 import Dashboard from "./components/dashboard/Dashboard";
 import ShippingDetails from "./components/shippingDetails/ShippingDetails";
@@ -69,7 +58,7 @@ function App() {
 
           <Route element={<Protected />}>
             <Route path="/home" element={<Home />} />
-            <Route path="/search" element={<PlayerMusic />} />
+            <Route path="/search" element={<SearchArtists />} />
             <Route path="/store" element={<Store />} />
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/become-seller" element={<BecomeSeller />} />

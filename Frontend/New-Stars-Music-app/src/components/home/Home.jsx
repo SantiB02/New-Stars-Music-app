@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import LoadingMessage from "../common/LoadingMessage";
 import api, { setAuthInterceptor } from "../../api/api";
+import SearchArtists from "../playerMusic/SearchArtists";
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -40,7 +41,6 @@ const Home = () => {
       const isUserDeleted = response.data;
 
       if (response.status === 404) {
-        console.log("CREATING NEW USER");
         await api.post(`/users/${user.email}`);
       }
 
@@ -95,7 +95,7 @@ const Home = () => {
         </div>
         <div className="md:w-1/2 p-4">
           <div className="h-full">
-            <Music />
+            <SearchArtists isHomePage={true} />
           </div>
         </div>
       </div>
