@@ -13,6 +13,7 @@ import api from "../../api/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import InfoIcon from "../icons/InfoIcon";
+import  { useForm } from "../../hooks/useForm"
 
 const BecomeSeller = () => {
   const [open, setOpen] = useState(false);
@@ -28,6 +29,7 @@ const BecomeSeller = () => {
     useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const navigate = useNavigate();
+  const {validateForm} = useForm();
 
   useEffect(() => {
     const fetchUserValidationStatus = async () => {
@@ -61,6 +63,11 @@ const BecomeSeller = () => {
   const handleOpen = () => setOpen(!open);
 
   const becomeSellerHandler = async () => {
+  const form = { address, apartment, country, city, postalCode, phone };
+  if (!validateForm(form)) {
+    toast.error("Please fill in all fields.");
+    return;
+  }
     setIsProcessingRequest(true);
     handleOpen();
     try {
@@ -177,31 +184,31 @@ const BecomeSeller = () => {
                   label="Country"
                   size="md"
                   value={country}
-                  onChange={() => stateChangeHandler(event, setCountry)}
+                  onChange={(event) => stateChangeHandler(event, setCountry)}
                 />
                 <Input
                   label="City"
                   size="md"
                   value={city}
-                  onChange={() => stateChangeHandler(event, setCity)}
+                  onChange={(event) => stateChangeHandler(event, setCity)}
                 />
                 <Input
                   label="Postal Code"
                   size="md"
                   value={postalCode}
-                  onChange={() => stateChangeHandler(event, setPostalCode)}
+                  onChange={(event) => stateChangeHandler(event, setPostalCode)}
                 />
                 <Input
                   label="Address"
                   size="md"
                   value={address}
-                  onChange={() => stateChangeHandler(event, setAddress)}
+                  onChange={(event) => stateChangeHandler(event, setAddress)}
                 />
                 <Input
                   label="Apartment / Floor"
                   size="md"
                   value={apartment}
-                  onChange={() => stateChangeHandler(event, setApartment)}
+                  onChange={(event) => stateChangeHandler(event, setApartment)}
                 />
                 <Typography className="-mb-2" variant="h6">
                   Your Contact Information
@@ -210,7 +217,7 @@ const BecomeSeller = () => {
                   label="Phone"
                   size="md"
                   value={phone}
-                  onChange={() => stateChangeHandler(event, setPhone)}
+                  onChange={(event) => stateChangeHandler(event, setPhone)}
                 />
               </>
             ) : (
