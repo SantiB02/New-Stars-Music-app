@@ -20,17 +20,17 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 const SellerCenter = () => {
   const [products, setProducts] = useState([]);
   const { getAccessTokenSilently, isLoading } = useAuth0();
-  const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [productData, setProductData] = useState({
     name: "",
     image: "",
-    color: "",
-    size: "",
+    artistOrBand: "",
+    price: 0,
     description: "",
     stock: 0,
     categoryId: 0,
+    imageLink: "",
   });
   const { theme } = useTheme();
 
@@ -83,6 +83,7 @@ const SellerCenter = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("SELECTED CATEGORY:", selectedCategoryId);
     try {
       if (file) {
         const imageUrl = await handleImageUpload();
@@ -96,8 +97,8 @@ const SellerCenter = () => {
       if (
         productData.name &&
         productData.image &&
-        productData.color &&
-        productData.size &&
+        productData.price &&
+        productData.artistOrBand &&
         productData.description &&
         productData.stock &&
         productData.categoryId
@@ -184,19 +185,19 @@ const SellerCenter = () => {
               }
             />
             <Input
-              type="text"
-              label="Color"
-              value={productData.color}
+              type="number"
+              label="Price"
+              value={productData.price}
               onChange={(e) =>
-                setProductData({ ...productData, color: e.target.value })
+                setProductData({ ...productData, price: e.target.value })
               }
             />
             <Input
               type="text"
-              label="Size"
-              value={productData.size}
+              label="Artist or band"
+              value={productData.artistOrBand}
               onChange={(e) =>
-                setProductData({ ...productData, size: e.target.value })
+                setProductData({ ...productData, artistOrBand: e.target.value })
               }
             />
             <Input
@@ -235,9 +236,12 @@ const SellerCenter = () => {
               </Select>
             )}
             <Input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFile(e.target.files[0])}
+              type="text"
+              label="Image link"
+              value={productData.imageLink}
+              onChange={(e) =>
+                setProductData({ ...productData, imageLink: e.target.value })
+              }
               required
             />
             <div className="flex justify-center pt-4">
