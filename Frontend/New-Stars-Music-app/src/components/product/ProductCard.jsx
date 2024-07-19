@@ -13,7 +13,14 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../hooks/useCart";
 
-const ProductCard = ({ product, isSeller, isAdmin, handleDeleteProduct }) => {
+const ProductCard = ({
+  product,
+  isSeller,
+  isAdmin,
+  handleDeleteProduct,
+  setOpen,
+  setProductSelected,
+}) => {
   const [quantity, setQuantity] = useState(1);
   const [isProductInCart, setIsProductInCart] = useState(false);
   const { theme } = useTheme();
@@ -48,7 +55,10 @@ const ProductCard = ({ product, isSeller, isAdmin, handleDeleteProduct }) => {
     setQuantity(1);
     removeFromCart(product);
   };
-
+  const onProductChangeEdit = () => {
+    setProductSelected(product);
+    setOpen(true);
+  };
   return (
     <Card
       className={
@@ -136,11 +146,7 @@ const ProductCard = ({ product, isSeller, isAdmin, handleDeleteProduct }) => {
                   ? "mr-2 bg-gray-50 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
                   : "mr-2  shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
               }
-              onClick={() =>
-                isProductInCart
-                  ? removeFromCartHandler(product)
-                  : addToCart({ ...product, quantity })
-              }
+              onClick={onProductChangeEdit}
             >
               Edit
             </Button>

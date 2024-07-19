@@ -16,6 +16,7 @@ import {
   Card,
 } from "@material-tailwind/react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
+import EditProductForm from "./EditProductForm";
 
 const SellerCenter = () => {
   const [products, setProducts] = useState([]);
@@ -32,6 +33,8 @@ const SellerCenter = () => {
     categoryId: 0,
     imageLink: "",
   });
+  const [open, setOpen] = useState(false);
+  const [productSelected, setProductSelected] = useState([]);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -133,10 +136,21 @@ const SellerCenter = () => {
       <Typography variant="h1" className="pt-10">
         Seller Center
       </Typography>
-      <div className="product-list">
+      <Dialog open={open} handler={() => setOpen(false)}>
+        <DialogHeader>Edit Product</DialogHeader>
+        <DialogBody>
+          <EditProductForm product={productSelected} setOpen={setOpen} />
+        </DialogBody>
+      </Dialog>
+      <div className="product-list flex flex-wrap gap-4">
         {products.map((product) => (
-          <div key={product.id} className="product-item">
+          <div
+            key={product.id}
+            className="product-item flex-1 min-w-[300px] max-w-[calc(33.333%-1rem)]"
+          >
             <ProductCard
+              setProductSelected={setProductSelected}
+              setOpen={setOpen}
               product={product}
               isSeller={true}
               handleDeleteProduct={handleDeleteProduct}
