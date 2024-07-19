@@ -181,14 +181,15 @@ export default function NavBar() {
             >
               Store
             </a>
-            {userRole === "Client" && (
-              <a
-                className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
-                onClick={() => navigateHandler("/my-orders")}
-              >
-                My Orders
-              </a>
-            )}
+            {userRole === "Client" ||
+              (userRole === "Seller" && (
+                <a
+                  className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"
+                  onClick={() => navigateHandler("/my-orders")}
+                >
+                  My Orders
+                </a>
+              ))}
             {userRole === "Client" && (
               <a
                 className="text-sm hover:text-gray-300 font-semibold leading-6 text-white hover:cursor-pointer"

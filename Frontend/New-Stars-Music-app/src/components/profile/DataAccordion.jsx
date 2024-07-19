@@ -59,7 +59,7 @@ const DataAccordion = ({ users }) => {
           {!users.address ? (
             <Typography>you must enter your address</Typography>
           ) : (
-            <Typography>Addres: {users.address}</Typography>
+            <Typography>Address: {users.address}</Typography>
           )}
           {!users.apartment ? (
             <></>
