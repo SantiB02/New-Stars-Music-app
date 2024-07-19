@@ -105,14 +105,15 @@ const StoreProducts = ({ products, isLoading, userRole, setProducts }) => {
           </List>
         </Card>
       </div>
-      <div className="flex flex-col mt-4 md:flex-row m-10 justify-center">
+      <div className="flex flex-wrap mt-4 justify-center">
         {productsToMap.length > 0 ? (
           productsToMap.map((product) => (
-            <ProductCard
-              isAdmin={userRole === "Admin"}
+            <div
               key={product.id}
-              product={product}
-            />
+              className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
+            >
+              <ProductCard isAdmin={userRole === "Admin"} product={product} />
+            </div>
           ))
         ) : (
           <Typography className="text-md mt-10">

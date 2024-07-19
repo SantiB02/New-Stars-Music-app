@@ -57,56 +57,60 @@ const DataAccordion = ({ users }) => {
         </AccordionHeader>
         <AccordionBody>
           {!users.address ? (
-            <>debe ingresar su direccion</>
+            <Typography>you must enter your address</Typography>
           ) : (
-            <Typography>your addres is : {users.address}</Typography>
+            <Typography>Addres: {users.address}</Typography>
           )}
           {!users.apartment ? (
-            <Typography>debe ingresar tu numero de apartamento</Typography>
+            <></>
           ) : (
-            <Typography>your apartment is : {users.apartment}</Typography>
+            <Typography>Apartment: {users.apartment}</Typography>
           )}
           {!users.city ? (
-            <Typography>debe ingresar su ciudad</Typography>
+            <Typography></Typography>
           ) : (
-            <Typography>your city is : {users.city}</Typography>
+            <Typography>City: {users.city}</Typography>
           )}
           {!users.country ? (
-            <Typography>debe ingresar su pais</Typography>
+            <Typography></Typography>
           ) : (
-            <Typography>your country is : {users.country}</Typography>
+            <Typography>Country: {users.country}</Typography>
           )}
 
           {!users.phone ? (
-            <Typography>debe ingresar su telefono</Typography>
+            <Typography></Typography>
           ) : (
-            <Typography>your phone is : {users.phone}</Typography>
+            <Typography>Phone: {users.phone}</Typography>
           )}
-          {!users.postalCode ? (
-            <Typography>debe ingresar su codigo postal</Typography>
+          {!users.postalcode ? (
+            <Typography></Typography>
           ) : (
-            <Typography>your postalcode is : {users.postalCode}</Typography>
+            <Typography>Code postal: {users.postalcode}</Typography>
           )}
+          <Typography variant="h5" color={theme ? "inherit" : "black"}>
+            {" "}
+            To change it, press the button below{" "}
+          </Typography>
           <Dialog
             open={openChange}
             className={theme ? "bg-primary text-white" : "bg-white text-black"}
             handler={() => setOpenChange(false)}
           >
             <DialogHeader>
-              <Typography variant="h2"  color={theme ? "white" : "black"}>
+              <Typography variant="h2" color={theme ? "white" : "black"}>
                 Additional data
               </Typography>
             </DialogHeader>
             <DialogBody className="flex items-center justify-center ">
               <div className="w-full max-w-md">
-                <FormProfile setOpenChange={setOpenChange}/>
+                <FormProfile setOpenChange={setOpenChange} users={users} />
               </div>
             </DialogBody>
           </Dialog>
 
           <div className="pt-4">
             <Button variant="gradient" onClick={openDialogHandler} color="blue">
-              <span>Changes my account</span>
+              <span>Update my data</span>
             </Button>
           </div>
         </AccordionBody>

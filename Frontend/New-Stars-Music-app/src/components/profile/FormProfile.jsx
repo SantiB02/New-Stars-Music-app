@@ -1,23 +1,46 @@
 import { Button, Card, Input } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
+import toast from "react-hot-toast";
+import api from "../../api/api";
 
-const FormProfile = ({ setOpenChange }) => {
-  const [address, setAddress] = useState("");
-  const [apartment, setApartment] = useState("");
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [phone, setPhone] = useState("");
+
+const FormProfile = ({ setOpenChange, users }) => {
+  const [address, setAddress] = useState(users.address);
+  const [apartment, setApartment] = useState(users.apartment);
+  const [country, setCountry] = useState(users.country);
+  const [city, setCity] = useState(users.city);
+  const [postalCode, setPostalCode] = useState(users.postalCode);
+  const [phone, setPhone] = useState(users.phone);
+  
+  const { theme } = useTheme();
 
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
   };
-  const changeDataHandler = () => {
+  const changeDataHandler = async () => {
     
+    try {
+      const request = {
+        address,
+        apartment,
+        country,
+        city,
+        postalCode,
+        phone,
+      };
+      await api.put("/users/client", request);
+      toast.success("User update!");
+      
+      setOpenChange(false);
+     
+    } catch (error) {
+      toast.error("Error update!");
+      console.error("Error buying user", error);
+      setOpenChange(false);
+    }
   };
 
-  const { theme } = useTheme();
   return (
     <div>
       <form
