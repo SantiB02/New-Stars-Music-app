@@ -22,6 +22,7 @@ const SellerCenter = () => {
   const { getAccessTokenSilently, isLoading } = useAuth0();
   const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [productData, setProductData] = useState({
     name: "",
     image: "",
@@ -29,7 +30,7 @@ const SellerCenter = () => {
     size: "",
     description: "",
     stock: 0,
-    category: "",
+    categoryId: 0,
   });
   const { theme } = useTheme();
 
@@ -52,6 +53,7 @@ const SellerCenter = () => {
       try {
         const response = await api.get("/products/categories");
         setCategories(response.data.url);
+        console.log("CATEGORIES:", response.data.url);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -87,6 +89,7 @@ const SellerCenter = () => {
         setProductData((prevData) => ({
           ...prevData,
           image: imageUrl,
+          categoryId: selectedCategoryId,
         }));
       }
 
@@ -97,7 +100,7 @@ const SellerCenter = () => {
         productData.size &&
         productData.description &&
         productData.stock &&
-        productData.category
+        productData.categoryId
       ) {
         const response = await api.post("/products", productData);
 
@@ -168,13 +171,13 @@ const SellerCenter = () => {
             onSubmit={handleSubmit}
             className={
               theme
-                ? " bg-primary p-5 w-70 max-w-screen-lg sm:w-96"
-                : " p-5 w-70 max-w-screen-lg sm:w-96"
+                ? "flex flex-col gap-y-6 bg-primary p-5 w-70 max-w-screen-lg sm:w-96"
+                : "flex flex-col gap-y-6 p-5 w-70 max-w-screen-lg sm:w-96"
             }
           >
             <Input
               type="text"
-              label="Nombre del producto"
+              label="Name"
               value={productData.name}
               onChange={(e) =>
                 setProductData({ ...productData, name: e.target.value })
@@ -190,7 +193,7 @@ const SellerCenter = () => {
             />
             <Input
               type="text"
-              label="Talle"
+              label="Size"
               value={productData.size}
               onChange={(e) =>
                 setProductData({ ...productData, size: e.target.value })
@@ -198,7 +201,7 @@ const SellerCenter = () => {
             />
             <Input
               type="text"
-              label="Descripción"
+              label="Description"
               value={productData.description}
               onChange={(e) =>
                 setProductData({
@@ -220,14 +223,12 @@ const SellerCenter = () => {
             ) : (
               <Select
                 label="Select Category"
-                value={productData.category}
-                onChange={(e) =>
-                  setProductData({ ...productData, category: e.target.value })
-                }
+                value={selectedCategoryId.toString()}
+                onChange={(val) => setSelectedCategoryId(val)}
               >
                 <Option value="">Select a category</Option>
                 {categories.map((category) => (
-                  <Option key={category.id} value={category.name}>
+                  <Option key={category.id} value={category.id.toString()}>
                     {category.name}
                   </Option>
                 ))}
@@ -241,7 +242,7 @@ const SellerCenter = () => {
             />
             <div className="flex justify-center pt-4">
               <Button type="submit" color="orange">
-              load product
+                load product
               </Button>
             </div>
           </form>
