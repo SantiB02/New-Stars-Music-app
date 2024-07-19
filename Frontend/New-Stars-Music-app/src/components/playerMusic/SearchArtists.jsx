@@ -4,7 +4,7 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 import toast from "react-hot-toast";
 import { findArtistsByName } from "../../api/discogs-api";
 import { Typography } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const SearchArtists = ({ isHomePage = false }) => {
   const [artistName, setArtistName] = useState("");
@@ -90,17 +90,19 @@ const SearchArtists = ({ isHomePage = false }) => {
                     </p>
                     <div className="mt-32 sm:mt-48 lg:mt-64">
                       <div className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-                        <p className="text-sm text-white mb-2">
+                        <p className="text-sm text-white mb-4">
                           {" "}
                           do you want to explore {artist.title}'s products?
                           click here 👇{" "}
                         </p>
-                        <button
+                        <Link
+                          to="/store"
+                          state={{ artistName: artist.title }}
                           onClick={() => navigate("/store")}
-                          className="text-zinc-700 hover:text-zinc-200 backdrop-blur-lg bg-gradient-to-tr from-transparent bg-secondary to-transparent rounded-md py-2 px-6 shadow hover:bg-third duration-700"
+                          className=" text-zinc-700 hover:text-zinc-200 backdrop-blur-lg bg-gradient-to-tr from-transparent bg-secondary to-transparent rounded-md py-2 px-2 shadow hover:bg-third duration-700"
                         >
                           Explore Products
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

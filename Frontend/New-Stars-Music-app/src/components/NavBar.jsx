@@ -16,10 +16,6 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-import { GiBilledCap, GiSchoolBag } from "react-icons/gi";
-import { FaTshirt } from "react-icons/fa";
-import { RiFilePaperFill } from "react-icons/ri";
-import { FaCompactDisc } from "react-icons/fa";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import Dropdown from "./dropdown/Dropdown";
@@ -27,40 +23,9 @@ import ToggleTheme from "./common/ToggleTheme";
 import { Badge, Tooltip } from "@material-tailwind/react";
 import { useCart } from "../hooks/useCart";
 import { useRoles } from "../hooks/useRoles";
-import { setAuthInterceptor } from "../api/api";
+import api, { setAuthInterceptor } from "../api/api";
+import { Link } from "react-router-dom";
 
-const products = [
-  {
-    name: "Cap",
-    description: "",
-    href: "#",
-    icon: GiBilledCap,
-  },
-  {
-    name: "Bags",
-    description: "",
-    href: "#",
-    icon: GiSchoolBag,
-  },
-  {
-    name: "T-shirt",
-    description: "",
-    href: "#",
-    icon: FaTshirt,
-  },
-  {
-    name: "CDs",
-    description: "",
-    href: "#",
-    icon: FaCompactDisc,
-  },
-  {
-    name: "Posters",
-    description: "",
-    href: "#",
-    icon: RiFilePaperFill,
-  },
-];
 const callsToAction = [{ name: "Contact sales", href: "#", icon: PhoneIcon }];
 
 function classNames(...classes) {
@@ -68,6 +33,7 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
+  const [categories, setCategories] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const {
@@ -86,6 +52,20 @@ export default function NavBar() {
       setAuthInterceptor(getAccessTokenSilently);
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await api.get("/products/categories");
+        const categories = response.data.url;
+        setCategories(categories);
+      } catch (error) {
+        console.error("Error getting product categories", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
 
@@ -155,28 +135,18 @@ export default function NavBar() {
               >
                 <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-third shadow-lg ring-1 ring-gray-900/5">
                   <div className="p-4">
-                    {products.map((item) => (
-                      <div
-                        key={item.name}
-                        className="group relative flex items-center gap-x-6 rounded-lg p-4  text-sm leading-6 hover:bg-gray-50"
+                    {categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        state={{ categoryId: category.id }}
+                        to="/store"
                       >
-                        <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-primary group-hover:">
-                          <item.icon
-                            className="h-6 w-6 text-white-600 group-hover:text-white-600"
-                            aria-hidden="true"
-                          />
+                        <div className="group relative flex items-center gap-x-6 rounded-lg p-4  text-sm hover:text-black leading-6 hover:bg-gray-50">
+                          <div className="flex-auto">
+                            <p>{category.name}</p>
+                          </div>
                         </div>
-                        <div className="flex-auto">
-                          <a
-                            href={item.href}
-                            className="block font-semibold text-black"
-                          >
-                            {item.name}
-                            <span className="absolute inset-0 " />
-                          </a>
-                          <p className="mt-1 text-black">{item.description}</p>
-                        </div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                   <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
@@ -321,15 +291,16 @@ export default function NavBar() {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
-                          <Disclosure.Button
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        {[...categories, ...callsToAction].map((category) => (
+                          <Link
+                            to="/store"
+                            state={{ categoryId: category.id }}
+                            key={category.name}
                           >
-                            {item.name}
-                          </Disclosure.Button>
+                            <Disclosure.Button className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-white">
+                              <p>{category.name}</p>
+                            </Disclosure.Button>
+                          </Link>
                         ))}
                       </Disclosure.Panel>
                     </>
