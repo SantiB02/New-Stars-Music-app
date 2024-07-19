@@ -12,8 +12,8 @@ namespace Merchanmusic.Services.Implementations
     public class ProductService : IProductService
     {
         private readonly MerchContext _context;
-        private const string ClientId = "f115d780765b543"; // Reemplaza con tu Client ID de Imgur
-        private const string     ClientSecret = "4d51c578206efe43340912782033678d21935864\t"; // Reemplaza con tu Client Secret de Imgur
+        private const string ClientId = "f115d780765b543\t"; // Reemplaza con tu Client ID de Imgur
+        private const string ClientSecret = "6978ebbc3c403f8640d75b622871b84093a8c94d\t"; // Reemplaza con tu Client Secret de Imgur
 
         public ProductService(MerchContext context)
         {
@@ -142,6 +142,7 @@ namespace Merchanmusic.Services.Implementations
 
         public async Task<string> UploadImageAsync(IFormFile file)
         {
+
            
             using (var client = new HttpClient())
             using (var stream = new MemoryStream())
