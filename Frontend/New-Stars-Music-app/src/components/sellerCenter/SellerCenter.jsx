@@ -23,8 +23,8 @@ const SellerCenter = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [productData, setProductData] = useState({
+    code: "",
     name: "",
-    image: "",
     artistOrBand: "",
     price: 0,
     description: "",
@@ -83,20 +83,12 @@ const SellerCenter = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("SELECTED CATEGORY:", selectedCategoryId);
+    productData.categoryId = selectedCategoryId;
     try {
-      if (file) {
-        const imageUrl = await handleImageUpload();
-        setProductData((prevData) => ({
-          ...prevData,
-          image: imageUrl,
-          categoryId: selectedCategoryId,
-        }));
-      }
-
       if (
+        productData.code &&
         productData.name &&
-        productData.image &&
+        productData.imageLink &&
         productData.price &&
         productData.artistOrBand &&
         productData.description &&
@@ -176,6 +168,14 @@ const SellerCenter = () => {
                 : "flex flex-col gap-y-6 p-5 w-70 max-w-screen-lg sm:w-96"
             }
           >
+            <Input
+              type="text"
+              label="Code"
+              value={productData.code}
+              onChange={(e) =>
+                setProductData({ ...productData, code: e.target.value })
+              }
+            />
             <Input
               type="text"
               label="Name"
