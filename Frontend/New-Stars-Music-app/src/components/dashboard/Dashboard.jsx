@@ -2,13 +2,16 @@ import { Typography, Button } from "@material-tailwind/react";
 import React, { useState, useEffect } from "react";
 import api from "../../api/api";
 import styles from "./Dashboard.module.css";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
+import { useTheme } from "../../services/contexts/ThemeProvider";
 
 const Dashboard = () => {
   const [users, setUsers] = useState(null);
   const [products, setProducts] = useState(null);
   const [saleOrders, setSaleOrders] = useState(null);
   const [error, setError] = useState(null);
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +40,6 @@ const Dashboard = () => {
       setSaleOrders(null);
     };
   }, []);
-  
 
   const completeSaleOrder = async (orderId) => {
     try {
@@ -48,7 +50,7 @@ const Dashboard = () => {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Completar orden"
+        confirmButtonText: "Completar orden",
       });
 
       if (result.isConfirmed) {
@@ -90,7 +92,7 @@ const Dashboard = () => {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Eliminar orden"
+        confirmButtonText: "Eliminar orden",
       });
 
       if (result.isConfirmed) {
@@ -136,7 +138,11 @@ const Dashboard = () => {
             {users && users.length > 0 ? (
               <div>
                 <Typography variant="h4">Users</Typography>
-                <table className={styles["data-table"]}>
+                <table
+                  className={
+                    theme ? styles["data-table-dark"] : styles["data-table"]
+                  }
+                >
                   <thead>
                     <tr>
                       <th>Email</th>
@@ -163,7 +169,7 @@ const Dashboard = () => {
             {products && products.length > 0 ? (
               <div>
                 <Typography variant="h4">Products</Typography>
-                <table className={styles["data-table"]}>
+                <table className={ theme ? styles["data-table-dark"] : styles["data-table"]}>
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -190,7 +196,7 @@ const Dashboard = () => {
             <Typography variant="h4">Sale Orders</Typography>
             {saleOrders !== null ? (
               saleOrders.length > 0 ? (
-                <table className={styles["data-table"]}>
+                <table className={ theme ? styles["data-table-dark"] : styles["data-table"]}>
                   <thead>
                     <tr>
                       <th>Order ID</th>
@@ -219,15 +225,21 @@ const Dashboard = () => {
                         <td>{order.client.country}</td>
                         <td>{order.client.city}</td>
                         <td>{order.client.postalCode}</td>
-                        <td>{order.completed ? "Sí" : "No"}</td>                        
+                        <td>{order.completed ? "Sí" : "No"}</td>
                         <td>
-                        <td>{!order.completed ? <Button
-                            onClick={() => completeSaleOrder(order.id)}
-                            color="green"
-                            size="sm"
-                          >
-                            Complete
-                          </Button> : <></>}</td>                        
+                          <td>
+                            {!order.completed ? (
+                              <Button
+                                onClick={() => completeSaleOrder(order.id)}
+                                color="green"
+                                size="sm"
+                              >
+                                Complete
+                              </Button>
+                            ) : (
+                              <></>
+                            )}
+                          </td>
 
                           <Button
                             onClick={() => deleteSaleOrder(order.id)}

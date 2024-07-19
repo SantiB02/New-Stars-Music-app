@@ -5,12 +5,17 @@ import api, { setAuthInterceptor } from "../../api/api";
 import ProductCard from "../product/ProductCard";
 import {
   Typography,
+  Input,
   Button,
   Dialog,
   DialogHeader,
   DialogBody,
   DialogFooter,
+  Select,
+  Option,
+  Card,
 } from "@material-tailwind/react";
+import { useTheme } from "../../services/contexts/ThemeProvider";
 
 const SellerCenter = () => {
   const [products, setProducts] = useState([]);
@@ -26,6 +31,7 @@ const SellerCenter = () => {
     stock: 0,
     category: "",
   });
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!isLoading) {
@@ -128,7 +134,7 @@ const SellerCenter = () => {
 
   return (
     <div className="seller-center">
-      <Typography variant="h1" className="font-light">
+      <Typography variant="h1" className="pt-10">
         Seller Center
       </Typography>
       <div className="product-list">
@@ -143,72 +149,104 @@ const SellerCenter = () => {
           </div>
         ))}
       </div>
-      <form onSubmit={handleSubmit} className="product-form">
-        <input
-          type="text"
-          placeholder="Nombre del producto"
-          value={productData.name}
-          onChange={(e) =>
-            setProductData({ ...productData, name: e.target.value })
+      <div
+        className={
+          theme
+            ? "flex items-center justify-center mt-16 pb-16 "
+            : "flex items-center justify-center pt-16 pb-16 bg-gray-200"
+        }
+      >
+        <div
+          className={
+            theme
+              ? " shadow-lg rounded-lg p-8 border-2 border-gray-700  max-w-2xl"
+              : " shadow-lg rounded-lg p-8 border-2 border-blue-200 max-w-2xl bg-white text-black"
           }
-        />
-        <input
-          type="text"
-          placeholder="Color"
-          value={productData.color}
-          onChange={(e) =>
-            setProductData({ ...productData, color: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Talle"
-          value={productData.size}
-          onChange={(e) =>
-            setProductData({ ...productData, size: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Descripción"
-          value={productData.description}
-          onChange={(e) =>
-            setProductData({ ...productData, description: e.target.value })
-          }
-        />
-        <input
-          type="number"
-          placeholder="Stock"
-          value={productData.stock}
-          onChange={(e) =>
-            setProductData({ ...productData, stock: e.target.value })
-          }
-        />
-{!categories ? (
-  <div>Loading categories...</div>
-) : (
-  <select
-    value={productData.category}
-    onChange={(e) =>
-      setProductData({ ...productData, category: e.target.value })
-    }
-  >
-    <option value="">Select a category</option>
-    {categories.map((category) => (
-      <option key={category.id} value={category.name}>
-        {category.name}
-      </option>
-    ))}
-  </select>
-)}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setFile(e.target.files[0])}
-          required
-        />
-        <button type="submit">Guardar producto</button>
-      </form>
+        >
+          <Typography variant="h4">New product</Typography>
+          <form
+            onSubmit={handleSubmit}
+            className={
+              theme
+                ? " bg-primary p-5 w-70 max-w-screen-lg sm:w-96"
+                : " p-5 w-70 max-w-screen-lg sm:w-96"
+            }
+          >
+            <Input
+              type="text"
+              label="Nombre del producto"
+              value={productData.name}
+              onChange={(e) =>
+                setProductData({ ...productData, name: e.target.value })
+              }
+            />
+            <Input
+              type="text"
+              label="Color"
+              value={productData.color}
+              onChange={(e) =>
+                setProductData({ ...productData, color: e.target.value })
+              }
+            />
+            <Input
+              type="text"
+              label="Talle"
+              value={productData.size}
+              onChange={(e) =>
+                setProductData({ ...productData, size: e.target.value })
+              }
+            />
+            <Input
+              type="text"
+              label="Descripción"
+              value={productData.description}
+              onChange={(e) =>
+                setProductData({
+                  ...productData,
+                  description: e.target.value,
+                })
+              }
+            />
+            <Input
+              type="number"
+              label="Stock"
+              value={productData.stock}
+              onChange={(e) =>
+                setProductData({ ...productData, stock: e.target.value })
+              }
+            />
+            {!categories ? (
+              <div>Loading categories...</div>
+            ) : (
+              <Select
+                label="Select Category"
+                value={productData.category}
+                onChange={(e) =>
+                  setProductData({ ...productData, category: e.target.value })
+                }
+              >
+                <Option value="">Select a category</Option>
+                {categories.map((category) => (
+                  <Option key={category.id} value={category.name}>
+                    {category.name}
+                  </Option>
+                ))}
+              </Select>
+            )}
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setFile(e.target.files[0])}
+              required
+            />
+            <div className="flex justify-center pt-4">
+              <Button type="submit" color="orange">
+              load product
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
