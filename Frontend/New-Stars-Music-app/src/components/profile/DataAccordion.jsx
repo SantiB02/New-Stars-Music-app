@@ -55,42 +55,18 @@ const DataAccordion = ({ users }) => {
         >
           Additional data
         </AccordionHeader>
-        <AccordionBody>
-          {!users.address ? (
-            <Typography>you must enter your address</Typography>
-          ) : (
-            <Typography>Address: {users.address}</Typography>
-          )}
-          {!users.apartment ? (
-            <></>
-          ) : (
+        <AccordionBody className={theme ? "text-white" : "text-black"}>
+          {users.address && <Typography>Address: {users.address}</Typography>}
+          {users.apartment && (
             <Typography>Apartment: {users.apartment}</Typography>
           )}
-          {!users.city ? (
-            <Typography></Typography>
-          ) : (
-            <Typography>City: {users.city}</Typography>
-          )}
-          {!users.country ? (
-            <Typography></Typography>
-          ) : (
-            <Typography>Country: {users.country}</Typography>
-          )}
+          {users.city && <Typography>City: {users.city}</Typography>}
+          {users.country && <Typography>Country: {users.country}</Typography>}
 
-          {!users.phone ? (
-            <Typography></Typography>
-          ) : (
-            <Typography>Phone: {users.phone}</Typography>
+          {users.phone && <Typography>Phone: {users.phone}</Typography>}
+          {users.postalCode && (
+            <Typography>Postal code: {users.postalCode}</Typography>
           )}
-          {!users.postalcode ? (
-            <Typography></Typography>
-          ) : (
-            <Typography>Code postal: {users.postalcode}</Typography>
-          )}
-          <Typography variant="h5" color={theme ? "inherit" : "black"}>
-            {" "}
-            To change it, press the button below{" "}
-          </Typography>
           <Dialog
             open={openChange}
             className={theme ? "bg-primary text-white" : "bg-white text-black"}
