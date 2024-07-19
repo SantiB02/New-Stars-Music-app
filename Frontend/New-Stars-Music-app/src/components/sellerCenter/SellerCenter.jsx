@@ -20,16 +20,17 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 const SellerCenter = () => {
   const [products, setProducts] = useState([]);
   const { getAccessTokenSilently, isLoading } = useAuth0();
-  const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [productData, setProductData] = useState({
     name: "",
     image: "",
-    color: "",
-    size: "",
+    artistOrBand: "",
+    price: 0,
     description: "",
     stock: 0,
-    categoryId: "",
+    categoryId: 0,
+    imageLink: "",
   });
   const { theme } = useTheme();
 
@@ -61,10 +62,6 @@ const SellerCenter = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    console.log(productData)
-  }, [productData]);
-
   const handleImageUpload = async () => {
     const formData = new FormData();
     formData.append("file", file);
@@ -84,29 +81,24 @@ const SellerCenter = () => {
     }
   };
 
-  const handleCategoryChange = (val) => {
-    setProductData({
-      ...productData,
-      categoryId: val,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("SELECTED CATEGORY:", selectedCategoryId);
     try {
       if (file) {
         const imageUrl = await handleImageUpload();
         setProductData((prevData) => ({
           ...prevData,
           image: imageUrl,
+          categoryId: selectedCategoryId,
         }));
       }
 
       if (
         productData.name &&
         productData.image &&
-        productData.color &&
-        productData.size &&
+        productData.price &&
+        productData.artistOrBand &&
         productData.description &&
         productData.stock &&
         productData.categoryId
@@ -193,19 +185,19 @@ const SellerCenter = () => {
               }
             />
             <Input
-              type="text"
-              label="Color"
-              value={productData.color}
+              type="number"
+              label="Price"
+              value={productData.price}
               onChange={(e) =>
-                setProductData({ ...productData, color: e.target.value })
+                setProductData({ ...productData, price: e.target.value })
               }
             />
             <Input
               type="text"
-              label="Size"
-              value={productData.size}
+              label="Artist or band"
+              value={productData.artistOrBand}
               onChange={(e) =>
-                setProductData({ ...productData, size: e.target.value })
+                setProductData({ ...productData, artistOrBand: e.target.value })
               }
             />
             <Input
@@ -232,8 +224,8 @@ const SellerCenter = () => {
             ) : (
               <Select
                 label="Select Category"
-                value={productData.categoryId}
-                onChange={handleCategoryChange}
+                value={selectedCategoryId.toString()}
+                onChange={(val) => setSelectedCategoryId(val)}
               >
                 <Option value="">Select a category</Option>
                 {categories.map((category) => (
@@ -244,14 +236,17 @@ const SellerCenter = () => {
               </Select>
             )}
             <Input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFile(e.target.files[0])}
+              type="text"
+              label="Image link"
+              value={productData.imageLink}
+              onChange={(e) =>
+                setProductData({ ...productData, imageLink: e.target.value })
+              }
               required
             />
             <div className="flex justify-center pt-4">
               <Button type="submit" color="orange">
-                Load product
+                load product
               </Button>
             </div>
           </form>
