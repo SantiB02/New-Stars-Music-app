@@ -146,7 +146,7 @@ const SellerCenter = () => {
         {products.map((product) => (
           <div
             key={product.id}
-            className="product-item flex-1 min-w-[300px] max-w-[calc(33.333%-1rem)]"
+            className="product-item flex-1 min-w-[300px] max-w-[calc(25%-1rem)]"
           >
             <ProductCard
               setProductSelected={setProductSelected}
