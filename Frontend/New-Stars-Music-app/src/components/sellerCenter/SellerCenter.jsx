@@ -22,7 +22,6 @@ const SellerCenter = () => {
   const { getAccessTokenSilently, isLoading } = useAuth0();
   const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [productData, setProductData] = useState({
     name: "",
     image: "",
@@ -30,7 +29,7 @@ const SellerCenter = () => {
     size: "",
     description: "",
     stock: 0,
-    categoryId: 0,
+    categoryId: "",
   });
   const { theme } = useTheme();
 
@@ -62,6 +61,10 @@ const SellerCenter = () => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    console.log(productData)
+  }, [productData]);
+
   const handleImageUpload = async () => {
     const formData = new FormData();
     formData.append("file", file);
@@ -81,6 +84,13 @@ const SellerCenter = () => {
     }
   };
 
+  const handleCategoryChange = (val) => {
+    setProductData({
+      ...productData,
+      categoryId: val,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -89,7 +99,6 @@ const SellerCenter = () => {
         setProductData((prevData) => ({
           ...prevData,
           image: imageUrl,
-          categoryId: selectedCategoryId,
         }));
       }
 
@@ -223,8 +232,8 @@ const SellerCenter = () => {
             ) : (
               <Select
                 label="Select Category"
-                value={selectedCategoryId.toString()}
-                onChange={(val) => setSelectedCategoryId(val)}
+                value={productData.categoryId}
+                onChange={handleCategoryChange}
               >
                 <Option value="">Select a category</Option>
                 {categories.map((category) => (
@@ -242,7 +251,7 @@ const SellerCenter = () => {
             />
             <div className="flex justify-center pt-4">
               <Button type="submit" color="orange">
-                load product
+                Load product
               </Button>
             </div>
           </form>
