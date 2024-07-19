@@ -188,6 +188,66 @@ namespace Merchanmusic.Data
                     CategoryId = 1,
                     ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
                     SellerId = "default-identifier-7771829382"
+                },
+                
+                new Product
+                {
+                    Id = 8,
+                    Name = "Flo Rida's Wild Ones CD",
+                    Description = "Flo Rida's Wild Ones CD with his greatest hits!",
+                    ArtistOrBand = "Flo Rida",
+                    Code = "e52x6",
+                    Price = 19200.11M,
+                    Stock = 45,
+                    Sales = 129,
+                    CategoryId = 2,
+                    ImageLink = "https://merchbar.imgix.net/product/cdified/upc/34/075678833403.jpg?q=40&auto=compress,format&w=1400",
+                    SellerId = "default-identifier-7771829382"
+                },
+                
+                new Product
+                {
+                    Id = 9,
+                    Name = "David Guetta cap",
+                    Description = "Amazing David Guetta cap!",
+                    ArtistOrBand = "David Guetta",
+                    Code = "45hgr",
+                    Price = 10700.13M,
+                    Stock = 34,
+                    Sales = 341,
+                    CategoryId = 3,
+                    ImageLink = "https://ih1.redbubble.net/image.3597046453.2550/ssrco,baseball_cap,product,000000:44f0b734a5,front_three_quarter,wide_portrait,750x1000-bg,f8f8f8.jpg",
+                    SellerId = "default-identifier-7771829382"
+                },
+                
+                new Product
+                {
+                    Id = 10,
+                    Name = "Avicii bag",
+                    Description = "great and light Avicii bag!",
+                    ArtistOrBand = "Avicii",
+                    Code = "46as3",
+                    Price = 15900.45M,
+                    Stock = 12,
+                    Sales = 128,
+                    CategoryId = 4,
+                    ImageLink = "https://ih1.redbubble.net/image.1091821770.3226/drawstring_bag,x750-pad,750x1000,f8f8f8.u2.jpg",
+                    SellerId = "default-identifier-7771829382"
+                },
+                
+                new Product
+                {
+                    Id = 11,
+                    Name = "Coldplay poster",
+                    Description = "Really colorful Coldplay poster!",
+                    ArtistOrBand = "Coldplay",
+                    Code = "76fg1",
+                    Price = 8450.99M,
+                    Stock = 45,
+                    Sales = 451,
+                    CategoryId = 5,
+                    ImageLink = "https://acdn.mitiendanube.com/stores/001/113/338/products/coldplay11-d0585db969184a7c0716063455586064-640-0.jpg",
+                    SellerId = "default-identifier-7771829382"
                 });
 
             modelBuilder.Entity<CreditCard>()
