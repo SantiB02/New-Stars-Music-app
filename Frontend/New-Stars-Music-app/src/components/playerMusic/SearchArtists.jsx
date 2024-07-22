@@ -26,9 +26,7 @@ const SearchArtists = ({ isHomePage = false }) => {
   return (
     <div
       className={
-        theme
-          ? "flex flex-col"
-          : " bg-gray-200 text-black flex flex-col min-h-screen"
+        theme ? "flex flex-col" : " bg-gray-200 text-black flex flex-col"
       }
     >
       <div className="flex justify-center flex-grow">

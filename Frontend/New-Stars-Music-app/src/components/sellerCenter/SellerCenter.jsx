@@ -56,7 +56,6 @@ const SellerCenter = () => {
       try {
         const response = await api.get("/products/categories");
         setCategories(response.data.url);
-        console.log("CATEGORIES:", response.data.url);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -133,7 +132,7 @@ const SellerCenter = () => {
 
   return (
     <div className="seller-center">
-      <Typography variant="h1" className="pt-10">
+      <Typography variant="h3" className="pt-4 mb-4 mx-8 font-light">
         Seller Center
       </Typography>
       <Dialog open={open} handler={() => setOpen(false)}>

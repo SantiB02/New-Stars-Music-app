@@ -40,12 +40,12 @@ namespace Merchanmusic.Services.Implementations
             return _context.Products.FirstOrDefault(p => p.Name == name);
         }
 
-        public int CreateProduct(Product product)
+        public Product CreateProduct(Product product)
         {
             _context.Products.Add(product);
             _context.SaveChanges();
 
-            return (product.Id);
+            return product;
         }
 
         // Retorna true si se compraron todos los productos con éxito, false si algún producto no tiene stock suficiente o null si la lista de productos o alguno no existe:

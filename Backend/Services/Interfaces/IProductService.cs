@@ -10,7 +10,7 @@ namespace Merchanmusic.Services.Interfaces
             public List<Product> GetFeaturedProducts(int minimumSales);
             Product? GetProductById(int id);
             Product? GetProductByName(string name);
-            int CreateProduct(Product product);
+            Product CreateProduct(Product product);
             public bool? BuyProducts(List<ProductBuyOrder> buyOrders);
             void DeleteProduct(int id);
             void DeleteProductBySeller(int productId, string sellerId);

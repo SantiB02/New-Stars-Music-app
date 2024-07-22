@@ -134,6 +134,7 @@ namespace Merchanmusic.Controllers
                     var product = new Product()
                     {
                         Name = productDto.Name,
+                        Description = productDto.Description,
                         Price = productDto.Price,
                         Stock = productDto.Stock,
                         ArtistOrBand = productDto.ArtistOrBand,
@@ -143,9 +144,9 @@ namespace Merchanmusic.Controllers
                         CategoryId = productDto.CategoryId,
                     };
 
-                    int id = _productService.CreateProduct(product);
+                    Product createdProduct = _productService.CreateProduct(product);
 
-                    return Ok($"Product created successfully with id: {id}");
+                    return Ok(createdProduct);
                 }
                 catch (Exception ex)
                 {
