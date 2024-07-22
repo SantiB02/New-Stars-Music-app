@@ -22,3 +22,10 @@ New Stars Music es un sitio de e-commerce dedicado a todos aquellos usuarios int
 
 <ins> **Base de datos:** </ins>
 - MySql 6.0.1
+
+## Creadores
+- Santiago Brasca
+- Leandro Cabral Santana
+- Álvaro Johansen
+- Luisina Novo
+- Ezequiel Coria
