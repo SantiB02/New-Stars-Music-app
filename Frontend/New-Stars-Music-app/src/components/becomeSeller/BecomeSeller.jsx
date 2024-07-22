@@ -13,7 +13,7 @@ import api from "../../api/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import InfoIcon from "../icons/InfoIcon";
-import  { useForm } from "../../hooks/useForm"
+import { useForm } from "../../hooks/useForm";
 
 const BecomeSeller = () => {
   const [open, setOpen] = useState(false);
@@ -29,7 +29,7 @@ const BecomeSeller = () => {
     useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const navigate = useNavigate();
-  const {validateForm} = useForm();
+  const { validateForm } = useForm();
 
   useEffect(() => {
     const fetchUserValidationStatus = async () => {
@@ -63,11 +63,11 @@ const BecomeSeller = () => {
   const handleOpen = () => setOpen(!open);
 
   const becomeSellerHandler = async () => {
-  const form = { address, apartment, country, city, postalCode, phone };
-  if (!validateForm(form)) {
-    toast.error("Please fill in all fields.");
-    return;
-  }
+    const form = { address, apartment, country, city, postalCode, phone };
+    if (!validateForm(form)) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
     setIsProcessingRequest(true);
     handleOpen();
     try {

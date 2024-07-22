@@ -63,7 +63,7 @@ namespace Merchanmusic.Services.Implementations
 
                 if (saleOrderToDelete != null)
                 {
-                    _context.SaleOrders.Remove(saleOrderToDelete);
+                    saleOrderToDelete.State = false;
                     _context.SaveChanges();
                 }
 
