@@ -54,6 +54,13 @@ namespace Merchanmusic.Controllers
             return Ok(user);
         }
 
+        [HttpGet("has-dark-mode-on")]
+        public IActionResult HasDarkModeOn()
+        {
+            string subClaim = _tokenService.GetUserId();
+            return Ok(_userService.HasDarkModeOn(subClaim));
+        }
+
         [HttpGet("is-deleted/{id}")]
         public IActionResult IsUserDeleted([FromRoute] string id)
         {
@@ -145,6 +152,14 @@ namespace Merchanmusic.Controllers
                 }
             }
             
+            return Ok();
+        }
+
+        [HttpPut("dark-mode-on/{darkModeOn}")]
+        public IActionResult SetDarkMode([FromRoute] bool darkModeOn)
+        {
+            string subClaim = _tokenService.GetUserId();
+            _userService.SetDarkMode(subClaim, darkModeOn);
             return Ok();
         }
 

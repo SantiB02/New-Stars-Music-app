@@ -74,6 +74,33 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
+        [HttpGet("by-seller")]
+        public IActionResult GetAllBySeller()
+        {
+            string subClaim = _tokenService.GetUserId();
+            string loggedUserRole = _userService.GetRoleById(subClaim);
+            if (loggedUserRole == "Seller")
+            {
+                try
+                {
+                    List<SaleOrder> saleOrders = _saleOrderService.GetAllBySeller(subClaim);
+                    if (saleOrders.Count > 0)
+                    {
+                        return Ok(saleOrders);
+                    } else
+                    {
+                        return NotFound("Sale Orders not found");
+                    }
+                } catch (Exception ex)
+                {
+                    return BadRequest($"Error: {ex.Message}");
+                }
+            } else
+            {
+                return Forbid();
+            }
+        }
+
         [HttpGet("by-date/{date}")]
         public IActionResult GetAllByDate([FromRoute] DateTime date)
         {
@@ -183,7 +210,7 @@ namespace Merchanmusic.Controllers
         {
             string subClaim = _tokenService.GetUserId();
             string loggedUserRole = _userService.GetRoleById(subClaim);
-            if (loggedUserRole == "Admin")
+            if (loggedUserRole == "Seller" || loggedUserRole == "Admin")
             {
                 var soToUpdate = _saleOrderService.GetOne(id);
                 if (soToUpdate == null)

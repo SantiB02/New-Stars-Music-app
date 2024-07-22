@@ -3,6 +3,7 @@ using System;
 using Merchanmusic.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Merchanmusic.Migrations
 {
     [DbContext(typeof(MerchContext))]
-    partial class MerchContextModelSnapshot : ModelSnapshot
+    [Migration("20240722014127_added Seller to SaleOrder")]
+    partial class addedSellertoSaleOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,10 +159,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "ACDC",
                             CategoryId = 1,
                             Code = "1022",
-                            CreationDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2309),
+                            CreationDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1518),
                             Description = "Remera ACDC algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2320),
+                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1532),
                             Name = "Remera ACDC",
                             Price = 12500.71m,
                             Sales = 237,
@@ -174,10 +176,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "Mozart",
                             CategoryId = 1,
                             Code = "18az4",
-                            CreationDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2398),
+                            CreationDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1537),
                             Description = "Remera Mozart algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2398),
+                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1538),
                             Name = "Remera Mozart",
                             Price = 23763.34m,
                             Sales = 129,
@@ -191,10 +193,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "Beethoven",
                             CategoryId = 1,
                             Code = "17zz89",
-                            CreationDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2401),
+                            CreationDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1540),
                             Description = "Remera Beethoven algodón",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2401),
+                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1540),
                             Name = "Remera Beethoven",
                             Price = 12500.99m,
                             Sales = 83,
@@ -208,10 +210,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "LOVG",
                             CategoryId = 1,
                             Code = "ax34d",
-                            CreationDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2404),
+                            CreationDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1543),
                             Description = "Remera overside negra",
                             ImageLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Semi_dry_suit_-_2604.png/256px-Semi_dry_suit_-_2604.png?20180603115529",
-                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2404),
+                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1543),
                             Name = "Remera LOVG",
                             Price = 13200.11m,
                             Sales = 421,
@@ -225,10 +227,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "Flo Rida",
                             CategoryId = 2,
                             Code = "e52x6",
-                            CreationDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2406),
+                            CreationDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1545),
                             Description = "Flo Rida's Wild Ones CD with his greatest hits!",
                             ImageLink = "https://merchbar.imgix.net/product/cdified/upc/34/075678833403.jpg?q=40&auto=compress,format&w=1400",
-                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2407),
+                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1546),
                             Name = "Flo Rida's Wild Ones CD",
                             Price = 19200.11m,
                             Sales = 129,
@@ -242,10 +244,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "David Guetta",
                             CategoryId = 3,
                             Code = "45hgr",
-                            CreationDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2409),
+                            CreationDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1548),
                             Description = "Amazing David Guetta cap!",
                             ImageLink = "https://ih1.redbubble.net/image.3597046453.2550/ssrco,baseball_cap,product,000000:44f0b734a5,front_three_quarter,wide_portrait,750x1000-bg,f8f8f8.jpg",
-                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2409),
+                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1548),
                             Name = "David Guetta cap",
                             Price = 10700.13m,
                             Sales = 341,
@@ -259,10 +261,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "Avicii",
                             CategoryId = 4,
                             Code = "46as3",
-                            CreationDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2411),
+                            CreationDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1551),
                             Description = "great and light Avicii bag!",
                             ImageLink = "https://ih1.redbubble.net/image.1091821770.3226/drawstring_bag,x750-pad,750x1000,f8f8f8.u2.jpg",
-                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2412),
+                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1551),
                             Name = "Avicii bag",
                             Price = 15900.45m,
                             Sales = 128,
@@ -276,10 +278,10 @@ namespace Merchanmusic.Migrations
                             ArtistOrBand = "Coldplay",
                             CategoryId = 5,
                             Code = "76fg1",
-                            CreationDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2414),
+                            CreationDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1553),
                             Description = "Really colorful Coldplay poster!",
                             ImageLink = "https://acdn.mitiendanube.com/stores/001/113/338/products/coldplay11-d0585db969184a7c0716063455586064-640-0.jpg",
-                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 44, 44, 310, DateTimeKind.Local).AddTicks(2415),
+                            LastModifiedDate = new DateTime(2024, 7, 21, 22, 41, 26, 566, DateTimeKind.Local).AddTicks(1554),
                             Name = "Coldplay poster",
                             Price = 8450.99m,
                             Sales = 451,
@@ -368,9 +370,6 @@ namespace Merchanmusic.Migrations
 
                     b.Property<string>("Country")
                         .HasColumnType("longtext");
-
-                    b.Property<bool?>("DarkModeOn")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Email")
                         .IsRequired()

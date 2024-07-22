@@ -44,13 +44,13 @@ const Dashboard = () => {
   const completeSaleOrder = async (orderId) => {
     try {
       const result = await Swal.fire({
-        title: "¿Completar orden?",
-        text: "Confirma para completar la orden.",
+        title: "Complete order?",
+        text: "Confirm to complete the order.",
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Completar orden",
+        confirmButtonText: "Complete order",
       });
 
       if (result.isConfirmed) {
@@ -58,8 +58,8 @@ const Dashboard = () => {
 
         if (response.status === 200) {
           Swal.fire({
-            title: "Orden completada",
-            text: "La orden ha sido completada correctamente.",
+            title: "Order completed successfully",
+            text: "The order has been successfully completed.",
             icon: "success",
           });
 
@@ -68,7 +68,7 @@ const Dashboard = () => {
         } else {
           Swal.fire({
             title: "Error",
-            text: "Hubo un problema al completar la orden.",
+            text: "Error completing the order.",
             icon: "error",
           });
         }
@@ -77,7 +77,7 @@ const Dashboard = () => {
       console.log("Error", error);
       Swal.fire({
         title: "Error",
-        text: "Hubo un problema al completar la orden.",
+        text: "Error completing the order.",
         icon: "error",
       });
     }
@@ -86,13 +86,13 @@ const Dashboard = () => {
   const deleteSaleOrder = async (orderId) => {
     try {
       const result = await Swal.fire({
-        title: "¿Eliminar orden?",
-        text: "Confirma para eliminar la orden.",
+        title: "Delete order?",
+        text: "Confirm to delete the order.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Eliminar orden",
+        confirmButtonText: "Delete order",
       });
 
       if (result.isConfirmed) {
@@ -100,8 +100,8 @@ const Dashboard = () => {
 
         if (response.status === 200) {
           Swal.fire({
-            title: "Orden eliminada",
-            text: "La orden ha sido eliminada correctamente.",
+            title: "Order deleted",
+            text: "The order has been successfully deleted.",
             icon: "success",
           });
 
@@ -110,7 +110,7 @@ const Dashboard = () => {
         } else {
           Swal.fire({
             title: "Error",
-            text: "Hubo un problema al eliminar la orden.",
+            text: "Error deleting the order.",
             icon: "error",
           });
         }
@@ -119,7 +119,7 @@ const Dashboard = () => {
       console.log("Error", error);
       Swal.fire({
         title: "Error",
-        text: "Hubo un problema al eliminar la orden.",
+        text: "Error deleting the order.",
         icon: "error",
       });
     }
@@ -169,7 +169,11 @@ const Dashboard = () => {
             {products && products.length > 0 ? (
               <div>
                 <Typography variant="h4">Products</Typography>
-                <table className={ theme ? styles["data-table-dark"] : styles["data-table"]}>
+                <table
+                  className={
+                    theme ? styles["data-table-dark"] : styles["data-table"]
+                  }
+                >
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -196,7 +200,11 @@ const Dashboard = () => {
             <Typography variant="h4">Sale Orders</Typography>
             {saleOrders !== null ? (
               saleOrders.length > 0 ? (
-                <table className={ theme ? styles["data-table-dark"] : styles["data-table"]}>
+                <table
+                  className={
+                    theme ? styles["data-table-dark"] : styles["data-table"]
+                  }
+                >
                   <thead>
                     <tr>
                       <th>Order ID</th>

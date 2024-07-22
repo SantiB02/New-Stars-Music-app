@@ -10,7 +10,9 @@ public interface IUserService
     public bool HasPersonalInfo(string id);
     public bool IsUserDeleted(string id);
     public User? GetUserById(string id);
+    public bool? HasDarkModeOn(string id);
     public bool CheckIfUserExists(string id);
+    public void SetDarkMode(string id, bool darkMode);
     public string CreateUser(User user);
     public void UpdateValidationStatus(string id, bool validationStatus);
     public void UpdateUser(User user);

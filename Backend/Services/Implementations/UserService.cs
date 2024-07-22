@@ -20,10 +20,17 @@ namespace Merchanmusic.Services.Implementations
             return _context.Users.ToList();
         }
 
-        public User GetUserById(string id) {
+        public User GetUserById(string id) 
+        {
             User user = _context.Users.FirstOrDefault(x => x.Id == id);
             return user;
-                }
+        }
+
+        public bool? HasDarkModeOn(string id)
+        {
+            User user = _context.Users.FirstOrDefault(x => x.Id == id);
+            return user.DarkModeOn;
+        }
 
         public string? GetRoleById(string id)
         {
@@ -66,6 +73,13 @@ namespace Merchanmusic.Services.Implementations
         public bool CheckIfUserExists(string id)
         {
             return _context.Users.Any(u => u.Id == id);
+        }
+
+        public void SetDarkMode(string id, bool darkMode)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Id == id);
+            user.DarkModeOn = darkMode;
+            _context.SaveChanges();
         }
 
         public string CreateUser(User user)
