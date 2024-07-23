@@ -1,62 +1,61 @@
 /* Dashboard.module.css */
 
 .data-table {
-    width: 90%;
-    border-collapse: collapse;
-    margin: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .data-table th,
-  .data-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  
-  .data-table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .data-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .data-table tbody tr:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .data-table-dark {
-    width: 90%;
-    border-collapse: collapse;
-    margin: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .data-table-dark th,
-  .data-table-dark td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  
-  .data-table-dark th {
-    background-color: #202025;
-    font-weight: bold;
-    color: #fff9f9;
-  }
-  
-  .data-table-dark tbody tr:nth-child(even) {
-    background-color: #202025;
-  }
-  
-  .data-table-dark tbody tr:hover {
-    background-color: #202025;
-  }
-  
+  width: 90%;
+  border-collapse: collapse;
+  margin: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+.data-table-dark {
+  width: 90%;
+  border-collapse: collapse;
+  margin: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.data-table-dark th,
+.data-table-dark td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table-dark th {
+  background-color: #202025;
+  font-weight: bold;
+  color: #fff9f9;
+}
+
+.data-table-dark tbody tr:nth-child(even) {
+  background-color: #202025;
+}
+
+.data-table-dark tbody tr:hover {
+  background-color: #202025;
+}
