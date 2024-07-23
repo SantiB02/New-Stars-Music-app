@@ -13,20 +13,32 @@ const ThemeProvider = ({ children }) => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "true";
   });
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     const fetchDarkModePreference = async () => {
       try {
-        const token = await getAccessTokenSilently();
-        const response = await api.get("/users/has-dark-mode-on", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const hasDarkModeOn = response.data;
-        if (hasDarkModeOn === true) {
-          setTheme(true);
+        const deletedResponse = await api.get(
+          `/users/is-deleted/${user?.sub}`,
+          {
+            validateStatus: (status) => {
+              return status === 200 || status === 404; // Accept only 200 y 404 as valid responses (to avoid throwing an error)
+            },
+          }
+        );
+        const isUserDeleted = deletedResponse.data;
+
+        if (deletedResponse.status !== 404 && isUserDeleted === false) {
+          const token = await getAccessTokenSilently();
+          const response = await api.get("/users/has-dark-mode-on", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const hasDarkModeOn = response.data;
+          if (hasDarkModeOn === true) {
+            setTheme(true);
+          }
         }
       } catch (error) {
         console.error("Error fetching user's dark mode preference", error);
