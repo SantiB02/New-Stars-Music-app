@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import api from "../../api/api";
 import LoadingMessage from "../common/LoadingMessage";
 import InfoIcon from "../icons/InfoIcon";
+import { useForm } from "../../hooks/useForm";
 
 const Payment = () => {
   const [open, setOpen] = useState(false);
@@ -33,6 +34,7 @@ const Payment = () => {
   const navigate = useNavigate();
   const { cart, cartTotal, clearCart } = useCart();
   const { theme } = useTheme();
+   const { validateForm } = useForm();
 
   useEffect(() => {
     const fetchUserPersonalInfoStatus = async () => {
@@ -75,6 +77,16 @@ const Payment = () => {
   const makePaymentHandler = async () => {
     setIsProcessingPayment(true);
     try {
+        
+          const form = { address, apartment, country, city, postalCode, phone, cardNumber, expirationDate, cvv };
+      
+        
+          if (!validateForm(form)) {
+            toast.error("Please fill in all required fields.");
+            setIsProcessingPayment(false);
+            return;
+          }
+    
       if (!personalInfoAlreadySubmitted) {
         const request = {
           address,
