@@ -79,17 +79,6 @@ namespace Merchanmusic.Services.Implementations
             else return null; // la lista de productos a comprar está vacía
         }
 
-        public void DeleteProduct(int id)
-        {
-            var productToDelete = _context.Products.SingleOrDefault(p => p.Id == id);
-
-            if (productToDelete != null)
-            {
-                _context.Products.Remove(productToDelete);
-                _context.SaveChanges();
-            }
-        }
-
         public void UpdateProduct(ProductUpdateDto productUpdateDto, string sellerId)
         {
             var product = _context.Products.FirstOrDefault(x => x.Id == productUpdateDto.Id);
@@ -129,9 +118,9 @@ namespace Merchanmusic.Services.Implementations
             return _context.Products.Where(x => x.SellerId == sellerId).ToList();
         }
 
-        public void DeleteProductBySeller(int productId, string sellerId)
+        public void DeleteProduct(int productId, string sellerId)
         {
-            var productToDelete = _context.Products.SingleOrDefault(p => p.Id == productId);
+            Product productToDelete = _context.Products.SingleOrDefault(p => p.Id == productId);
 
             if (productToDelete == null)
             {
@@ -144,8 +133,24 @@ namespace Merchanmusic.Services.Implementations
             }
 
             productToDelete.State = false;
-                _context.Products.Update(productToDelete);
-                _context.SaveChanges();
+            _context.SaveChanges();
+        }
+
+        public void RestoreProduct(int productId, string sellerId)
+        {
+            Product productToRestore = _context.Products.SingleOrDefault(p => p.Id == productId);
+            if (productToRestore == null)
+            {
+                throw new Exception("Product not found");
+            }
+
+            if (productToRestore.SellerId != sellerId)
+            {
+                throw new Exception("SellerId mismatch");
+            }
+
+            productToRestore.State = true;
+            _context.SaveChanges();
         }
 
         public async Task<string> UploadImageAsync(IFormFile file)

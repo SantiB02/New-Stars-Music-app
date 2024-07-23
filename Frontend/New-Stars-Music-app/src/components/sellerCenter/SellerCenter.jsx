@@ -25,6 +25,7 @@ import LoadingMessage from "../common/LoadingMessage";
 const SellerCenter = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState({});
   const { getAccessTokenSilently, isLoading } = useAuth0();
   const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
@@ -38,7 +39,6 @@ const SellerCenter = () => {
     imageLink: "",
   });
   const [open, setOpen] = useState(false);
-  const [productSelected, setProductSelected] = useState([]);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -143,20 +143,25 @@ const SellerCenter = () => {
     }
   };
 
-  const handleDeleteProduct = async (productId) => {
+  const handleDeleteOrRestoreProduct = async (productId, restore) => {
     try {
-      const response = await api.delete(`/products/${productId}`);
+      const response = restore
+        ? await api.put(`/products/restore/${productId}`)
+        : await api.delete(`/products/${productId}`);
 
       if (response.status === 200) {
-        console.log("Producto eliminado exitosamente");
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product.id !== productId)
+        const updatedProducts = [...products];
+        const index = updatedProducts.findIndex(
+          (existingProduct) => existingProduct.id === productId
         );
+        updatedProducts[index].state = restore;
+        setProducts(updatedProducts);
+        console.log("Producto deleted or restored successfully");
       } else {
-        console.error("Error al eliminar el producto");
+        console.error("Error deleting product");
       }
     } catch (error) {
-      console.error("Error al enviar solicitud de eliminación:", error);
+      console.error("Error sending delete request:", error);
     }
   };
 
@@ -183,7 +188,7 @@ const SellerCenter = () => {
         <DialogHeader>Edit Product</DialogHeader>
         <DialogBody>
           <EditProductForm
-            product={productSelected}
+            product={selectedProduct}
             setOpen={setOpen}
             categories={categories}
             updateProduct={updateProduct}
@@ -198,11 +203,11 @@ const SellerCenter = () => {
               className="product-item flex-1 min-w-[300px] max-w-[calc(25%-1rem)]"
             >
               <ProductCard
-                setProductSelected={setProductSelected}
+                setSelectedProduct={setSelectedProduct}
                 setOpen={setOpen}
                 product={product}
                 isSeller={true}
-                handleDeleteProduct={handleDeleteProduct}
+                handleDeleteOrRestoreProduct={handleDeleteOrRestoreProduct}
                 className="my-2"
               />
             </div>

@@ -186,7 +186,7 @@ namespace Merchanmusic.Controllers
                         return NotFound($"No product found with ID: {id}");
                     }
 
-                    _productService.DeleteProductBySeller(id, subClaim);
+                    _productService.DeleteProduct(id, subClaim);
                     return Ok($"Product with ID: {id} was successfully deleted");
                 }
                 catch (Exception ex)
@@ -195,6 +195,35 @@ namespace Merchanmusic.Controllers
                 }
             }
             return Forbid();
+        }
+
+        [HttpPut("restore/{id}")]
+        public IActionResult RestoreProduct([FromRoute] int id)
+        {
+            string subClaim = _tokenService.GetUserId();
+            string role = _userService.GetRoleById(subClaim);
+            if (role == "Seller")
+            {
+                try
+                {
+                    var existingProduct = _productService.GetProductById(id);
+
+                    if (existingProduct == null)
+                    {
+                        return NotFound($"No product found with ID: {id}");
+                    }
+
+                    _productService.RestoreProduct(id, subClaim);
+                    return Ok($"Product with ID: {id} was successfully restored");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            } else
+            {
+                return Forbid();
+            }
         }
 
         [HttpPost("upload")]

@@ -17,9 +17,10 @@ const ProductCard = ({
   product,
   isSeller,
   isAdmin,
-  handleDeleteProduct,
+  handleDeleteOrRestoreProduct,
   setOpen,
-  setProductSelected,
+  setSelectedProduct,
+  isDeletingOrRestoring,
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [isProductInCart, setIsProductInCart] = useState(false);
@@ -56,7 +57,7 @@ const ProductCard = ({
     removeFromCart(product);
   };
   const onProductChangeEdit = () => {
-    setProductSelected(product);
+    setSelectedProduct(product);
     setOpen(true);
   };
   return (
@@ -98,6 +99,11 @@ const ProductCard = ({
         >
           Artist/Band: {product.artistOrBand} <br /> ${product.price} ARS
         </Typography>
+        {isSeller && !product.state && (
+          <Typography className="-mb-2 text-red-500">
+            This product was deleted
+          </Typography>
+        )}
       </CardBody>
       {!isAdmin && !isSeller ? (
         <CardFooter className="pt-0 flex">
@@ -155,12 +161,24 @@ const ProductCard = ({
               fullWidth={true}
               className={
                 theme
-                  ? "ml-2 bg-red-500 text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                  ? `ml-2 ${
+                      product.state ? "bg-red-500" : "bg-green-500"
+                    }  text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
                   : "ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
               }
-              onClick={() => handleDeleteProduct(product.id)}
+              onClick={() =>
+                product.state
+                  ? handleDeleteOrRestoreProduct(product.id, false)
+                  : handleDeleteOrRestoreProduct(product.id, true)
+              }
             >
-              Delete
+              {product.state
+                ? !isDeletingOrRestoring
+                  ? "Delete"
+                  : "Deleting..."
+                : !isDeletingOrRestoring
+                ? "Restore"
+                : "Restoring..."}
             </Button>
           </CardFooter>
         )
