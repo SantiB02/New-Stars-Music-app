@@ -91,7 +91,9 @@ const ModalChat = ({ toggleModal }) => {
           Submit
         </button>
         {error && <p className="mt-4 text-red-500">{error}</p>}
-        {response && <p className="mt-4 text-gray-700">Response: {response}</p>}
+        {response && (
+          <div className="mt-4 text-gray-700">Response: {response}</div>
+        )}
         {/* <button 
                     onClick={toggleModal} 
                     className="absolute bottom-2 right-2 bg-red-500 text-white px-1 py-1 rounded hover:bg-red-600"

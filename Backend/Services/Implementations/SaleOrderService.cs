@@ -19,6 +19,7 @@ namespace Merchanmusic.Services.Implementations
         {
             return _context.SaleOrders
                 .Include(so => so.Client)
+                .Include(so => so.Seller)
                 .Include(so => so.SaleOrderLines)
                 .ThenInclude(so => so.Product)
                 .Where(r => r.ClientId == clientId)
@@ -29,6 +30,7 @@ namespace Merchanmusic.Services.Implementations
         {
             return _context.SaleOrders
                 .Include(so => so.Client)
+                .Include(so => so.Seller)
                 .Include(so => so.SaleOrderLines)
                 .ThenInclude(so => so.Product)
                 .Where(r => r.SellerId == sellerId)
@@ -48,6 +50,7 @@ namespace Merchanmusic.Services.Implementations
         {
             return _context.SaleOrders
                 .Include(r => r.Client)
+                .Include(so => so.Seller)
                 .Include(r => r.SaleOrderLines)
                 .ThenInclude(so => so.Product)
                 .Where(r => r.Date.Date == date.Date)

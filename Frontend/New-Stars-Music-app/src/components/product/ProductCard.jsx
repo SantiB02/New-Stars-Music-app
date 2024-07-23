@@ -12,6 +12,7 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../hooks/useCart";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const ProductCard = ({
   product,
@@ -27,6 +28,7 @@ const ProductCard = ({
   const { theme } = useTheme();
   const navigate = useNavigate();
   const { addToCart, removeFromCart, cart } = useCart();
+  const { user } = useAuth0();
 
   const checkProductInCart = (product) => {
     return cart.some((item) => item.id === product.id);
@@ -106,41 +108,49 @@ const ProductCard = ({
         )}
       </CardBody>
       {!isAdmin && !isSeller ? (
-        <CardFooter className="pt-0 flex">
-          {!isProductInCart && (
-            <MinusCircleIcon
-              className="cursor-pointer md:min-w-6 select-none hover:text-orange-800 mr-3"
-              color={theme ? "orange" : "black"}
-              width={45}
-              onClick={decreaseQuantityClickHandler}
-            />
-          )}
+        user?.sub === product.sellerId ? (
+          <Typography className="font-bold text-center text-orange-700 -mt-4 mb-4">
+            This product is yours.
+          </Typography>
+        ) : (
+          <CardFooter className="pt-0 flex">
+            {!isProductInCart && (
+              <MinusCircleIcon
+                className="cursor-pointer md:min-w-6 select-none hover:text-orange-800 mr-3"
+                color={theme ? "orange" : "black"}
+                width={45}
+                onClick={decreaseQuantityClickHandler}
+              />
+            )}
 
-          <Button
-            ripple={false}
-            fullWidth={true}
-            className={
-              theme
-                ? "bg-gray-50 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-                : " shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-            }
-            onClick={() =>
-              isProductInCart
-                ? removeFromCartHandler(product)
-                : addToCart({ ...product, quantity })
-            }
-          >
-            {!isProductInCart ? `Add ${quantity} to cart` : `Remove from cart`}
-          </Button>
-          {!isProductInCart && (
-            <PlusCircleIcon
-              className="cursor-pointer md:min-w-6 select-none hover:text-orange-800 ml-3"
-              color={theme ? "orange" : "black"}
-              width={45}
-              onClick={increaseQuantityClickHandler}
-            />
-          )}
-        </CardFooter>
+            <Button
+              ripple={false}
+              fullWidth={true}
+              className={
+                theme
+                  ? "bg-gray-50 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                  : " shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+              }
+              onClick={() =>
+                isProductInCart
+                  ? removeFromCartHandler(product)
+                  : addToCart({ ...product, quantity })
+              }
+            >
+              {!isProductInCart
+                ? `Add ${quantity} to cart`
+                : `Remove from cart`}
+            </Button>
+            {!isProductInCart && (
+              <PlusCircleIcon
+                className="cursor-pointer md:min-w-6 select-none hover:text-orange-800 ml-3"
+                color={theme ? "orange" : "black"}
+                width={45}
+                onClick={increaseQuantityClickHandler}
+              />
+            )}
+          </CardFooter>
+        )
       ) : (
         isSeller && (
           <CardFooter className="pt-0 flex">

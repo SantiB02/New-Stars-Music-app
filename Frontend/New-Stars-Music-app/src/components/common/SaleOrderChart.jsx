@@ -52,7 +52,15 @@ const SaleOrderChart = ({
           <li>
             <Typography>
               <span className="font-bold text-orange-900">Seller:</span>{" "}
-              {saleOrder.sellerId}
+              {saleOrder.seller.email}
+            </Typography>
+          </li>
+        )}
+        {!isIncomingOrder && (
+          <li>
+            <Typography>
+              <span className="font-bold text-orange-900">Origin:</span>{" "}
+              {`${saleOrder.seller.city}, ${saleOrder.seller.country}`}
             </Typography>
           </li>
         )}
