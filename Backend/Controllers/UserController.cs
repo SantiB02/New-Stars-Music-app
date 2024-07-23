@@ -79,8 +79,7 @@ namespace Merchanmusic.Controllers
             } else
             {
                 return NotFound($"User with id {id} doesn't exist");
-            }
-            
+            }         
         }
 
         [HttpGet("role")]
@@ -119,11 +118,31 @@ namespace Merchanmusic.Controllers
             if (loggedUserRole == "Admin" && loggedUser.State)
             {
                 return Ok(_userService.GetUsersByRole(role));
-
-            
-}
+            }
             return Forbid();
         }
+
+        [HttpGet("all-waiting-validation")]
+        public IActionResult GetClientsWaitingValidation()
+        {
+            string subClaim = _tokenService.GetUserId();
+            string loggedUserRole = _userService.GetRoleById(subClaim);
+            if (loggedUserRole == "Admin")
+            {
+                List<User> usersWaitingValidation = _userService.GetUsersWaitingValidation();
+                if (usersWaitingValidation.Count > 0)
+                {
+                    return Ok(usersWaitingValidation);
+                } else
+                {
+                    return NotFound("No users waiting validation");
+                }
+            } else
+            {
+                return Forbid();
+            }
+        }
+
         [HttpDelete]
         public IActionResult DeleteSelfUser()
         {
@@ -160,14 +179,6 @@ namespace Merchanmusic.Controllers
         {
             string subClaim = _tokenService.GetUserId();
             _userService.SetDarkMode(subClaim, darkModeOn);
-            return Ok();
-        }
-
-        [HttpPut("waiting-validation/{waitingValidation}")]
-        public IActionResult UpdateWaitingValidation([FromRoute] bool waitingValidation)
-        {
-            string subClaim = _tokenService.GetUserId();
-            _userService.UpdateValidationStatus(subClaim, waitingValidation);
             return Ok();
         }
 
@@ -212,7 +223,26 @@ namespace Merchanmusic.Controllers
             return Ok();
         }
 
-        //[HttpPut("upgrade-client")] PARA QUE ADMIN CONVIERTA A CLIENT EN SELLER
+        [HttpPut("{clientId}/role/{newRole}")]
+        public IActionResult UpdateRole([FromRoute] string clientId, [FromRoute] string newRole)
+        {
+            string subClaim = _tokenService.GetUserId();
+            string loggedUserRole = _userService.GetRoleById(subClaim);
+            if (newRole == "Admin" || loggedUserRole != "Admin")
+            {
+                return Forbid();
+            }
+
+            if (newRole != "Client" && newRole != "Seller")
+            {
+                return BadRequest($"The provided role is incorrect. Provided role: {newRole}");
+            } else
+            {
+                _userService.UpdateValidationStatus(clientId, false);
+                _userService.UpdateRole(clientId, newRole);
+                return Ok();
+            }
+        }
 
         [HttpPut("seller")]
         public IActionResult UpdateSeller([FromBody] SellerUpdateDto sellerUpdateDto)

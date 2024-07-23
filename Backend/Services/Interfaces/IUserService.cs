@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 public interface IUserService
 {
-    List<User> GetAllUsers();
+    public List<User> GetAllUsers();
+    public List<User> GetUsersWaitingValidation();
     public string? GetRoleById(string id);
     public bool IsWaitingValidation(string id);
     public bool HasPersonalInfo(string id);
@@ -13,6 +14,7 @@ public interface IUserService
     public bool? HasDarkModeOn(string id);
     public bool CheckIfUserExists(string id);
     public void SetDarkMode(string id, bool darkMode);
+    public void UpdateRole(string id, string role);
     public string CreateUser(User user);
     public void UpdateValidationStatus(string id, bool validationStatus);
     public void UpdateUser(User user);

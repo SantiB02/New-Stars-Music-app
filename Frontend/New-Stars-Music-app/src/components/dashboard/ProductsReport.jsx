@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import { Typography } from "@material-tailwind/react";
+import api from "../../api/api";
+import toast from "react-hot-toast";
+import LoadingMessage from "../common/LoadingMessage";
 
-const ProductsReport = ({ products, theme }) => {
+const ProductsReport = ({ theme }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.get("/products");
+        const allProducts = response.data;
+        setProducts(allProducts);
+      } catch (error) {
+        toast.error("Error getting all products!");
+        console.error("Error fetching all products", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (isLoading) return <LoadingMessage message="Loading products..." />;
+
   return (
     <div>
       {products && products.length > 0 ? (

@@ -1,10 +1,33 @@
 import { Typography, Button } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import api from "../../api/api";
 import styles from "./Dashboard.module.css";
+import toast from "react-hot-toast";
+import LoadingMessage from "../common/LoadingMessage";
 
-const SaleOrdersReport = ({ saleOrders, setSaleOrders, theme }) => {
+const SaleOrdersReport = ({ theme }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [saleOrders, setSaleOrders] = useState(null);
+
+  useEffect(() => {
+    const fetchSaleOrders = async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.get("/sale-orders");
+        const allSaleOrders = response.data;
+        setSaleOrders(allSaleOrders);
+      } catch (error) {
+        toast.error("Error getting all sale orders!");
+        console.error("Error fetching all sale orders", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSaleOrders();
+  }, []);
+
   const completeSaleOrder = async (orderId) => {
     try {
       const result = await Swal.fire({
@@ -89,6 +112,8 @@ const SaleOrdersReport = ({ saleOrders, setSaleOrders, theme }) => {
     }
   };
 
+  if (isLoading) return <LoadingMessage message="Loading sale orders..." />;
+
   return (
     <div>
       <Typography variant="h4" className={theme ? "text-white" : "text-black"}>
@@ -99,7 +124,7 @@ const SaleOrdersReport = ({ saleOrders, setSaleOrders, theme }) => {
           <table
             className={theme ? styles["data-table-dark"] : styles["data-table"]}
           >
-            <thead>
+            <thead className="text-sm">
               <tr>
                 <th>Order ID</th>
                 <th>Buyer</th>
@@ -112,7 +137,7 @@ const SaleOrdersReport = ({ saleOrders, setSaleOrders, theme }) => {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody className={theme ? "text-white" : "text-black"}>
+            <tbody className={theme ? "text-white text-sm" : "text-black"}>
               {saleOrders.map((order) => (
                 <tr key={order.id}>
                   <td>{order.id}</td>

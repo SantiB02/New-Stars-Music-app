@@ -160,7 +160,7 @@ const SellerCenter = () => {
         updatedProducts[index].state = restore;
         setProducts(updatedProducts);
         setDeletingOrRestoringProductId(null);
-        console.log("Producto deleted or restored successfully");
+        console.log("Product deleted or restored successfully");
       } else {
         console.error("Error deleting product");
       }

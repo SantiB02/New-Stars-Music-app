@@ -20,6 +20,11 @@ namespace Merchanmusic.Services.Implementations
             return _context.Users.ToList();
         }
 
+        public List<User> GetUsersWaitingValidation()
+        {
+            return _context.Users.Where(u => u.WaitingValidation == true).ToList();
+        }
+
         public User GetUserById(string id) 
         {
             User user = _context.Users.FirstOrDefault(x => x.Id == id);
@@ -79,6 +84,17 @@ namespace Merchanmusic.Services.Implementations
         {
             User user = _context.Users.FirstOrDefault(u => u.Id == id);
             user.DarkModeOn = darkMode;
+            _context.SaveChanges();
+        }
+
+        public void UpdateRole(string id, string role)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Id == id);
+            user.Role = role;
+            _context.Remove(user);
+            _context.SaveChanges();
+            _context.Add(user);
+
             _context.SaveChanges();
         }
 

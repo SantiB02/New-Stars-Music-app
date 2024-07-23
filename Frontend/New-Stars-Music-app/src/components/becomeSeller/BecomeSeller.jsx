@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import InfoIcon from "../icons/InfoIcon";
 import { useForm } from "../../hooks/useForm";
+import { useRoles } from "../../hooks/useRoles";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const BecomeSeller = () => {
   const [open, setOpen] = useState(false);
@@ -30,6 +32,8 @@ const BecomeSeller = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(false);
   const navigate = useNavigate();
   const { validateForm } = useForm();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
 
   useEffect(() => {
     const fetchUserValidationStatus = async () => {
@@ -147,7 +151,7 @@ const BecomeSeller = () => {
         Don&apos;t miss out on the chance to reach fans around the world -
         become a Seller now and let your products shine!
       </Typography>
-      {!isLoadingPage && (
+      {!isLoadingPage && userRole === "Client" && (
         <Button
           disabled={isProcessingRequest || requestAlreadySubmitted}
           className="bg-orange-800 mt-6 ml-8"
