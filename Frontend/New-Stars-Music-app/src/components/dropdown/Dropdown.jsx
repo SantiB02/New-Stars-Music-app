@@ -33,7 +33,7 @@ const Dropdown = ({ mobileMenuLinkClickHandler, isMobile }) => {
 
   return (
     <div>
-      <div className="relative z-10">
+      <div className="relative z-50">
         <div
           className="flex items-center hover:cursor-pointer"
           onClick={() => setOpen(!open)}

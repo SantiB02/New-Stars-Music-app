@@ -13,8 +13,10 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 import UsersReport from "./UsersReport";
 import ProductsReport from "./ProductsReport";
 import SaleOrdersReport from "./SaleOrdersReport";
+import LoadingMessage from "../common/LoadingMessage";
 
 const Dashboard = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState(null);
   const [products, setProducts] = useState(null);
   const [saleOrders, setSaleOrders] = useState(null);
@@ -24,6 +26,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const [productListResponse, usersResponse, saleOrdersResponse] =
           await Promise.all([
@@ -39,6 +42,8 @@ const Dashboard = () => {
       } catch (error) {
         console.log("Error", error);
         setError(error.message || "Error fetching data");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -49,6 +54,8 @@ const Dashboard = () => {
       setSaleOrders(null);
     };
   }, []);
+
+  if (isLoading) return <LoadingMessage message="Loading reports..." />;
 
   return (
     <div className="max-w-7xl mx-8 py-6">
