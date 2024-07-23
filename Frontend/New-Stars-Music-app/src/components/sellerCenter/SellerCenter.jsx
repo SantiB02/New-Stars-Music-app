@@ -14,9 +14,11 @@ import {
   Select,
   Option,
   Card,
+  Alert,
 } from "@material-tailwind/react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import EditProductForm from "./EditProductForm";
+import InfoIcon from "../icons/InfoIcon";
 
 const SellerCenter = () => {
   const [products, setProducts] = useState([]);
@@ -132,8 +134,11 @@ const SellerCenter = () => {
 
   return (
     <div className="seller-center">
-      <Typography variant="h3" className="pt-4 mb-4 mx-8 font-light">
+      <Typography variant="h3" className="pt-4 mb-0 mx-8 font-light">
         Seller Center
+      </Typography>
+      <Typography variant="h4" className="pt-4 mb-4 mx-8 font-light">
+        Your Products
       </Typography>
       <Dialog open={open} handler={() => setOpen(false)}>
         <DialogHeader>Edit Product</DialogHeader>
@@ -142,21 +147,31 @@ const SellerCenter = () => {
         </DialogBody>
       </Dialog>
       <div className="product-list flex flex-wrap gap-4">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="product-item flex-1 min-w-[300px] max-w-[calc(25%-1rem)]"
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div
+              key={product.id}
+              className="product-item flex-1 min-w-[300px] max-w-[calc(25%-1rem)]"
+            >
+              <ProductCard
+                setProductSelected={setProductSelected}
+                setOpen={setOpen}
+                product={product}
+                isSeller={true}
+                handleDeleteProduct={handleDeleteProduct}
+                className="my-2"
+              />
+            </div>
+          ))
+        ) : (
+          <Alert
+            className={theme ? "bg-gray-800 mx-6" : "mx-6"}
+            icon={<InfoIcon />}
           >
-            <ProductCard
-              setProductSelected={setProductSelected}
-              setOpen={setOpen}
-              product={product}
-              isSeller={true}
-              handleDeleteProduct={handleDeleteProduct}
-              className="my-2"
-            />
-          </div>
-        ))}
+            It appears you haven't published any products yet. Why don't you
+            start adding them now with the form below?
+          </Alert>
+        )}
       </div>
       <div
         className={
@@ -188,6 +203,7 @@ const SellerCenter = () => {
               onChange={(e) =>
                 setProductData({ ...productData, code: e.target.value })
               }
+              required
             />
             <Input
               type="text"
@@ -196,6 +212,7 @@ const SellerCenter = () => {
               onChange={(e) =>
                 setProductData({ ...productData, name: e.target.value })
               }
+              required
             />
             <Input
               type="number"
@@ -204,6 +221,7 @@ const SellerCenter = () => {
               onChange={(e) =>
                 setProductData({ ...productData, price: e.target.value })
               }
+              required
             />
             <Input
               type="text"
@@ -212,6 +230,7 @@ const SellerCenter = () => {
               onChange={(e) =>
                 setProductData({ ...productData, artistOrBand: e.target.value })
               }
+              required
             />
             <Input
               type="text"
@@ -223,6 +242,7 @@ const SellerCenter = () => {
                   description: e.target.value,
                 })
               }
+              required
             />
             <Input
               type="number"
@@ -231,6 +251,7 @@ const SellerCenter = () => {
               onChange={(e) =>
                 setProductData({ ...productData, stock: e.target.value })
               }
+              required
             />
             {!categories ? (
               <div>Loading categories...</div>
