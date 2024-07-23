@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import toast from "react-hot-toast";
 import api from "../../api/api";
+import { useForm } from "../../hooks/useForm";
 
 
 const FormProfile = ({ setOpenChange, users }) => {
@@ -15,12 +16,19 @@ const FormProfile = ({ setOpenChange, users }) => {
   
   const { theme } = useTheme();
 
+  const { validateForm } = useForm();
+
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
   };
   const changeDataHandler = async () => {
     
     try {
+      const form = { address, apartment, country, city, postalCode, phone };
+    if (!validateForm(form)) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
       const request = {
         address,
         apartment,
@@ -56,42 +64,42 @@ const FormProfile = ({ setOpenChange, users }) => {
             label="Country"
             size="md"
             value={country}
-            onChange={() => stateChangeHandler(event, setCountry)}
+            onChange={(event) => stateChangeHandler(event, setCountry)}
           />
           <Input
             color={theme ? "white" : undefined}
             label="City"
             size="md"
             value={city}
-            onChange={() => stateChangeHandler(event, setCity)}
+            onChange={(event) => stateChangeHandler(event, setCity)}
           />
           <Input
             color={theme ? "white" : undefined}
             label="Postal Code"
             size="md"
             value={postalCode}
-            onChange={() => stateChangeHandler(event, setPostalCode)}
+            onChange={(event) => stateChangeHandler(event, setPostalCode)}
           />
           <Input
             color={theme ? "white" : undefined}
             label="Address"
             size="md"
             value={address}
-            onChange={() => stateChangeHandler(event, setAddress)}
+            onChange={(event) => stateChangeHandler(event, setAddress)}
           />
           <Input
             color={theme ? "white" : undefined}
             label="Apartment / Floor"
             size="md"
             value={apartment}
-            onChange={() => stateChangeHandler(event, setApartment)}
+            onChange={(event) => stateChangeHandler(event, setApartment)}
           />
           <Input
             color={theme ? "white" : undefined}
             label="Phone"
             size="md"
             value={phone}
-            onChange={() => stateChangeHandler(event, setPhone)}
+            onChange={(event) => stateChangeHandler(event, setPhone)}
           />
         </div>
         <div className="flex justify-center gap-4 mt-4">
