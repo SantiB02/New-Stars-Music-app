@@ -77,7 +77,6 @@ namespace Merchanmusic.Controllers
             return Ok(product);
         }
 
-
         [HttpGet("by-name/{name}")]
         public IActionResult GetProductByName(string name)
         {
@@ -115,7 +114,6 @@ namespace Merchanmusic.Controllers
             }
             return Forbid();
         }
-
 
         [HttpPost]
         public IActionResult CreateProduct([FromBody] ProductCreateDto productDto)
@@ -238,38 +236,25 @@ namespace Merchanmusic.Controllers
                 }
             
         }
-        //[HttpPut("{id}")]
-        //public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductUpdateDto product)
-        //{
-        //    string subClaim = _tokenService.GetUserId();
-        //    string role = _userService.GetRoleById(subClaim);
-        //    if (role == "Admin" || role == "Seller")
-        //    {
-        //        var productToUpdate = _productService.GetProductById(id);
-        //        if (productToUpdate == null)
-        //        {
-        //            return NotFound($"Producto con ID {id} no encontrado");
-        //        }
-        //        if (product.Price == 0 || product.Stock == 0)
-        //        {
-        //            return BadRequest("Producto no actualizado, por favor completar los campos");
-        //        }
 
-        //        try
-        //        {
-        //            productToUpdate.Price = product.Price;
-        //            productToUpdate.Stock = product.Stock;
-
-        //            productToUpdate = _productService.UpdateProduct(productToUpdate);
-        //            return Ok($"Producto actualizado exitosamente");
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return BadRequest($"Error al actualizar el producto: {ex.Message}");
-        //        }
-        //    }
-        //    return Forbid();
-        //}
-
+        [HttpPut]
+        public IActionResult UpdateProduct([FromBody] ProductUpdateDto productUpdateDto)
+        {
+            string subClaim = _tokenService.GetUserId();
+            string role = _userService.GetRoleById(subClaim);
+            if (role == "Seller")
+            {
+                try
+                {
+                    _productService.UpdateProduct(productUpdateDto, subClaim);
+                    return Ok($"Product updated successfully");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest($"Error updating product: {ex.Message} - {ex.InnerException}");
+                }
+            }
+            return Forbid();
+        }
     }
 }

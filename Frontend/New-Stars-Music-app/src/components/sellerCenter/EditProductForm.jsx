@@ -1,39 +1,63 @@
-import { Button, Input } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
-import toast from "react-hot-toast/headless";
 import api from "../../api/api";
+import toast from "react-hot-toast";
 
-const EditProductForm = ({ setOpen, product }) => {
-  const [nameProduct, setNamePoduct] = useState(product.name);
+const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
+  const [name, setName] = useState(product.name);
   const [price, setPrice] = useState(product.price);
-  const [ArtistOrBand, setArtistOrBand] = useState(product.artistOrBand);
+  const [stock, setStock] = useState(product.stock);
+  const [artistOrBand, setArtistOrBand] = useState(product.artistOrBand);
   const [description, setDescription] = useState(product.description);
-  const [imageUrl, setImageUrl] = useState(product.imageLink);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+  const [imageLink, setImageLink] = useState(product.imageLink);
+  const [stockOrPriceError, setStockOrPriceError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
 
   const { theme } = useTheme();
+
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
   };
-  const changeProductHandler = async () => {
+
+  const updateProductHandler = async () => {
+    if (stock <= 0 || price <= 0) {
+      setStockOrPriceError(true);
+      return;
+    } else {
+      setStockOrPriceError(false);
+    }
+
+    if (selectedCategoryId <= 0) {
+      setCategoryError(true);
+      return;
+    } else {
+      setCategoryError(false);
+    }
+
     try {
       const request = {
-        nameProduct,
+        id: product.id,
+        name,
         price,
-        ArtistOrBand,
+        stock,
+        artistOrBand,
         description,
-        imageUrl,
+        imageLink,
+        categoryId: selectedCategoryId,
       };
-      await api.put("", request);
-      toast.success("product update!");
-
-      setOpen(false);
+      await api.put("/products", request);
+      updateProduct(request);
+      toast.success("Product updated successfully!");
     } catch (error) {
-      toast.error("Error update!");
-      console.error("Error buying product", error);
+      toast.error("Error updating product!");
+      console.error("Error updating product", error);
+    } finally {
       setOpen(false);
     }
   };
+
   return (
     <div className="flex items-center justify-center">
       <form
@@ -47,37 +71,71 @@ const EditProductForm = ({ setOpen, product }) => {
           <Input
             label="Name:"
             size="md"
-            value={nameProduct}
-            onChange={() => stateChangeHandler(event, setNamePoduct)}
-          ></Input>
+            value={name}
+            onChange={() => stateChangeHandler(event, setName)}
+            required
+          />
           <Input
             label="Description:"
             size="md"
             value={description}
             onChange={() => stateChangeHandler(event, setDescription)}
-          ></Input>
+            required
+          />
           <Input
             label="Artist/band"
             size="md"
-            value={ArtistOrBand}
+            value={artistOrBand}
             onChange={() => stateChangeHandler(event, setArtistOrBand)}
-          ></Input>
+            required
+          />
+          {categoryError && (
+            <Typography className="-mb-5" color="red">
+              A category must be selected!
+            </Typography>
+          )}
+          <select
+            className="text-black"
+            value={selectedCategoryId}
+            onChange={(e) => setSelectedCategoryId(parseInt(e.target.value))}
+          >
+            <option value="0">Select a category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id.toString()}>
+                {category.name}
+              </option>
+            ))}
+          </select>
           <Input
             label="Image Link:"
             size="md"
-            value={imageUrl}
-            onChange={() => stateChangeHandler(event, setImageUrl)}
-          ></Input>
+            value={imageLink}
+            onChange={() => stateChangeHandler(event, setImageLink)}
+            required
+          />
+          {stockOrPriceError && (
+            <Typography className="-mb-5" color="red">
+              Price and stock must be greater than 0!
+            </Typography>
+          )}
           <Input
             label="Price:"
             size="md"
             value={price}
             onChange={() => stateChangeHandler(event, setPrice)}
-          ></Input>
+            required
+          />
+          <Input
+            label="Stock:"
+            size="md"
+            value={stock}
+            onChange={() => stateChangeHandler(event, setStock)}
+            required
+          />
         </div>
         <div className="flex justify-center gap-4 mt-4">
           <div>
-            <Button color="blue" onClick={changeProductHandler}>
+            <Button color="blue" onClick={updateProductHandler}>
               Edit
             </Button>
           </div>

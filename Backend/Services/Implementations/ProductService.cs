@@ -90,30 +90,38 @@ namespace Merchanmusic.Services.Implementations
             }
         }
 
-        public void UpdateProduct(ProductUpdateDto productUpdateDto)
+        public void UpdateProduct(ProductUpdateDto productUpdateDto, string sellerId)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == productUpdateDto.ProductId);
+            var product = _context.Products.FirstOrDefault(x => x.Id == productUpdateDto.Id);
 
             if (product == null)
             {
                 throw new Exception("Product not found");
             }
 
-            if (product.SellerId != productUpdateDto.SellerId)
+            if (product.SellerId != sellerId)
             {
                 throw new Exception("SellerId mismatch");
             }
 
-            product.Name = productUpdateDto.Name;
-            product.Description = productUpdateDto.Description;
-            product.Price = productUpdateDto.Price;
-            product.Stock = productUpdateDto.Stock;
-            product.CategoryId = productUpdateDto.CategoryId;
-            product.ImageLink = productUpdateDto.ImageLink;
+            Category category = _context.Categories.FirstOrDefault(c => c.Id == productUpdateDto.CategoryId);
 
-            _context.Products.Update(product);
+            if (category != null)
+            {
+                product.Name = productUpdateDto.Name;
+                product.Description = productUpdateDto.Description;
+                product.ArtistOrBand = productUpdateDto.ArtistOrBand;
+                product.Price = productUpdateDto.Price;
+                product.Stock = productUpdateDto.Stock;
+                product.Category = category;
+                product.ImageLink = productUpdateDto.ImageLink;
+                product.LastModifiedDate = DateTime.Now;
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            } else
+            {
+                throw new Exception("Category not found");
+            }            
         }
 
         public List<Product> GetProductBySeller(string sellerId)

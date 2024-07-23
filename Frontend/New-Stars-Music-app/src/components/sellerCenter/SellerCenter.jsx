@@ -19,12 +19,14 @@ import {
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import EditProductForm from "./EditProductForm";
 import InfoIcon from "../icons/InfoIcon";
+import toast from "react-hot-toast";
+import LoadingMessage from "../common/LoadingMessage";
 
 const SellerCenter = () => {
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
   const [products, setProducts] = useState([]);
   const { getAccessTokenSilently, isLoading } = useAuth0();
   const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [productData, setProductData] = useState({
     code: "",
     name: "",
@@ -62,8 +64,15 @@ const SellerCenter = () => {
         console.error("Error fetching products:", error);
       }
     };
-    fetchProducts();
-    fetchCategories();
+
+    const initialize = async () => {
+      setIsLoadingPage(true);
+      await fetchProducts();
+      await fetchCategories();
+      setIsLoadingPage(false);
+    };
+
+    initialize();
   }, []);
 
   const handleImageUpload = async () => {
@@ -87,27 +96,46 @@ const SellerCenter = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    productData.categoryId = selectedCategoryId;
     try {
       if (
         productData.code &&
         productData.name &&
         productData.imageLink &&
         productData.price &&
+        productData.price > 0 &&
         productData.artistOrBand &&
         productData.description &&
         productData.stock &&
-        productData.categoryId
+        productData.stock > 0 &&
+        productData.categoryId &&
+        productData.categoryId > 0
       ) {
         const response = await api.post("/products", productData);
 
         if (response.status === 200) {
           console.log("Producto creado/editado exitosamente");
           setProducts((prevProducts) => [...prevProducts, response.data]);
+          window.scrollTo(0, 0);
+          setProductData({
+            code: "",
+            name: "",
+            artistOrBand: "",
+            price: 0,
+            description: "",
+            stock: 0,
+            categoryId: 0,
+            imageLink: "",
+          });
         } else {
           console.error("Error al crear/editar el producto");
         }
       } else {
+        if (productData.price <= 0 || productData.stock <= 0) {
+          toast.error("Stock and price must be greater than 0!");
+        }
+        if (productData.categoryId <= 0) {
+          toast.error("A category must be selected!");
+        }
         console.error("Completa todos los campos antes de guardar");
       }
     } catch (error) {
@@ -132,6 +160,17 @@ const SellerCenter = () => {
     }
   };
 
+  const updateProduct = (product) => {
+    const updatedProducts = [...products];
+    const index = updatedProducts.findIndex(
+      (existingProduct) => existingProduct.id === product.id
+    );
+    updatedProducts[index] = product;
+    setProducts(updatedProducts);
+  };
+
+  if (isLoadingPage) return <LoadingMessage message="Loading..." />;
+
   return (
     <div className="seller-center">
       <Typography variant="h3" className="pt-4 mb-0 mx-8 font-light">
@@ -143,7 +182,12 @@ const SellerCenter = () => {
       <Dialog open={open} handler={() => setOpen(false)}>
         <DialogHeader>Edit Product</DialogHeader>
         <DialogBody>
-          <EditProductForm product={productSelected} setOpen={setOpen} />
+          <EditProductForm
+            product={productSelected}
+            setOpen={setOpen}
+            categories={categories}
+            updateProduct={updateProduct}
+          />
         </DialogBody>
       </Dialog>
       <div className="product-list flex flex-wrap gap-4">
@@ -256,18 +300,23 @@ const SellerCenter = () => {
             {!categories ? (
               <div>Loading categories...</div>
             ) : (
-              <Select
-                label="Select Category"
-                value={selectedCategoryId.toString()}
-                onChange={(val) => setSelectedCategoryId(val)}
+              <select
+                className="text-black"
+                value={productData.categoryId}
+                onChange={(e) =>
+                  setProductData({
+                    ...productData,
+                    categoryId: parseInt(e.target.value),
+                  })
+                }
               >
-                <Option value="">Select a category</Option>
+                <option value="0">Select a category</option>
                 {categories.map((category) => (
-                  <Option key={category.id} value={category.id.toString()}>
+                  <option key={category.id} value={category.id.toString()}>
                     {category.name}
-                  </Option>
+                  </option>
                 ))}
-              </Select>
+              </select>
             )}
             <Input
               type="text"
