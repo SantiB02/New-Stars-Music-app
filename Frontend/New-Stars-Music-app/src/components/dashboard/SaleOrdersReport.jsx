@@ -91,7 +91,9 @@ const SaleOrdersReport = ({ saleOrders, setSaleOrders, theme }) => {
 
   return (
     <div>
-      <Typography variant="h4">Sale Orders</Typography>
+      <Typography variant="h4" className={theme ? "text-white" : "text-black"}>
+        Sale Orders
+      </Typography>
       {saleOrders !== null ? (
         saleOrders.length > 0 ? (
           <table
@@ -110,7 +112,7 @@ const SaleOrdersReport = ({ saleOrders, setSaleOrders, theme }) => {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className={theme ? "text-white" : "text-black"}>
               {saleOrders.map((order) => (
                 <tr key={order.id}>
                   <td>{order.id}</td>
@@ -126,16 +128,15 @@ const SaleOrdersReport = ({ saleOrders, setSaleOrders, theme }) => {
                   <td>{order.completed ? "Yes" : "No"}</td>
                   <td>
                     <div>
-                      {!order.completed ? (
+                      {!order.completed && (
                         <Button
                           onClick={() => completeSaleOrder(order.id)}
                           color="green"
                           size="sm"
+                          className="my-2"
                         >
                           Complete
                         </Button>
-                      ) : (
-                        <></>
                       )}
                     </div>
 
@@ -143,6 +144,7 @@ const SaleOrdersReport = ({ saleOrders, setSaleOrders, theme }) => {
                       onClick={() => deleteSaleOrder(order.id)}
                       color="red"
                       size="sm"
+                      className="my-2"
                     >
                       Delete
                     </Button>

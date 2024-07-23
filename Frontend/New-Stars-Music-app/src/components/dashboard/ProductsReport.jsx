@@ -7,7 +7,12 @@ const ProductsReport = ({ products, theme }) => {
     <div>
       {products && products.length > 0 ? (
         <div>
-          <Typography variant="h4">Products</Typography>
+          <Typography
+            variant="h4"
+            className={theme ? "text-white" : "text-black"}
+          >
+            Products
+          </Typography>
           <table
             className={theme ? styles["data-table-dark"] : styles["data-table"]}
           >
@@ -18,11 +23,13 @@ const ProductsReport = ({ products, theme }) => {
                 <th>Seller</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className={theme ? "text-white" : "text-black"}>
               {products.map((product) => (
                 <tr key={product.id}>
                   <td>{product.name}</td>
-                  <td>${product.price} ARS</td>
+                  <td className={theme ? "text-yellow-700" : ""}>
+                    ${product.price} ARS
+                  </td>
                   <td>{product.sellerId}</td>
                 </tr>
               ))}

@@ -7,7 +7,12 @@ const UsersReport = ({ users, theme }) => {
     <div>
       {users && users.length > 0 ? (
         <div>
-          <Typography variant="h4">Users</Typography>
+          <Typography
+            variant="h4"
+            className={theme ? "text-white" : "text-black"}
+          >
+            Users
+          </Typography>
           <table
             className={theme ? styles["data-table-dark"] : styles["data-table"]}
           >
@@ -18,7 +23,7 @@ const UsersReport = ({ users, theme }) => {
                 <th>Phone</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className={theme ? "text-white" : "text-black"}>
               {users.map((user) => (
                 <tr key={user.id}>
                   <td>{user.email}</td>
