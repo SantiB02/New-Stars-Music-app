@@ -7,11 +7,10 @@ import { getAuthSettings } from "./api/settings-api.js";
 import ServerError from "./components/error/ServerError.jsx";
 import ThemeProvider from "./services/contexts/ThemeProvider.jsx";
 import { CartProvider } from "./services/contexts/CartContext.jsx";
-import { BrowserRouter, useLocation } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import LoadingMessage from "./components/common/LoadingMessage.jsx";
 
 const AppProviders = ({ children }) => {
-  const location = useLocation();
   const [authSettings, setAuthSettings] = useState(null);
   const [error, setError] = useState(null);
 

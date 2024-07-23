@@ -51,6 +51,14 @@ const SaleOrderChart = ({
         {!isIncomingOrder && (
           <li>
             <Typography>
+              <span className="font-bold text-orange-900">Seller:</span>{" "}
+              {saleOrder.sellerId}
+            </Typography>
+          </li>
+        )}
+        {!isIncomingOrder && (
+          <li>
+            <Typography>
               <span className="font-bold text-orange-900">Reception Date:</span>{" "}
               To be confirmed (via email)
             </Typography>

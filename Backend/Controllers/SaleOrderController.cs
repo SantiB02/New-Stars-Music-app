@@ -149,27 +149,33 @@ namespace Merchanmusic.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSaleOrder([FromBody] SaleOrderDto dto)
+        public IActionResult CreateSaleOrder([FromBody] List<SaleOrderDto> dtos)
         {
             string subClaim = _tokenService.GetUserId();
      
-            if (dto == null)
+            if (dtos.Count == 0)
             {
                 return BadRequest("Sale Order can't be empty");
             }
             try
             {
-                SaleOrder newSaleOrder = new()
-                {
-                    OrderCode = Guid.NewGuid().ToString(),
-                    Date = DateTime.Now,
-                    Total = dto.Total,
-                    ClientId = subClaim
-                };
-                _mapper.Map(dto.LinesDto, newSaleOrder.SaleOrderLines);
-              
-                newSaleOrder = _saleOrderService.CreateSaleOrder(newSaleOrder);
-                return Ok(newSaleOrder.Id);
+                List<int> newSaleOrdersIds = new();
+                foreach (SaleOrderDto dto in dtos)
+                {                  
+                    SaleOrder newSaleOrder = new()
+                    {
+                        OrderCode = Guid.NewGuid().ToString(),
+                        Date = DateTime.Now,
+                        Total = dto.Total,
+                        ClientId = subClaim,
+                        SellerId = dto.SellerId,
+                    };
+                    _mapper.Map(dto.LinesDto, newSaleOrder.SaleOrderLines);
+
+                    newSaleOrder = _saleOrderService.CreateSaleOrder(newSaleOrder);
+                    newSaleOrdersIds.Add(newSaleOrder.Id);
+                }
+                return Ok(newSaleOrdersIds);
             }
             catch (Exception ex)
             {

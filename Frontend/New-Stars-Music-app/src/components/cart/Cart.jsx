@@ -17,7 +17,6 @@ export const Cart = () => {
   const navigate = useNavigate();
 
   const onRemoveProductHandler = (cartProduct) => {
-    console.log(cartProduct);
     removeFromCart(cartProduct);
   };
   const navigateHandler = (path) => {

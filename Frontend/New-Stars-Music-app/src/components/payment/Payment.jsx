@@ -87,34 +87,57 @@ const Payment = () => {
         await api.put("/users/client", request);
       }
 
-      const saleOrderLines = [];
-      const productsToUpdate = [];
+      const saleOrderLinesBySeller = cart.reduce((acc, product) => {
+        const { sellerId, id, quantity, price } = product;
 
-      cart.forEach((product) => {
-        const saleOrderLine = {
-          quantity: product.quantity,
-          productId: product.id,
-        };
-        saleOrderLines.push(saleOrderLine);
+        // Si el vendedor no existe en el acumulador, lo agregamos
+        if (!acc[sellerId]) {
+          acc[sellerId] = {
+            sellerId,
+            linesDto: [],
+            total: 0,
+          };
+        }
+
+        // Agregamos la línea de orden de venta al vendedor correspondiente
+        acc[sellerId].linesDto.push({
+          quantity,
+          productId: id,
+        });
+
+        acc[sellerId].total += quantity * price;
+
+        return acc;
+      }, {});
+
+      // Convertimos el objeto en un arreglo de vendedores
+      const sellersWithSaleOrderLines = Object.values(saleOrderLinesBySeller);
+
+      console.log(sellersWithSaleOrderLines);
+
+      const response = await api.post(
+        "/sale-orders",
+        sellersWithSaleOrderLines
+      );
+      const newSaleOrdersIds = response.data;
+
+      const productsToUpdate = [];
+      cart.forEach((product) =>
         productsToUpdate.push({
           id: product.id,
           quantityToBuy: product.quantity,
-        });
-      });
-
-      const newSaleOrder = { linesDto: saleOrderLines, total: cartTotal };
-      const response = await api.post("/sale-orders", newSaleOrder);
-      const newSaleOrderId = response.data;
-
+        })
+      );
+      console.log("PRODUCTS TO BUY:", productsToUpdate);
       await api.put("/products/buy", productsToUpdate);
 
       clearCart();
       localStorage.removeItem("cart");
       localStorage.removeItem("cartTotal");
-      navigate(`/shipping-details/${newSaleOrderId}`);
+      navigate("/shipping-details", { state: { newSaleOrdersIds } });
     } catch (error) {
       toast.error("Error buying product/s. Please try again later!");
-      console.error("Error buying product");
+      console.error("Error buying product", error);
     } finally {
       setIsProcessingPayment(false);
     }

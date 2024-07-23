@@ -38,7 +38,8 @@ namespace Merchanmusic.Services.Implementations
         public SaleOrder? GetOne(int Id)
         {
             return _context.SaleOrders
-                .Include(r => r.SaleOrderLines)
+                .Include(so => so.Seller)
+                .Include(so => so.SaleOrderLines)
                 .ThenInclude(so => so.Product)
                 .SingleOrDefault(x => x.Id == Id);
         }
