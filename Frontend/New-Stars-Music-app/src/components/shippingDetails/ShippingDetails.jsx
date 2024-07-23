@@ -1,11 +1,8 @@
-import { Alert, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../api/api";
-import toast from "react-hot-toast";
 import LoadingMessage from "../common/LoadingMessage";
-import { useTheme } from "../../services/contexts/ThemeProvider";
-import InfoIcon from "../icons/InfoIcon";
 import SaleOrderChart from "../common/SaleOrderChart";
 import PageNotFound from "../pageNotFound/PageNotFound";
 
@@ -13,10 +10,9 @@ const ShippingDetails = () => {
   const [saleOrders, setSaleOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [wrongPage, setWrongPage] = useState(false);
-  const { theme } = useTheme();
+  const hasFetchedSaleOrders = useRef(false);
   const location = useLocation();
   const newSaleOrdersIds = location.state?.newSaleOrdersIds;
-  const hasFetchedSaleOrders = useRef(false);
 
   useEffect(() => {
     const fetchSaleOrders = async () => {
@@ -24,7 +20,6 @@ const ShippingDetails = () => {
       try {
         const fetchedSaleOrders = await Promise.all(
           newSaleOrdersIds.map(async (newSaleOrderId) => {
-            console.log("FETCHING ORDER WITH ID", newSaleOrderId);
             const response = await api.get(`/sale-orders/${newSaleOrderId}`);
             return response.data;
           })
@@ -46,16 +41,16 @@ const ShippingDetails = () => {
       newSaleOrdersIds.length > 0 &&
       !hasFetchedSaleOrders.current
     ) {
-      console.log("NEW SALE ORDERS IDS:", newSaleOrdersIds);
       hasFetchedSaleOrders.current = true;
       fetchSaleOrders();
+    } else if (!newSaleOrdersIds) {
+      setWrongPage(true);
     }
-  }, [newSaleOrdersIds]);
+  }, []);
 
   if (isLoading) return <LoadingMessage message="Loading sale order..." />;
 
   if (wrongPage) return <PageNotFound />;
-  console.log("SALE ORDERS:", saleOrders);
 
   return (
     <div>
@@ -70,7 +65,7 @@ const ShippingDetails = () => {
         </Typography>
       </div>
       <div className="ml-6 mt-6">
-        <Typography variant="h3" className="font-light">
+        <Typography variant="h3" className="font-light mb-2">
           Shipping & Order Details
         </Typography>
         <div className="flex justify-center pb-12">

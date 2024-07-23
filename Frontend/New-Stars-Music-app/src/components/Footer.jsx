@@ -5,7 +5,7 @@ const Footer = () => {
     <div>
       <footer className="absolute w-full mt-auto bg-secondary dark:bg-secondary">
         <div className="  pb-8 pt-2 lg:px-8">
-          <div className="mt-4 border-t border-gray-100 pt-8 sm:flex sm:items-center sm:justify-between dark:border-gray-800">
+          <div className="mt-4 border-t border-gray-100 pt-4 sm:flex sm:items-center sm:justify-between dark:border-gray-800">
             <ul className="flex flex-wrap justify-center gap-4 text-xs lg:justify-end">
               <li>
                 <a

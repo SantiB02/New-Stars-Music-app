@@ -131,7 +131,6 @@ const Payment = () => {
       console.log("PRODUCTS TO BUY:", productsToUpdate);
       await api.put("/products/buy", productsToUpdate);
 
-      clearCart();
       localStorage.removeItem("cart");
       localStorage.removeItem("cartTotal");
       navigate("/shipping-details", { state: { newSaleOrdersIds } });
