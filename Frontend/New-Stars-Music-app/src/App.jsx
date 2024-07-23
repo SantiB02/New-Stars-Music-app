@@ -27,6 +27,7 @@ import { useTheme } from "./services/contexts/ThemeProvider";
 import Dashboard from "./components/dashboard/Dashboard";
 import ShippingDetails from "./components/shippingDetails/ShippingDetails";
 import MyOrders from "./components/myOrders/MyOrders";
+import FloatingButton from "./components/floatingButton/FloatingButton";
 
 function App() {
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
@@ -75,6 +76,7 @@ function App() {
           </Route>
         </Routes>
       </div>
+      <FloatingButton />
       <Footer />
     </>
   );
