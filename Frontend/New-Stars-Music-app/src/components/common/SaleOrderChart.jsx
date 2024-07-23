@@ -68,6 +68,14 @@ const SaleOrderChart = ({
             </Typography>
           </li>
         )}
+        {isIncomingOrder && (
+          <li>
+            <Typography>
+              <span className="font-bold text-orange-900">Buyer:</span>{" "}
+              {saleOrder.client.email}
+            </Typography>
+          </li>
+        )}
         <li>
           <Typography>
             <span className="font-bold text-orange-900">Items:</span>
@@ -99,6 +107,14 @@ const SaleOrderChart = ({
             </span>
           </Typography>
         </li>
+        {isIncomingOrder && (
+          <li className="mt-2">
+            <Typography className={saleOrder.completed ? "text-green-500" : ""}>
+              <span className="font-bold text-orange-900">Status:</span>{" "}
+              {saleOrder.completed ? "Delivered" : "Pending delivery"}
+            </Typography>
+          </li>
+        )}
       </ul>
       {isIncomingOrder && (
         <div className="flex justify-center mb-4">

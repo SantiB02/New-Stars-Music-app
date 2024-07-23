@@ -8,6 +8,8 @@ import SaleOrderChart from "../common/SaleOrderChart";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useRoles } from "../../hooks/useRoles";
 
 const MyOrders = () => {
   const [saleOrders, setSaleOrders] = useState([]);
@@ -18,6 +20,8 @@ const MyOrders = () => {
   const [noIncomingSaleOrders, setNoIncomingSaleOrders] = useState(false);
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
 
   useEffect(() => {
     const fetchSaleOrders = async () => {
@@ -63,12 +67,14 @@ const MyOrders = () => {
     const initialize = async () => {
       setIsLoading(true);
       await fetchSaleOrders();
-      await fetchIncomingSaleOrders();
+      if (userRole === "Seller") {
+        await fetchIncomingSaleOrders();
+      }
       setIsLoading(false);
     };
 
     initialize();
-  }, []);
+  }, [userRole]);
 
   const completeSaleOrder = async (orderId) => {
     setIsCompletingOrder(true);
@@ -159,39 +165,43 @@ const MyOrders = () => {
           </div>
         </div>
       )}
-      <Typography
-        variant="h3"
-        className="text-center pt-4 mb-4 mx-8 font-light"
-      >
-        Incoming Orders
-      </Typography>
-      {noIncomingSaleOrders ? (
-        <div className="mx-16 mt-4 mb-4">
-          <Alert
-            className={theme ? "bg-gray-800" : undefined}
-            icon={<InfoIcon />}
+      {userRole === "Seller" && (
+        <>
+          <Typography
+            variant="h3"
+            className="text-center pt-4 mb-4 mx-8 font-light"
           >
-            It appears clients haven't ordered your products yet.
-          </Alert>
-        </div>
-      ) : (
-        <div className="flex justify-center pb-12">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
-            {incomingSaleOrders.map((incomingSaleOrder) => (
-              <div
-                key={incomingSaleOrder.id}
-                className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 border-2 rounded-lg border-orange-900"
+            Incoming Orders
+          </Typography>
+          {noIncomingSaleOrders ? (
+            <div className="mx-16 mt-4 mb-4">
+              <Alert
+                className={theme ? "bg-gray-800" : undefined}
+                icon={<InfoIcon />}
               >
-                <SaleOrderChart
-                  saleOrder={incomingSaleOrder}
-                  isIncomingOrder={true}
-                  completeSaleOrder={completeSaleOrder}
-                  isCompletingOrder={isCompletingOrder}
-                />
+                It appears clients haven't ordered your products yet.
+              </Alert>
+            </div>
+          ) : (
+            <div className="flex justify-center pb-12">
+              <div className="lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
+                {incomingSaleOrders.map((incomingSaleOrder) => (
+                  <div
+                    key={incomingSaleOrder.id}
+                    className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 border-2 rounded-lg border-orange-900"
+                  >
+                    <SaleOrderChart
+                      saleOrder={incomingSaleOrder}
+                      isIncomingOrder={true}
+                      completeSaleOrder={completeSaleOrder}
+                      isCompletingOrder={isCompletingOrder}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

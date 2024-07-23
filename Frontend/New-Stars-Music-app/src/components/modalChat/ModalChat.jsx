@@ -66,11 +66,14 @@ const ModalChat = ({ toggleModal }) => {
         <p className="mb-4 text-gray-600">
           How can we help you?
           <br />
-          1. Shipping Options
+          <span className="font-bold">1.</span>{" "}
+          <span className="italic">Shipping Options</span>
           <br />
-          2. Payment Methods
+          <span className="font-bold">2.</span>{" "}
+          <span className="italic">Payment Methods</span>
           <br />
-          3. Return Policy
+          <span className="font-bold">3.</span>{" "}
+          <span className="italic">Return Policy</span>
         </p>
         <input
           placeholder="Enter an option..."
@@ -83,7 +86,7 @@ const ModalChat = ({ toggleModal }) => {
         />
         <button
           onClick={handleSubmit}
-          className="bg-green-500 text-white px-1 py-1 rounded hover:bg-green-600"
+          className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
         >
           Submit
         </button>
