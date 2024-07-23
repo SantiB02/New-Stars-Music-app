@@ -20,7 +20,7 @@ const ProductCard = ({
   handleDeleteOrRestoreProduct,
   setOpen,
   setSelectedProduct,
-  isDeletingOrRestoring,
+  deletingOrRestoringProductId,
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [isProductInCart, setIsProductInCart] = useState(false);
@@ -173,12 +173,12 @@ const ProductCard = ({
               }
             >
               {product.state
-                ? !isDeletingOrRestoring
-                  ? "Delete"
-                  : "Deleting..."
-                : !isDeletingOrRestoring
-                ? "Restore"
-                : "Restoring..."}
+                ? deletingOrRestoringProductId === product.id
+                  ? "Deleting..."
+                  : "Delete"
+                : deletingOrRestoringProductId === product.id
+                ? "Restoring..."
+                : "Restore"}
             </Button>
           </CardFooter>
         )

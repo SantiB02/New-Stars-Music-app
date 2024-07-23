@@ -24,6 +24,8 @@ import LoadingMessage from "../common/LoadingMessage";
 
 const SellerCenter = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(false);
+  const [deletingOrRestoringProductId, setDeletingOrRestoringProductId] =
+    useState(null);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
   const { getAccessTokenSilently, isLoading } = useAuth0();
@@ -144,6 +146,7 @@ const SellerCenter = () => {
   };
 
   const handleDeleteOrRestoreProduct = async (productId, restore) => {
+    setDeletingOrRestoringProductId(productId);
     try {
       const response = restore
         ? await api.put(`/products/restore/${productId}`)
@@ -156,12 +159,15 @@ const SellerCenter = () => {
         );
         updatedProducts[index].state = restore;
         setProducts(updatedProducts);
+        setDeletingOrRestoringProductId(null);
         console.log("Producto deleted or restored successfully");
       } else {
         console.error("Error deleting product");
       }
     } catch (error) {
       console.error("Error sending delete request:", error);
+    } finally {
+      setIsDeletingOrRestoring(false);
     }
   };
 
@@ -208,7 +214,7 @@ const SellerCenter = () => {
                 product={product}
                 isSeller={true}
                 handleDeleteOrRestoreProduct={handleDeleteOrRestoreProduct}
-                className="my-2"
+                deletingOrRestoringProductId={deletingOrRestoringProductId}
               />
             </div>
           ))
