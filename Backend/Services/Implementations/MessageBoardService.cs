@@ -34,6 +34,7 @@ namespace Merchanmusic.Services.Implementations
             if (message != null)
             {
                 message.MessageBody = newMessage;
+                message.LastModifiedDate = DateTime.Now;
                 _context.Messages.Update(message);
                 _context.SaveChanges();
             }
