@@ -28,27 +28,39 @@ namespace Merchanmusic.Services.Implementations
             Payment paymentEntity;
             if (paymentMethod == "Credit Card" && installments.HasValue)
             {
-                payment.ProcessPayment(amount, installments.Value);
-                paymentEntity = new CreditCardPayment
+                bool isPaymentProcessed = payment.ProcessPayment(amount, installments.Value);
+                if (isPaymentProcessed == true)
                 {
-                    Amount = amount,
-                    Installments = installments.Value,
-                    AmountPerInstallment = (decimal)(amount / installments),
-                    Date = DateTime.Now,
-                    PayerId = payerId,
-                };
+                    paymentEntity = new CreditCardPayment
+                    {
+                        Amount = amount,
+                        Installments = installments.Value,
+                        AmountPerInstallment = (decimal)(amount / installments),
+                        Date = DateTime.Now,
+                        PayerId = payerId,
+                    };
+                } else
+                {
+                    throw new Exception("Error processing credit card");
+                }            
             }
             else if (paymentMethod == "Bank Transfer")
             {
-                payment.ProcessPayment(amount);
-                paymentEntity = new BankTransferPayment
+                bool isPaymentProcessed = payment.ProcessPayment(amount);
+                if (isPaymentProcessed == true)
                 {
-                    Amount = amount,
-                    PayerId = payerId,
-                    Bank = bank,
-                    Details = details,
-                    Date = DateTime.Now
-                };
+                    paymentEntity = new BankTransferPayment
+                    {
+                        Amount = amount,
+                        PayerId = payerId,
+                        Bank = bank,
+                        Details = details,
+                        Date = DateTime.Now
+                    };
+                } else
+                {
+                    throw new Exception("Error processing bank transfer");
+                }
             }
             else
             {
