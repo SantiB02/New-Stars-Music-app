@@ -133,11 +133,12 @@ const SaleOrdersReport = ({ theme }) => {
                 <th>City</th>
                 <th>Postal Code</th>
                 <th>Completed</th>
-
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody className={theme ? "text-white text-sm" : "text-black"}>
+            <tbody
+              className={theme ? "text-white text-sm" : "text-black text-sm"}
+            >
               {saleOrders.map((order) => (
                 <tr key={order.id}>
                   <td>{order.id}</td>
