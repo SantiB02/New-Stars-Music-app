@@ -8,7 +8,7 @@ const PageNotFound = () => {
   return (
     <>
       {theme ? (
-        <div className="grid h-screen place-content-center bg-primary px-4 dark:bg-primary">
+        <div className="grid pt-[20%] place-content-center bg-primary px-4 dark:bg-primary">
           <div className="text-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"

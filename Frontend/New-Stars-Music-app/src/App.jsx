@@ -30,10 +30,12 @@ import MyOrders from "./components/myOrders/MyOrders";
 import FloatingButton from "./components/floatingButton/FloatingButton";
 import SellerProtected from "./components/security/SellerProtected";
 import AdminProtected from "./components/security/AdminProtected";
+import { useRoles } from "./hooks/useRoles";
 
 function App() {
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
   const { theme } = useTheme();
+  const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
 
   useEffect(() => {
     if (!isLoading) {
@@ -65,17 +67,17 @@ function App() {
             <Route path="/store" element={<Store />} />
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/become-seller" element={<BecomeSeller />} />
-            <Route element={<SellerProtected />}>
+            {userRole === "Seller" && (
               <Route path="/seller-center" element={<SellerCenter />} />
-            </Route>
+            )}
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/shipping-details" element={<ShippingDetails />} />
-            <Route element={<AdminProtected />}>
+            {userRole === "Admin" && (
               <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
+            )}
           </Route>
         </Routes>
       </div>
