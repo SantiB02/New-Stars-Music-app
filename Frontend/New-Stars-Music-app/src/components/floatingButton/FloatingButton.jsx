@@ -13,7 +13,8 @@ const FloatingButton = () => {
       <button
         onClick={toggleModal}
         className="fixed bottom-10 right-6 bg-blue-500 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-blue-600"
-        style={{ bottom: "10%", right: "2%" }}
+        style={{ bottom: '12%', right: '2%' }}
+
       >
         Chat
       </button>
