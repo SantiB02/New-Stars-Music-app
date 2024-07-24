@@ -28,6 +28,8 @@ import Dashboard from "./components/dashboard/Dashboard";
 import ShippingDetails from "./components/shippingDetails/ShippingDetails";
 import MyOrders from "./components/myOrders/MyOrders";
 import FloatingButton from "./components/floatingButton/FloatingButton";
+import SellerProtected from "./components/security/SellerProtected";
+import AdminProtected from "./components/security/AdminProtected";
 
 function App() {
   const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
@@ -63,13 +65,17 @@ function App() {
             <Route path="/store" element={<Store />} />
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/become-seller" element={<BecomeSeller />} />
-            <Route path="/seller-center" element={<SellerCenter />} />
+            <Route element={<SellerProtected />}>
+              <Route path="/seller-center" element={<SellerCenter />} />
+            </Route>
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/shipping-details" element={<ShippingDetails />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<AdminProtected />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
           </Route>
         </Routes>
       </div>
