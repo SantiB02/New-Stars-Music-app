@@ -3,7 +3,7 @@ import NoArtistsMessage from "./NoArtistsMessage";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import toast from "react-hot-toast";
 import { findArtistsByName } from "../../api/discogs-api";
-import { Typography } from "@material-tailwind/react";
+import { Button, Typography } from "@material-tailwind/react";
 import { useNavigate, Link } from "react-router-dom";
 
 const SearchArtists = ({ isHomePage = false }) => {
@@ -62,7 +62,7 @@ const SearchArtists = ({ isHomePage = false }) => {
         </div>
       </div>
       <div>
-        {artists.length > 0 ? (
+        {artists?.length > 0 ? (
           <div className="flex flex-wrap mt-4">
             {artists.map((artist) => (
               <div
@@ -82,7 +82,7 @@ const SearchArtists = ({ isHomePage = false }) => {
                     className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
                   />
                   <div className="relative p-4 sm:p-6 lg:p-8">
-                    <p className="text-xl inline-block px-4 py-1 font-bold bg-black bg-opacity-60 rounded-md text-orange-700 sm:text-2xl">
+                    <p className="text-2xl md:text-xl inline-block px-4 py-1 font-bold bg-black bg-opacity-60 rounded-md text-orange-700">
                       {" "}
                       {artist.title}
                     </p>
@@ -107,6 +107,19 @@ const SearchArtists = ({ isHomePage = false }) => {
                 </div>
               </div>
             ))}
+          </div>
+        ) : artists === null ? (
+          <div className="flex flex-col items-center mt-6">
+            <Typography className="text-lg text-red-600">
+              Discogs server is down. Please try again later!
+            </Typography>
+            <Button
+              onClick={() => navigate("/store")}
+              className="mt-4"
+              color={theme ? "blue" : "black"}
+            >
+              Manual Search
+            </Button>
           </div>
         ) : (
           <NoArtistsMessage theme={theme} />

@@ -24,5 +24,6 @@ export const findArtistsByName = async (artist) => {
   } catch (error) {
     console.error("Error findind artists by name", error);
     toast.error("Error getting artists!");
+    return null;
   }
 };
