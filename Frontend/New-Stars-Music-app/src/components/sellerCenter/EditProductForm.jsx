@@ -10,7 +10,9 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
   const [stock, setStock] = useState(product.stock);
   const [artistOrBand, setArtistOrBand] = useState(product.artistOrBand);
   const [description, setDescription] = useState(product.description);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(
+    product.categoryId
+  );
   const [imageLink, setImageLink] = useState(product.imageLink);
   const [stockOrPriceError, setStockOrPriceError] = useState(false);
   const [categoryError, setCategoryError] = useState(false);
@@ -48,7 +50,7 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
         categoryId: selectedCategoryId,
       };
       await api.put("/products", request);
-      updateProduct(request);
+      updateProduct({ ...request, state: true });
       toast.success("Product updated successfully!");
     } catch (error) {
       toast.error("Error updating product!");

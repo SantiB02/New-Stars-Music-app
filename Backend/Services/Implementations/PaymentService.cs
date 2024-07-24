@@ -9,9 +9,9 @@ namespace Merchanmusic.Services.Implementations
         {
             PaymentFactory factory = paymentMethod switch
             {
-                "CreditCard" => new CreditCardPaymentFactory(),
+                "Credit Card" => new CreditCardPaymentFactory(),
         
-                "BankTransfer" => new BankTransferPaymentFactory(),
+                "Bank Transfer" => new BankTransferPaymentFactory(),
                 _ => throw new ArgumentException("Invalid payment method")
             };
 

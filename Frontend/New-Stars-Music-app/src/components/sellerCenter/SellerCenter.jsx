@@ -176,6 +176,7 @@ const SellerCenter = () => {
     const index = updatedProducts.findIndex(
       (existingProduct) => existingProduct.id === product.id
     );
+    console.log("UPDATED PRODUCT'S STATE:", product.state);
     updatedProducts[index] = product;
     setProducts(updatedProducts);
   };

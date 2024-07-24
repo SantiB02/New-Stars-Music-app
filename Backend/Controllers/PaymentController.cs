@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Merchanmusic.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/payments")]
     [ApiController]
-    public class PaymentsController : ControllerBase
+    public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
 
-        public PaymentsController(IPaymentService paymentService)
+        public PaymentController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
         }
