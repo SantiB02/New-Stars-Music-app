@@ -28,48 +28,6 @@ const SaleOrdersReport = ({ theme }) => {
     fetchSaleOrders();
   }, []);
 
-  const completeSaleOrder = async (orderId) => {
-    try {
-      const result = await Swal.fire({
-        title: "Complete order?",
-        text: "Confirm to complete the order.",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Complete order",
-      });
-
-      if (result.isConfirmed) {
-        const response = await api.put(`/sale-orders/${orderId}`);
-
-        if (response.status === 200) {
-          Swal.fire({
-            title: "Order completed successfully",
-            text: "The order has been successfully completed.",
-            icon: "success",
-          });
-
-          const updatedSaleOrders = await api.get("/sale-orders");
-          setSaleOrders(updatedSaleOrders.data);
-        } else {
-          Swal.fire({
-            title: "Error",
-            text: "Error completing the order.",
-            icon: "error",
-          });
-        }
-      }
-    } catch (error) {
-      console.log("Error", error);
-      Swal.fire({
-        title: "Error",
-        text: "Error completing the order.",
-        icon: "error",
-      });
-    }
-  };
-
   const deleteSaleOrder = async (orderId) => {
     try {
       const result = await Swal.fire({
@@ -153,19 +111,6 @@ const SaleOrdersReport = ({ theme }) => {
                   <td>{order.client.postalCode}</td>
                   <td>{order.completed ? "Yes" : "No"}</td>
                   <td>
-                    <div>
-                      {!order.completed && (
-                        <Button
-                          onClick={() => completeSaleOrder(order.id)}
-                          color="green"
-                          size="sm"
-                          className="my-2"
-                        >
-                          Complete
-                        </Button>
-                      )}
-                    </div>
-
                     <Button
                       onClick={() => deleteSaleOrder(order.id)}
                       color="red"
