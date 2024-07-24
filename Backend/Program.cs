@@ -22,6 +22,7 @@ var serverVersion = new MySqlServerVersion(new Version(6, 0, 1));
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IMessageBoardService, MessageBoardService>();
 
 // Add services to the container.
 

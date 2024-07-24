@@ -21,4 +21,9 @@ namespace Merchanmusic.Data.Entities
         public DateTime LastModifiedDate { get; set; } = DateTime.Now;
 
     }
+    public class MessageEditor
+    {
+        public string? NewMessage { get; set; }
+        public int MessageId { get; set; }
+    }
 }

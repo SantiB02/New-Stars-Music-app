@@ -69,6 +69,15 @@ namespace Merchanmusic.Data
                     Id = "default-identifier-0012827345",
                 });
 
+            modelBuilder.Entity<Message>().HasData(
+                new Message
+                {
+                    MessageBody = "Bienvenido a nuestro sitio",
+                    LastModifiedDate = DateTime.Now,
+                    CreationDate = DateTime.Now,
+                    Id = 1
+                });
+
             modelBuilder.Entity<Seller>().HasData(
             new Seller
             {

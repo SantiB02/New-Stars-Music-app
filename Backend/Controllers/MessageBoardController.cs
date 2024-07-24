@@ -57,7 +57,8 @@ namespace Merchanmusic.Controllers
                     Message message = new Message
                     {
                         MessageBody = messageDto.MessageBody,
-                        // Asigna otros campos necesarios aquí
+                        CreationDate = DateTime.Now,
+                        LastModifiedDate = DateTime.Now,
                     };
 
                     _messageBoardService.CreateMessage(message);
@@ -71,8 +72,8 @@ namespace Merchanmusic.Controllers
             return Forbid();
         }
 
-        [HttpPut("edit/{id}")]
-        public IActionResult EditMessage(int id, [FromBody] string newMessage)
+        [HttpPut("edit")]
+        public IActionResult EditMessage([FromBody] MessageEditor messageEditor)
         {
             string subClaim = _tokenService.GetUserId();
             string role = _userService.GetRoleById(subClaim);
@@ -81,13 +82,13 @@ namespace Merchanmusic.Controllers
             {
                 try
                 {
-                    var message = _messageBoardService.UpdateMessage(newMessage, id);
+                    var message = _messageBoardService.UpdateMessage(messageEditor.NewMessage, messageEditor.MessageId);
                     if (message == null)
                     {
-                        return NotFound($"No message found with ID: {id}");
+                        return NotFound($"No message found with ID: {messageEditor.MessageId}");
                     }
 
-                    return Ok($"Message with ID: {id} was successfully updated");
+                    return Ok($"Message with ID: {messageEditor.MessageId} was successfully updated");
                 }
                 catch (Exception ex)
                 {
