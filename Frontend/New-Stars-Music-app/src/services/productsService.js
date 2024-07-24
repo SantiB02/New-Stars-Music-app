@@ -40,3 +40,14 @@ export const getProduct = async (productId) => {
     throw error;
   }
 };
+
+export const getWelcomeMessages = async () => {
+  try {
+    const response = await api.get(`/messages`);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting product", error);
+    throw error;
+  }
+};
+

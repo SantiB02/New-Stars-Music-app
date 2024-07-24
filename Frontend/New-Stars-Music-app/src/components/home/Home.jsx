@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FeaturedProducts from "./FeaturedProducts";
 import Music from "./Music";
-import { getFeaturedProducts } from "../../services/productsService";
+import { getFeaturedProducts, getWelcomeMessages } from "../../services/productsService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import SearchArtists from "../playerMusic/SearchArtists";
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
+  const [messages, setMessages] = useState([]);
   const { user, getAccessTokenSilently, isLoading, logout } = useAuth0();
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -32,6 +33,16 @@ const Home = () => {
         console.error("Error fetching all products:", error);
       }
     };
+
+    const fetchMessages = async () => {
+      try {
+        const messages = await getWelcomeMessages();
+        setMessages(messages);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    };
+
     const ensureAuthUser = async () => {
       const response = await api.get(`/users/is-deleted/${user?.sub}`, {
         validateStatus: (status) => {
@@ -56,6 +67,7 @@ const Home = () => {
       setIsLoadingPage(true);
       await ensureAuthUser();
       await fetchFeaturedProducts();
+      await fetchMessages();
       setIsLoadingPage(false);
     };
 
@@ -86,12 +98,22 @@ const Home = () => {
             </a>
             !
           </Typography>
+          {messages.length > 0 && (
+            <div className="mt-8">
+              
+              {messages.map((message) => (
+                  <Typography variant="h4" className="ml-6 font-light" key={message.id}>{message.messageBody}</Typography>
+                ))}
+              
+            </div>
+          )}
           <div className="mt-8">
             <FeaturedProducts
               products={featuredProducts}
               isLoading={isLoadingPage}
             />
           </div>
+         
         </div>
         <div className="md:w-1/2 p-4">
           <div className="h-full">
