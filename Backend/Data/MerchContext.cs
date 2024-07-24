@@ -1,5 +1,6 @@
 ﻿using Merchanmusic.Data.Entities;
 using Merchanmusic.Data.Entities.Products;
+using Merchanmusic.Data.Payments;
 using Merchanmusic.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
@@ -15,6 +16,7 @@ namespace Merchanmusic.Data
         public DbSet<SaleOrder> SaleOrders { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         //Acá estamos llamando al constructor de DbContext que es el que acepta las opciones
         public MerchContext(DbContextOptions<MerchContext> options) : base(options)
@@ -27,6 +29,10 @@ namespace Merchanmusic.Data
                 .HasValue<Client>("Client")
                 .HasValue<Seller>("Seller")
                 .HasValue<Admin>("Admin");
+
+            modelBuilder.Entity<Payment>().HasDiscriminator(p => p.PaymentMethod)
+                .HasValue<CreditCardPayment>("Credit Card")
+                .HasValue<BankTransferPayment>("Bank Transfer");
 
             modelBuilder.Entity<Client>().HasData(
                 new Client
@@ -98,6 +104,18 @@ namespace Merchanmusic.Data
             modelBuilder.Entity<SaleOrder>()
                 .Property(so => so.Total)
                 .HasColumnType("DECIMAL(9, 2)");
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Amount)
+                .HasColumnType("DECIMAL(9, 2)");
+
+            modelBuilder.Entity<CreditCardPayment>()
+                .Property(ccp => ccp.AmountPerInstallment)
+                .HasColumnType("DECIMAL(9, 2)");
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Date)
+                .HasColumnType("DATETIME(0)");
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.CreationDate)
@@ -299,6 +317,17 @@ namespace Merchanmusic.Data
                 .WithOne(p => p.Seller)
                 .HasForeignKey(f => f.SellerId);
 
+            // Relación entre pago y pagador
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Payer)
+                .WithMany()
+                .HasForeignKey(p => p.PayerId);
+
+            // Relación entre pago y cobrador
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Receiver)
+                .WithMany()
+                .HasForeignKey(p => p.ReceiverId);
         }
     }
 

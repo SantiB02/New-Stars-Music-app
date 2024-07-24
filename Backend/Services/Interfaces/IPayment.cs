@@ -2,7 +2,7 @@
 {
     public interface IPayment
     {
-        void ProcessPayment(decimal amount);
-       
+        bool ProcessPayment(decimal amount);
+        bool ProcessPayment(decimal amount, int installments);
     }
 }

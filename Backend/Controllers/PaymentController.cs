@@ -19,8 +19,19 @@ namespace Merchanmusic.Controllers
         [HttpPost]
         public IActionResult ProcessPayment([FromBody] PaymentRequest request)
         {
-            _paymentService.ProcessPayment(request.PaymentMethod, request.Amount);
-            return Ok();
+            if (request.PaymentMethod == "Credit Card")
+            {
+                _paymentService.ProcessPayment(request.PaymentMethod, request.Amount, request.PayerId, request.ReceiverId, request.Installments);
+                return Ok();
+            } else if (request.PaymentMethod == "Bank Transfer")
+            {
+                _paymentService.ProcessPayment(request.PaymentMethod, request.Amount, request.PayerId, request.ReceiverId, null, request.Bank);
+                return Ok();
+            } else
+            {
+                return BadRequest("Invalid payment method. Only Credit Card and Bank Transfer are supported");
+            }
+            
         }
     }
 }

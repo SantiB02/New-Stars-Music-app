@@ -1,6 +1,6 @@
 ﻿using Merchanmusic.Services.Interfaces;
 
-namespace Merchanmusic.Data.Payment
+namespace Merchanmusic.Data.Payments
 {
     public class BankTransferPaymentFactory : PaymentFactory
     {
