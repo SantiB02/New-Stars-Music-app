@@ -12,6 +12,7 @@ import { useTheme } from "../../services/contexts/ThemeProvider";
 import UsersReport from "./UsersReport";
 import ProductsReport from "./ProductsReport";
 import SaleOrdersReport from "./SaleOrdersReport";
+import MessageReport from "./MessageReport";
 
 const Dashboard = () => {
   const { theme } = useTheme();
@@ -41,6 +42,11 @@ const Dashboard = () => {
           >
             Sale Orders
           </Tab>
+          <Tab
+            value="messages"
+            className="mx-2 md:mx-10 rounded-full bg-orange-500"
+          >
+Messages          </Tab>
         </TabsHeader>
         <TabsBody>
           <TabPanel value="users">
@@ -51,6 +57,9 @@ const Dashboard = () => {
           </TabPanel>
           <TabPanel value="sale orders">
             <SaleOrdersReport theme={theme} />
+          </TabPanel>
+          <TabPanel value="messages">
+            <MessageReport theme={theme} />
           </TabPanel>
         </TabsBody>
       </Tabs>
