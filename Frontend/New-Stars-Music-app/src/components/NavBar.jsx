@@ -97,8 +97,8 @@ export default function NavBar() {
           >
             <span className="sr-only">Your Company</span>
             <img
-className="h-16 pl-12 w-auto cursor-pointer sm:pl-2"
-src="/new-stars-music-high-resolution-logo-transparent.png"
+              className="h-16 pl-12 w-auto cursor-pointer sm:pl-2"
+              src="/new-stars-music-high-resolution-logo-transparent.png"
               alt=""
             />
           </a>
@@ -133,7 +133,7 @@ src="/new-stars-music-high-resolution-logo-transparent.png"
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-third shadow-lg ring-1 ring-gray-900/5">
+                <Popover.Panel className="absolute z-50 -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-third shadow-lg ring-1 ring-gray-900/5">
                   <div className="p-4">
                     {categories.map((category) => (
                       <Link
