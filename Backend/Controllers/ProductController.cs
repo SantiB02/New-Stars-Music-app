@@ -38,7 +38,26 @@ namespace Merchanmusic.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-            }            
+            }
+        }
+
+        [HttpGet("country/{country}/category/{categoryId}")]
+        public IActionResult GetProductsByCountryAndCategory([FromRoute] string country, [FromRoute] int categoryId)
+        {
+            if (country == null || country == "" || categoryId == 0)
+            {
+                return BadRequest("You must select a country and a category");
+            } else
+            {
+                List<Product> products = _productService.GetProductsByCountryAndCategory(country, categoryId);
+                if (products.Count > 0)
+                {
+                    return Ok(products);
+                } else
+                {
+                    return NotFound("No products match this country and category");
+                }
+            }
         }
 
         [HttpGet("featured")]

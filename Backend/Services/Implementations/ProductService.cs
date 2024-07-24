@@ -30,6 +30,11 @@ namespace Merchanmusic.Services.Implementations
             return _context.Products.Where(p => p.Sales >= minimumSales).Take(4).ToList();
         }
 
+        public List<Product> GetProductsByCountryAndCategory(string country, int categoryId)
+        {
+            return _context.Products.Where(p => p.Seller.Country == country && p.CategoryId ==  categoryId).ToList();
+        }
+
         public Product? GetProductById(int id)
         {
             return _context.Products.FirstOrDefault(p => p.Id == id);

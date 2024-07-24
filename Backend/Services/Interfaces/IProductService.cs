@@ -8,6 +8,7 @@ namespace Merchanmusic.Services.Interfaces
     {
         List<Product> GetProducts();
         public List<Product> GetFeaturedProducts(int minimumSales);
+        public List<Product> GetProductsByCountryAndCategory(string country, int categoryId);
         Product? GetProductById(int id);
         Product? GetProductByName(string name);
         Product CreateProduct(Product product);
