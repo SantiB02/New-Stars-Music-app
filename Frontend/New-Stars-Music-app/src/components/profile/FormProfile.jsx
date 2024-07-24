@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import api from "../../api/api";
 import { useForm } from "../../hooks/useForm";
 
-
 const FormProfile = ({ setOpenChange, users }) => {
   const [address, setAddress] = useState(users.address);
   const [apartment, setApartment] = useState(users.apartment);
@@ -13,7 +12,7 @@ const FormProfile = ({ setOpenChange, users }) => {
   const [city, setCity] = useState(users.city);
   const [postalCode, setPostalCode] = useState(users.postalCode);
   const [phone, setPhone] = useState(users.phone);
-  
+
   const { theme } = useTheme();
 
   const { validateForm } = useForm();
@@ -22,13 +21,12 @@ const FormProfile = ({ setOpenChange, users }) => {
     setState(e.target.value);
   };
   const changeDataHandler = async () => {
-    
     try {
       const form = { address, apartment, country, city, postalCode, phone };
-    if (!validateForm(form)) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
+      if (!validateForm(form)) {
+        toast.error("Please fill in all fields.");
+        return;
+      }
       const request = {
         address,
         apartment,
@@ -38,10 +36,9 @@ const FormProfile = ({ setOpenChange, users }) => {
         phone,
       };
       await api.put("/users/client", request);
-      toast.success("User update!");
-      
+      toast.success("User updated successfully!");
+
       setOpenChange(false);
-     
     } catch (error) {
       toast.error("Error update!");
       console.error("Error buying user", error);
@@ -104,13 +101,13 @@ const FormProfile = ({ setOpenChange, users }) => {
         </div>
         <div className="flex justify-center gap-4 mt-4">
           <div>
-            <Button color="blue" onClick={changeDataHandler}>
-              Change
+            <Button color="red" onClick={() => setOpenChange(false)}>
+              Cancel
             </Button>
           </div>
           <div>
-            <Button color="red" onClick={() => setOpenChange(false)}>
-              Cancel
+            <Button color="blue" onClick={changeDataHandler}>
+              Update data
             </Button>
           </div>
         </div>

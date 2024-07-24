@@ -92,13 +92,13 @@ const Payment = () => {
     try {
       let form = {};
       if (!personalInfoAlreadySubmitted) {
-        form = { address, apartment, country, city, postalCode, phone };
+        form = { address, country, city, postalCode, phone };
       }
 
       if (isCardMethod) {
         form = { ...form, cardNumber, expirationDate, cvv };
       } else {
-        form = { ...form, bank, details };
+        form = { ...form, bank };
       }
 
       if (!validateForm(form) || installments == 0) {
@@ -403,7 +403,7 @@ const Payment = () => {
                   <Input
                     type="text"
                     color={theme ? "white" : undefined}
-                    label="Details"
+                    label="Details (optional)"
                     size="md"
                     value={details}
                     onChange={() => stateChangeHandler(event, setDetails)}

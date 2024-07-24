@@ -67,7 +67,7 @@ const BecomeSeller = () => {
   const handleOpen = () => setOpen(!open);
 
   const becomeSellerHandler = async () => {
-    const form = { address, apartment, country, city, postalCode, phone };
+    const form = { address, country, city, postalCode, phone };
     if (!validateForm(form)) {
       toast.error("Please fill in all fields.");
       return;
@@ -77,7 +77,7 @@ const BecomeSeller = () => {
     try {
       const request = {
         address,
-        apartment,
+        apartment: apartment === "" ? null : apartment,
         country,
         city,
         postalCode,

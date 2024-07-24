@@ -16,7 +16,7 @@ import DataAccordion from "./DataAccordion";
 import { getUserbyId } from "../../services/userService";
 export const Profile = () => {
   const { user, logout, getAccessTokenSilently } = useAuth0();
-  const [users, setUsers] = useState([]);
+  const [userById, setUserById] = useState([]);
   const { theme } = useTheme();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,11 +30,11 @@ export const Profile = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const usersById = await getUserbyId(user.sub);
-        console.log("USER", usersById);
-        setUsers(usersById);
+        const userFromDb = await getUserbyId(user.sub);
+        setUserById(userFromDb);
       } catch (error) {
-        console.error("Error fetching all Users:", error);
+        toast.error("Error loading your user. Please try again later!");
+        console.error("Error fetching user", error);
       }
     };
 
@@ -54,6 +54,7 @@ export const Profile = () => {
     setIsLoading(true);
     try {
       await api.delete("/users");
+      localStorage.clear();
       logout();
     } catch (error) {
       console.error("Error deleting profile");
@@ -105,7 +106,7 @@ export const Profile = () => {
           </div>
 
           <div className="col-span-2 mt-6 ">
-            <DataAccordion users={users} />
+            <DataAccordion users={userById} />
           </div>
           <div className="col-span-2 mt-2" onClick={handleOpen}>
             <Button color="red">Delete my profile</Button>
