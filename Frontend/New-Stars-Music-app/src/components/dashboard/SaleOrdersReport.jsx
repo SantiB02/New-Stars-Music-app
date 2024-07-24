@@ -116,8 +116,9 @@ const SaleOrdersReport = ({ theme }) => {
                       color="red"
                       size="sm"
                       className="my-2"
+                      disabled={!order.state}
                     >
-                      Delete
+                      {order.state ? "Delete" : "Deleted"}
                     </Button>
                   </td>
                 </tr>
