@@ -2,6 +2,6 @@
 {
     public interface IPaymentService
     {
-        void ProcessPayment(string paymentMethod, decimal amount, string payerId, string receiverId, int? installments = null, string? bank = null);
+        void ProcessPayment(string paymentMethod, decimal amount, string payerId, int? installments = null, string? bank = null, string? details = null);
     }
 }

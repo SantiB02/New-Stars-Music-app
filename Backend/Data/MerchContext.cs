@@ -14,7 +14,6 @@ namespace Merchanmusic.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<SaleOrderLine> SaleOrderLines { get; set; }
         public DbSet<SaleOrder> SaleOrders { get; set; }
-        public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
@@ -278,15 +277,6 @@ namespace Merchanmusic.Data
                     SellerId = "default-identifier-7771829382"
                 });
 
-            modelBuilder.Entity<CreditCard>()
-                .HasData(
-                new CreditCard
-                {
-                    Id = 1,
-                    Number = "1234567891234567",
-                    UserId = "default-identifier-3845746332"
-                });
-
             // Relación entre Producto y Categoría
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
@@ -322,12 +312,6 @@ namespace Merchanmusic.Data
                 .HasOne(p => p.Payer)
                 .WithMany()
                 .HasForeignKey(p => p.PayerId);
-
-            // Relación entre pago y cobrador
-            modelBuilder.Entity<Payment>()
-                .HasOne(p => p.Receiver)
-                .WithMany()
-                .HasForeignKey(p => p.ReceiverId);
         }
     }
 

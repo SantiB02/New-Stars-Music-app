@@ -21,11 +21,11 @@ namespace Merchanmusic.Controllers
         {
             if (request.PaymentMethod == "Credit Card")
             {
-                _paymentService.ProcessPayment(request.PaymentMethod, request.Amount, request.PayerId, request.ReceiverId, request.Installments);
+                _paymentService.ProcessPayment(request.PaymentMethod, request.Amount, request.PayerId, request.Installments);
                 return Ok();
             } else if (request.PaymentMethod == "Bank Transfer")
             {
-                _paymentService.ProcessPayment(request.PaymentMethod, request.Amount, request.PayerId, request.ReceiverId, null, request.Bank);
+                _paymentService.ProcessPayment(request.PaymentMethod, request.Amount, request.PayerId, null, request.Bank, request.Details);
                 return Ok();
             } else
             {

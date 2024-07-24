@@ -44,8 +44,8 @@ export function CartProvider({ children }) {
       }
       case "CLEAR_CART": {
         const initialState = [];
-        updateLocalStorage([""]);
-        setCartTotal(0);
+        localStorage.removeItem("cart");
+        localStorage.removeItem("cartTotal");
         return initialState;
       }
       default:

@@ -17,9 +17,6 @@ namespace Merchanmusic.Data.Payments
         [ForeignKey("PayerId")]
         public Client Payer { get; set; }
         public string PayerId { get; set; }
-        [ForeignKey("ReceiverId")]
-        public Seller Receiver { get; set; }
-        public string ReceiverId { get; set; }
 
         public virtual bool ProcessPayment(decimal amount)
         {

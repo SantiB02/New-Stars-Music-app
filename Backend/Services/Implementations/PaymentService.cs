@@ -13,7 +13,7 @@ namespace Merchanmusic.Services.Implementations
             _context = context;
         }
 
-        public void ProcessPayment(string paymentMethod, decimal amount, string payerId, string receiverId, int? installments = null, string? bank = null)
+        public void ProcessPayment(string paymentMethod, decimal amount, string payerId, int? installments = null, string? bank = null, string? details = null)
         {
             PaymentFactory factory = paymentMethod switch
             {
@@ -36,7 +36,6 @@ namespace Merchanmusic.Services.Implementations
                     AmountPerInstallment = (decimal)(amount / installments),
                     Date = DateTime.Now,
                     PayerId = payerId,
-                    ReceiverId = receiverId,
                 };
             }
             else if (paymentMethod == "Bank Transfer")
@@ -46,7 +45,8 @@ namespace Merchanmusic.Services.Implementations
                 {
                     Amount = amount,
                     PayerId = payerId,
-                    ReceiverId = receiverId,
+                    Bank = bank,
+                    Details = details,
                     Date = DateTime.Now
                 };
             }

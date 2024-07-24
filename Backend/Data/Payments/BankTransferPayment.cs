@@ -5,6 +5,7 @@ namespace Merchanmusic.Data.Payments
     public class BankTransferPayment : Payment
     {
         public string Bank {  get; set; }
+        public string? Details { get; set; }
         public override bool ProcessPayment(decimal amount)
         {
             Console.WriteLine($"Processing bank transfer payment of {amount}.");
