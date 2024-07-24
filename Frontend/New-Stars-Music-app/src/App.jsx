@@ -28,8 +28,6 @@ import Dashboard from "./components/dashboard/Dashboard";
 import ShippingDetails from "./components/shippingDetails/ShippingDetails";
 import MyOrders from "./components/myOrders/MyOrders";
 import FloatingButton from "./components/floatingButton/FloatingButton";
-import SellerProtected from "./components/security/SellerProtected";
-import AdminProtected from "./components/security/AdminProtected";
 import { useRoles } from "./hooks/useRoles";
 
 function App() {

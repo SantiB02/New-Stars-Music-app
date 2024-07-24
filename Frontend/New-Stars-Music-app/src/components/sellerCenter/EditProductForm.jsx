@@ -71,6 +71,7 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
       >
         <div className="mb-1 flex flex-col gap-6">
           <Input
+            className={theme ? "text-white" : ""}
             label="Name:"
             size="md"
             value={name}
@@ -78,6 +79,7 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
             required
           />
           <Input
+            className={theme ? "text-white" : ""}
             label="Description:"
             size="md"
             value={description}
@@ -85,6 +87,7 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
             required
           />
           <Input
+            className={theme ? "text-white" : ""}
             label="Artist/band"
             size="md"
             value={artistOrBand}
@@ -109,6 +112,7 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
             ))}
           </select>
           <Input
+            className={theme ? "text-white" : ""}
             label="Image Link:"
             size="md"
             value={imageLink}
@@ -121,6 +125,7 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
             </Typography>
           )}
           <Input
+            className={theme ? "text-white" : ""}
             label="Price:"
             size="md"
             value={price}
@@ -128,6 +133,7 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
             required
           />
           <Input
+            className={theme ? "text-white" : ""}
             label="Stock:"
             size="md"
             value={stock}
@@ -137,13 +143,13 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
         </div>
         <div className="flex justify-center gap-4 mt-4">
           <div>
-            <Button color="blue" onClick={updateProductHandler}>
-              Edit
+            <Button color="red" onClick={() => setOpen(false)}>
+              Cancel
             </Button>
           </div>
           <div>
-            <Button color="red" onClick={() => setOpen(false)}>
-              Cancel
+            <Button color="blue" onClick={updateProductHandler}>
+              Edit
             </Button>
           </div>
         </div>

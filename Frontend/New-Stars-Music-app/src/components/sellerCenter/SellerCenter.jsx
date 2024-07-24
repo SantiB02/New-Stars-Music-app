@@ -190,8 +190,14 @@ const SellerCenter = () => {
       <Typography variant="h4" className="pt-4 mb-4 mx-8 font-light">
         Your Products
       </Typography>
-      <Dialog open={open} handler={() => setOpen(false)}>
-        <DialogHeader>Edit Product</DialogHeader>
+      <Dialog
+        className={theme ? "bg-primary" : "bg-white"}
+        open={open}
+        handler={() => setOpen(false)}
+      >
+        <DialogHeader className={theme ? "text-white" : ""}>
+          Edit Product
+        </DialogHeader>
         <DialogBody>
           <EditProductForm
             product={selectedProduct}
@@ -252,6 +258,7 @@ const SellerCenter = () => {
             }
           >
             <Input
+              className={theme ? "text-white" : ""}
               type="text"
               label="Code"
               value={productData.code}
@@ -261,6 +268,7 @@ const SellerCenter = () => {
               required
             />
             <Input
+              className={theme ? "text-white" : ""}
               type="text"
               label="Name"
               value={productData.name}
@@ -270,6 +278,7 @@ const SellerCenter = () => {
               required
             />
             <Input
+              className={theme ? "text-white" : ""}
               type="number"
               label="Price"
               value={productData.price}
@@ -279,6 +288,7 @@ const SellerCenter = () => {
               required
             />
             <Input
+              className={theme ? "text-white" : ""}
               type="text"
               label="Artist or band"
               value={productData.artistOrBand}
@@ -288,6 +298,7 @@ const SellerCenter = () => {
               required
             />
             <Input
+              className={theme ? "text-white" : ""}
               type="text"
               label="Description"
               value={productData.description}
@@ -300,6 +311,7 @@ const SellerCenter = () => {
               required
             />
             <Input
+              className={theme ? "text-white" : ""}
               type="number"
               label="Stock"
               value={productData.stock}
@@ -330,6 +342,7 @@ const SellerCenter = () => {
               </select>
             )}
             <Input
+              className={theme ? "text-white" : ""}
               type="text"
               label="Image link"
               value={productData.imageLink}
