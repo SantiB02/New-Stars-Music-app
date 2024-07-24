@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Home.css";
 import FeaturedProducts from "./FeaturedProducts";
-import Music from "./Music";
 import {
   getFeaturedProducts,
   getWelcomeMessages,
@@ -131,7 +129,7 @@ const Home = () => {
           >
             <ChevronLeftIcon className="h-6 w-6" />
           </IconButton>
-          <div className="overflow-auto">
+          <div id="messages" className="overflow-auto">
             <Typography className="mx-6 max-w-xl whitespace-nowrap font-light text-md">
               {messages[currentMessageIndex].messageBody}
             </Typography>

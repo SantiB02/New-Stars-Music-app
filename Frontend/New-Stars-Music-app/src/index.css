@@ -25,6 +25,10 @@ body {
   width: 10px;
 }
 
+#messages::-webkit-scrollbar {
+  height: 10px;
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
   background: rgb(59, 59, 59);
