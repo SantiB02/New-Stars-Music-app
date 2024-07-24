@@ -50,6 +50,8 @@ const ProductsReport = ({ theme }) => {
     if (countryFilter === "" || categoryIdFilter == 0) {
       setIsDataMissing(true);
       return;
+    } else {
+      setIsDataMissing(false);
     }
     setIsLoadingFilter(true);
     setNoFilterYet(false);
@@ -191,6 +193,8 @@ const ProductsReport = ({ theme }) => {
               ))}
             </tbody>
           </table>
+        ) : isLoadingFilter ? (
+          <LoadingMessage message="Filtering products..." />
         ) : (
           <Typography
             className={
