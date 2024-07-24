@@ -32,7 +32,6 @@ const MessageReport = ({ theme }) => {
     const { value: messageBody } = await Swal.fire({
       title: "Create new message",
       input: "textarea",
-      inputLabel: "Message",
       inputPlaceholder: "Enter your message here...",
       showCancelButton: true,
     });
@@ -55,11 +54,11 @@ const MessageReport = ({ theme }) => {
     }
   };
 
-  const editMessage = async (messageId) => {
+  const editMessage = async (messageId, currentMessage) => {
     const { value: newMessageBody } = await Swal.fire({
       title: "Edit message",
       input: "textarea",
-      inputLabel: "New Message",
+      inputValue: currentMessage,
       inputPlaceholder: "Enter the new message here...",
       showCancelButton: true,
     });
@@ -158,10 +157,12 @@ const MessageReport = ({ theme }) => {
                   <td>{message.lastModifiedDate}</td>
                   <td>
                     <Button
-                      onClick={() => editMessage(message.id)}
+                      onClick={() =>
+                        editMessage(message.id, message.messageBody)
+                      }
                       color="green"
                       size="sm"
-                      className="my-2"
+                      className="my-2 mx-2"
                     >
                       Edit
                     </Button>
@@ -169,7 +170,7 @@ const MessageReport = ({ theme }) => {
                       onClick={() => deleteMessage(message.id)}
                       color="red"
                       size="sm"
-                      className="my-2"
+                      className="my-2 mx-2"
                     >
                       Delete
                     </Button>
