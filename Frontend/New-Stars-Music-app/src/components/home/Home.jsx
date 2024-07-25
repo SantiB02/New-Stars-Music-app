@@ -130,7 +130,7 @@ const Home = () => {
             <ChevronLeftIcon className="h-6 w-6" />
           </IconButton>
           <div id="messages" className="overflow-auto">
-            <Typography className="mx-6 max-w-xl whitespace-nowrap font-light text-md">
+            <Typography className="mx-6 font-bold text-orange-700 max-w-xl whitespace-nowrap text-md">
               {messages[currentMessageIndex].messageBody}
             </Typography>
           </div>
