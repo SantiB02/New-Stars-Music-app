@@ -35,6 +35,7 @@ export const Settings = () => {
     setApplyingChanges(true);
     try {
       await api.put(`/users/dark-mode-on/${darkModeOn}`);
+      localStorage.setItem("theme", darkModeOn);
       toast.success("Changes applied successfully!");
     } catch (error) {
       toast.error("Error applying your changes. Please try again later!");
