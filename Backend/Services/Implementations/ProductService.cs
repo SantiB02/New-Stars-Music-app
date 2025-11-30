@@ -27,7 +27,7 @@ namespace Merchanmusic.Services.Implementations
 
         public List<Product> GetFeaturedProducts(int minimumSales)
         {
-            return _context.Products.Where(p => p.Sales >= minimumSales).Take(4).ToList();
+            return _context.Products.Where(p => p.Sales >= minimumSales).Take(6).ToList();
         }
 
         public List<Product> GetProductsByCountryAndCategory(string country, int categoryId)

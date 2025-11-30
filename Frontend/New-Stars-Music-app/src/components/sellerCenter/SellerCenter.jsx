@@ -76,6 +76,9 @@ const SellerCenter = () => {
 
     initialize();
   }, []);
+  useEffect(() => {
+    console.log("categoryId seleccionado:", productData.categoryId);
+  }, [productData.categoryId]);
 
   const handleImageUpload = async () => {
     const formData = new FormData();
@@ -190,6 +193,7 @@ const SellerCenter = () => {
       <Typography variant="h4" className="pt-4 mb-4 mx-8 font-light">
         Your Products
       </Typography>
+      {/* <Button>Add New product</Button> */}
       <Dialog
         className={theme ? "bg-primary" : "bg-white"}
         open={open}
@@ -234,6 +238,7 @@ const SellerCenter = () => {
           </Alert>
         )}
       </div>
+
       <div
         className={
           theme
@@ -244,7 +249,7 @@ const SellerCenter = () => {
         <div
           className={
             theme
-              ? " shadow-lg rounded-lg p-8 border-2 border-gray-700  max-w-2xl"
+              ? " shadow-lg rounded-lg p-8 border-2 border-gray-700  max-w-2xl bg-primary"
               : " shadow-lg rounded-lg p-8 border-2 border-blue-200 max-w-2xl bg-white text-black"
           }
         >
@@ -293,7 +298,10 @@ const SellerCenter = () => {
               label="Artist or band"
               value={productData.artistOrBand}
               onChange={(e) =>
-                setProductData({ ...productData, artistOrBand: e.target.value })
+                setProductData({
+                  ...productData,
+                  artistOrBand: e.target.value,
+                })
               }
               required
             />
@@ -323,23 +331,24 @@ const SellerCenter = () => {
             {!categories ? (
               <div>Loading categories...</div>
             ) : (
-              <select
-                className="text-black"
-                value={productData.categoryId}
-                onChange={(e) =>
+              <Select
+                label="Category"
+                className={theme ? "text-white" : ""}
+                value={productData.categoryId.toString() ?? "0"}
+                onChange={(value) =>
                   setProductData({
                     ...productData,
-                    categoryId: parseInt(e.target.value),
+                    categoryId: value, // <- MANTENERLO EN STRING
                   })
                 }
               >
-                <option value="0">Select a category</option>
+                <Option value="0">Select a category</Option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id.toString()}>
+                  <Option key={category.id} value={category.id.toString()}>
                     {category.name}
-                  </option>
+                  </Option>
                 ))}
-              </select>
+              </Select>
             )}
             <Input
               className={theme ? "text-white" : ""}

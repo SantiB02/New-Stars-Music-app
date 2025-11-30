@@ -12,7 +12,7 @@ export const findArtistsByName = async (artist) => {
     params: {
       q: artist,
       type: "artist",
-      per_page: 6,
+      per_page: 3,
       key: consumerKey,
       secret: consumerSecret,
     },

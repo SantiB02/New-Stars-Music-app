@@ -65,25 +65,29 @@ const ProductCard = ({
   return (
     <Card
       className={
-        theme
-          ? "max-w-72 bg-black text-white ml-5"
-          : "max-w-72 bg-gray-400 ml-5"
+        theme ? " bg-fivenigth text-white w-92 ml-1" : " bg-fourth  w-92 ml-1 "
       }
     >
-      <CardHeader shadow={false} floated={false} className="h-40">
+      <CardHeader shadow={true} floated={false} className="h-64">
         <img
           src={product.imageLink}
           alt="card-image"
-          className="h-full w-full object-contain bg-gray-800 "
+          className="h-full w-full object-cover bg-gray-800 "
         />
       </CardHeader>
       <CardBody>
         <div className="mb-2 flex items-center justify-between">
           <Typography
             color={theme ? "white" : "blue-gray"}
-            className="font-medium"
+            className="font-semibold"
           >
             {product.name}
+          </Typography>
+          <Typography
+            color={theme ? "white" : "blue-gray"}
+            className="font-extralight"
+          >
+            ${product.price} ARS
           </Typography>
         </div>
         <div className="mb-2 flex items-center justify-between">
@@ -99,7 +103,7 @@ const ProductCard = ({
           color={theme ? "white" : "gray"}
           className="font-normal opacity-75"
         >
-          Artist/Band: {product.artistOrBand} <br /> ${product.price} ARS
+          Artist/Band: {product.artistOrBand} <br />
         </Typography>
         {isSeller && !product.state && (
           <Typography className="-mb-2 text-red-500">
@@ -173,8 +177,10 @@ const ProductCard = ({
                 theme
                   ? `ml-2 ${
                       product.state ? "bg-red-500" : "bg-green-500"
-                    }  text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
-                  : "ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                    }text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
+                  : `${
+                      product.state ? "bg-red-900" : "bg-green-500"
+                   } ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
               }
               onClick={() =>
                 product.state
