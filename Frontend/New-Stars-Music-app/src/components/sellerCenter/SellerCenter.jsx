@@ -21,6 +21,7 @@ import EditProductForm from "./EditProductForm";
 import InfoIcon from "../icons/InfoIcon";
 import toast from "react-hot-toast";
 import LoadingMessage from "../common/LoadingMessage";
+import Pagination from "../navigator/Pagination";
 
 const SellerCenter = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -41,7 +42,16 @@ const SellerCenter = () => {
     imageLink: "",
   });
   const [open, setOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
   const { theme } = useTheme();
+
+  const totalPages = Math.ceil(products.length / itemsPerPage) || 1;
+  
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginatedProducts = products.slice(start, end);
 
   useEffect(() => {
     if (!isLoading) {
@@ -211,22 +221,24 @@ const SellerCenter = () => {
           />
         </DialogBody>
       </Dialog>
-      <div className="product-list flex flex-wrap gap-4">
-        {products.length > 0 ? (
-          products.map((product) => (
-            <div
-              key={product.id}
-              className="product-item flex-1 min-w-[300px] max-w-[calc(25%-1rem)]"
-            >
-              <ProductCard
-                setSelectedProduct={setSelectedProduct}
-                setOpen={setOpen}
-                product={product}
-                isSeller={true}
-                handleDeleteOrRestoreProduct={handleDeleteOrRestoreProduct}
-                deletingOrRestoringProductId={deletingOrRestoringProductId}
-              />
-            </div>
+      <div className="flex flex-wrap mt-4 justify-center">
+        {paginatedProducts.length > 0 ? (
+          paginatedProducts.map((product) => (
+            <>
+              <div
+                key={product.id}
+                className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
+              >
+                <ProductCard
+                  setSelectedProduct={setSelectedProduct}
+                  setOpen={setOpen}
+                  product={product}
+                  isSeller={true}
+                  handleDeleteOrRestoreProduct={handleDeleteOrRestoreProduct}
+                  deletingOrRestoringProductId={deletingOrRestoringProductId}
+                />
+              </div>
+            </>
           ))
         ) : (
           <Alert
@@ -237,6 +249,14 @@ const SellerCenter = () => {
             start adding them now with the form below?
           </Alert>
         )}
+      </div>
+
+      <div className="flex justify-center mt-4">
+        <Pagination
+          active={currentPage}
+          totalPages={totalPages}
+          onChange={setCurrentPage}
+        />
       </div>
 
       <div

@@ -4,6 +4,7 @@ import { getAllProducts } from "../../services/productsService";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { useRoles } from "../../hooks/useRoles";
 import { useAuth0 } from "@auth0/auth0-react";
+import Pagination from "../navigator/Pagination";
 
 const Store = () => {
   const { theme } = useTheme();
@@ -17,7 +18,9 @@ const Store = () => {
       setIsLoading(true);
       try {
         const allProducts = await getAllProducts();
+
         setProducts(allProducts);
+        console.log(products);
       } catch (error) {
         console.error("Error fetching all products:", error);
       } finally {

@@ -175,12 +175,12 @@ const ProductCard = ({
               fullWidth={true}
               className={
                 theme
-                  ? `ml-2 ${
-                      product.state ? "bg-red-500" : "bg-green-500"
-                    }text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
+                  ? `${
+                      product.state ? "bg-red-300" : "bg-green-300"
+                    } ml-2 text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
                   : `${
-                      product.state ? "bg-red-900" : "bg-green-500"
-                   } ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
+                      product.state ? "bg-red-400" : "bg-green-400"
+                    } ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
               }
               onClick={() =>
                 product.state

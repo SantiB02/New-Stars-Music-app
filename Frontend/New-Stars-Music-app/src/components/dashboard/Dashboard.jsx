@@ -22,7 +22,7 @@ const Dashboard = () => {
       <Typography variant="h2" className="font-light">
         Dashboard
       </Typography>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto justify-center mt-6">
         <Tabs value="users" className="whitespace-nowrap">
           <TabsHeader className="bg-transparent flex">
             <Tab
