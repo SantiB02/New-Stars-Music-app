@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../services/contexts/ThemeProvider";
-import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { EyeIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../hooks/useCart";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -65,16 +65,31 @@ const ProductCard = ({
   return (
     <Card
       className={
-        theme ? " bg-fivenigth text-white w-92 ml-1" : " bg-fourth  w-92 ml-1 "
+        theme
+          ? " bg-fivenigth text-white w-92 ml-1 hover:scale-[1.02] transition"
+          : " bg-fourth  w-92 ml-1 hover:scale-[1.02] transition"
       }
     >
-      <CardHeader shadow={true} floated={false} className="h-64">
+      <div className="relative h-64 w-full overflow-hidden rounded-t-xl">
+        <button
+          onClick={() => navigate(`/details-products/${product.id}`)}
+          className="
+      absolute top-3 right-3
+      bg-black/50 hover:bg-black/70
+      text-white p-2 rounded-md
+      transition shadow-lg
+      backdrop-blur-sm z-20
+    "
+        >
+          <EyeIcon className="h-4 w-4" />
+        </button>
         <img
           src={product.imageLink}
-          alt="card-image"
-          className="h-full w-full object-cover bg-gray-800 "
+          alt={product.name}
+          className="absolute inset-0 w-full h-full object-cover"
         />
-      </CardHeader>
+      </div>
+
       <CardBody>
         <div className="mb-2 flex items-center justify-between">
           <Typography

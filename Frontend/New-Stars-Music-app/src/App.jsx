@@ -61,6 +61,7 @@ function App() {
 
           <Route element={<Protected />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/details-products/:id" element={<ProductDetails />}/>
             <Route path="/search" element={<SearchArtists />} />
             <Route path="/store" element={<Store />} />
             <Route path="/my-orders" element={<MyOrders />} />

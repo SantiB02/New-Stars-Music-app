@@ -188,7 +188,7 @@ const MyOrders = () => {
                 {incomingSaleOrders.map((incomingSaleOrder) => (
                   <div
                     key={incomingSaleOrder.id}
-                    className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 border-2 rounded-lg border-orange-900"
+                    className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 "
                   >
                     <SaleOrderChart
                       saleOrder={incomingSaleOrder}

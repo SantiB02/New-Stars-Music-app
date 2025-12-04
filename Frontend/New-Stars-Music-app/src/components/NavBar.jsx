@@ -322,18 +322,38 @@ export default function NavBar() {
                 >
                   Search
                 </a>
-                <a
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  onClick={() =>
-                    user["https://localhost:7133/api/roles"] === "Seller"
-                      ? mobileMenuLinkClickHandler("/seller-center")
-                      : mobileMenuLinkClickHandler("/become-seller")
-                  }
-                >
-                  {user["https://localhost:7133/api/roles"] === "Seller"
-                    ? "Seller Center"
-                    : "Become a Seller"}
-                </a>
+                {(userRole === "Client" || userRole === "Seller") && (
+                  <a
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    onClick={() => navigateHandler("/my-orders")}
+                  >
+                    My Orders
+                  </a>
+                )}
+
+                {(userRole === "Client" || userRole === "Seller") && (
+                  <a
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    onClick={() =>
+                      userRole === "Seller"
+                        ? mobileMenuLinkClickHandler("/seller-center")
+                        : mobileMenuLinkClickHandler("/become-seller")
+                    }
+                  >
+                    {userRole === "Seller"
+                      ? "Seller Center"
+                      : "Become a Seller"}
+                  </a>
+                )}
+
+                {userRole === "Admin" && (
+                  <a
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    onClick={() => navigateHandler("/dashboard")}
+                  >
+                    Dashboard
+                  </a>
+                )}
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900"
@@ -341,7 +361,7 @@ export default function NavBar() {
                   <ToggleTheme />
                 </a>
               </div>
-              <div className="py-6">
+              <div className="py-4">
                 {isAuthenticated && user ? (
                   <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 ">
                     <Dropdown

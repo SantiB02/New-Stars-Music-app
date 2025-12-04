@@ -2,18 +2,21 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { useRef, useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { HiOutlineLogout } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { Typography } from "@material-tailwind/react";
+import { useRoles } from "../../hooks/useRoles";
 
 const Dropdown = ({ mobileMenuLinkClickHandler, isMobile }) => {
-  const { user, logout } = useAuth0();
+  const { user, logout, getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [open, setOpen] = useState(false);
 
   const menuRef = useRef();
   const imgRef = useRef();
+
+  const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
 
   window.addEventListener("click", (e) => {
     if (e.target !== menuRef.current && e.target !== imgRef.current) {
@@ -70,14 +73,30 @@ const Dropdown = ({ mobileMenuLinkClickHandler, isMobile }) => {
                   <CgProfile className="mr-2" /> Profile
                 </div>
               </li>
-              <li
-                className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black"
-                onClick={() => mobileMenuLinkClickHandler("/cart")}
-              >
-                <div className="flex items-center">
-                  <ShoppingCartIcon width={16} className="mr-2" /> My Cart
-                </div>
-              </li>
+              {userRole === "Admin" ? (
+                // ADMIN → DASHBOARD
+                <li
+                  className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black"
+                  onClick={() => mobileMenuLinkClickHandler("/dashboard")}
+                >
+                  <div className="flex items-center">
+                    <MdOutlineDashboardCustomize width={16} className="mr-2" />
+                    Dashboard
+                  </div>
+                </li>
+              ) : (
+                // CLIENT + SELLER → CART
+                <li
+                  className="p-2 text-white cursor-pointer rounded hover:bg-blue-100 hover:text-black"
+                  onClick={() => mobileMenuLinkClickHandler("/cart")}
+                >
+                  <div className="flex items-center">
+                    <ShoppingCartIcon width={16} className="mr-2" />
+                    My Cart
+                  </div>
+                </li>
+              )}
+
               <li
                 className="p-2  text-[#a10009] cursor-pointer rounded hover:bg-red-100 hover:text-red-600 border-t-red-600"
                 onClick={logoutHandler}
