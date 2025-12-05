@@ -32,8 +32,8 @@ const SaleOrderChart = ({
       className={`rounded-xl p-6 max-w-xl mx-auto transition-all duration-300
     ${
       theme
-        ? "bg-[#1f1f23] text-gray-200 border border-orange-500 shadow-xl" // DARK MODE
-        : "bg-white text-[#2b2b2b] border border-orange-300 shadow-lg"
+        ? "bg-[#1f1f23] hover:bg-black text-gray-200 border border-orange-500 shadow-xl" // DARK MODE
+        : "bg-white hover:bg-blue-gray-50 text-[#2b2b2b] border border-orange-300  shadow-lg"
     }        // LIGHT MODE
   `}
     >
@@ -47,9 +47,8 @@ const SaleOrderChart = ({
           Order #{saleOrder.id}
         </h2>
 
-        {isIncomingOrder && (
-          <span
-            className={`px-3 py-1 text-xs rounded-full font-medium 
+        <span
+          className={`px-3 py-1 text-xs rounded-full font-medium 
           ${
             saleOrder.completed
               ? theme
@@ -60,10 +59,9 @@ const SaleOrderChart = ({
               : "bg-yellow-300 text-yellow-900"
           }
         `}
-          >
-            {saleOrder.completed ? "Delivered" : "Pending delivery"}
-          </span>
-        )}
+        >
+          {saleOrder.completed ? "Delivered" : "Pending delivery"}
+        </span>
       </div>
 
       {/* BODY LIST */}
@@ -229,30 +227,29 @@ const SaleOrderChart = ({
         </li>
 
         {/* STATUS */}
-        {isIncomingOrder && (
-          <li>
-            <p
-              className={
-                saleOrder.completed
-                  ? theme
-                    ? "text-green-400"
-                    : "text-green-600"
-                  : theme
-                  ? "text-yellow-300"
-                  : "text-yellow-600"
-              }
+
+        <li>
+          <p
+            className={
+              saleOrder.completed
+                ? theme
+                  ? "text-green-400"
+                  : "text-green-600"
+                : theme
+                ? "text-yellow-300"
+                : "text-yellow-600"
+            }
+          >
+            <span
+              className={`${
+                theme ? "text-orange-400" : "text-orange-600"
+              } font-semibold`}
             >
-              <span
-                className={`${
-                  theme ? "text-orange-400" : "text-orange-600"
-                } font-semibold`}
-              >
-                Status:
-              </span>{" "}
-              {saleOrder.completed ? "Delivered" : "Pending delivery"}
-            </p>
-          </li>
-        )}
+              Status:
+            </span>{" "}
+            {saleOrder.completed ? "Delivered" : "Pending delivery"}
+          </p>
+        </li>
       </ul>
 
       {/* BUTTON */}

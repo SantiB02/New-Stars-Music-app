@@ -11,6 +11,7 @@ import { useAuthInterceptor } from "../../hooks/useAuthInterceptor";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import { useCart } from "../../hooks/useCart";
 import dayjs from "dayjs";
+import { useRoles } from "../../hooks/useRoles";
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
@@ -20,21 +21,18 @@ const ProductDetails = () => {
   const [isProductInCart, setIsProductInCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  const { getAccessTokenSilently, isLoading } = useAuth0();
+  const { getAccessTokenSilently, isLoading, user, isAuthenticated } =
+    useAuth0();
   const { id: productId } = useParams();
   const { addToCart, removeFromCart, cart } = useCart();
 
   const dateFormat = dayjs(product?.creationDate).format("DD/MM/YYYY");
 
+  const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
+
   const checkProductInCart = (product) => {
     return cart.some((item) => item.id === product.id);
   };
-
-  useEffect(() => {
-    if (!isLoading) {
-      setAuthInterceptor(getAccessTokenSilently);
-    }
-  }, [isLoading]);
 
   const fetchProduct = async (productId) => {
     setIsLoadingProduct(true);
@@ -42,6 +40,7 @@ const ProductDetails = () => {
     try {
       const productFromApi = await getProduct(productId);
       setProduct(productFromApi);
+
       console.log(product);
     } catch (error) {
       toast.error("Error while loading this product!");
@@ -52,18 +51,17 @@ const ProductDetails = () => {
     }
   };
   useEffect(() => {
+    if (productId) {
+      fetchProduct(productId);
+    }
+  }, [productId]);
+  useEffect(() => {
     if (checkProductInCart(product)) {
       setIsProductInCart(true);
     } else {
       setIsProductInCart(false);
     }
   }, [cart]);
-
-  useEffect(() => {
-    if (productId) {
-      fetchProduct(productId);
-    }
-  }, [productId]);
 
   if (isLoadingProduct) {
     return <LoadingMessage message="Loading product..." />;
@@ -79,6 +77,7 @@ const ProductDetails = () => {
     removeFromCart(product);
   };
   const increaseQuantityClickHandler = () => {
+    console.log(user);
     if (quantity < 10) {
       setQuantity(quantity + 1);
     }
@@ -88,11 +87,14 @@ const ProductDetails = () => {
       setQuantity(quantity - 1);
     }
   };
+  //validation add to cart
+  const isAdmin = userRole === "Admin";
+  const isOwner = product?.sellerId === user.sub;
 
   return (
     <div
       className={`w-full min-h-screen px-10 py-6 ${
-        theme ? "bg-[#1f1f23] text-gray-200" : " text-[#2b2b2b]"
+        theme ? " text-gray-200" : " bg-gray-200 text-[#2b2b2b]"
       }`}
     >
       {/* HEADER */}
@@ -111,7 +113,7 @@ const ProductDetails = () => {
         <div>
           {/* MAIN IMAGE */}
           <div
-            className="w-[550px] h-[550px] mx-auto rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)]
+            className="w-[450px] h-[450px] mx-auto rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)]
   bg-gradient-to-br from-white to-gray-100 border border-gray-200
   flex items-center justify-center
   "
@@ -143,20 +145,20 @@ const ProductDetails = () => {
         {/* RIGHT PANEL - PREMIUM PRODUCT INFO */}
         <div className="flex flex-col items-center text-center pt-14 gap-6 w-full">
           {/* ARTIST / CATEGORY */}
-          <h3
+          <h1
             className={`uppercase tracking-wider text-sm font-medium 
     ${theme ? "text-gray-400" : "text-gray-500"}`}
           >
             {product?.artistOrBand || "Unknown Artist"}
-          </h3>
+          </h1>
 
           {/* TITLE */}
-          <h1
+          <h2
             className={`text-3xl font-extrabold leading-tight 
     ${theme ? "text-white" : "text-[#222]"}`}
           >
             {product?.name}
-          </h1>
+          </h2>
 
           {/* PRICE */}
           <p className="text-3xl font-bold text-green-600">
@@ -185,52 +187,76 @@ const ProductDetails = () => {
           )}
 
           {/* QUANTITY SELECTOR */}
-          <div className="flex items-center gap-4 mt-4">
-            <button
-              onClick={decreaseQuantityClickHandler}
-              className={`px-3 py-2 text-xl rounded-md transition 
+          {!isAdmin && (
+            <div className="flex items-center gap-4 mt-4">
+              <button
+                onClick={decreaseQuantityClickHandler}
+                className={`px-3 py-2 text-xl rounded-md transition 
         ${
           theme
             ? "bg-gray-700 hover:bg-gray-600 text-white"
             : "bg-gray-200 hover:bg-gray-300 text-gray-700"
         }`}
-            >
-              -
-            </button>
+              >
+                -
+              </button>
 
-            <span
-              className={`text-xl font-semibold 
+              <span
+                className={`text-xl font-semibold 
       ${theme ? "text-white" : "text-gray-900"}`}
-            >
-              {quantity}
-            </span>
+              >
+                {quantity}
+              </span>
 
-            <button
-              onClick={increaseQuantityClickHandler}
-              className={`px-3 py-2 text-xl rounded-md transition 
+              <button
+                onClick={increaseQuantityClickHandler}
+                className={`px-3 py-2 text-xl rounded-md transition 
         ${
           theme
             ? "bg-gray-700 hover:bg-gray-600 text-white"
             : "bg-gray-200 hover:bg-gray-300 text-gray-700"
         }`}
-            >
-              +
-            </button>
-          </div>
+              >
+                +
+              </button>
+            </div>
+          )}
 
           {/* ADD TO CART BUTTON */}
-          <button
-            onClick={() =>
-              isProductInCart
-                ? removeFromCartHandler(product)
-                : addToCart({ ...product, quantity })
-            }
-            className="w-2/4 py-3 mt-6 rounded-lg text-lg font-semibold
-      bg-green-600 hover:bg-green-700 text-white shadow-md 
-      transition-all duration-200"
-          >
-            Add to Cart
-          </button>
+          {/* ADMIN MESSAGE */}
+
+          {/* BUY BUTTON (Client or other Seller) */}
+          {isAdmin ? (
+            // ADMIN NO PUEDE COMPRAR
+            <div
+              className="w-2/4 py-3 mt-6 rounded-lg text-lg font-semibold
+    bg-gray-400 text-gray-700 shadow-md cursor-not-allowed text-center"
+            >
+              Admins cannot purchase products
+            </div>
+          ) : isOwner ? (
+            // PROPIETARIO NO PUEDE COMPRAR
+            <div
+              className="w-2/4 py-3 mt-6 rounded-lg text-lg font-semibold
+    bg-orange-200 text-orange-800 shadow-md cursor-not-allowed text-center"
+            >
+              You cannot buy your own product
+            </div>
+          ) : (
+            // CLIENTE O SELLER-NO-DUEÑO: BOTÓN NORMAL
+            <button
+              onClick={() =>
+                isProductInCart
+                  ? removeFromCartHandler(product)
+                  : addToCart({ ...product, quantity })
+              }
+              className="w-2/4 py-3 mt-6 rounded-lg text-lg font-semibold
+        bg-green-600 hover:bg-green-700 text-white shadow-md 
+        transition-all duration-200"
+            >
+              {isProductInCart ? "Remove from cart" : `Add ${quantity} to cart`}
+            </button>
+          )}
         </div>
       </div>
 
