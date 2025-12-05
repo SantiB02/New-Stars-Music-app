@@ -3,13 +3,20 @@ import api from "../api/api";
 
 export const useRoles = (getToken, isAuthenticated) => {
   const [userRole, setUserRole] = useState("Client"); //por defecto, todo usuario nuevo es Client
-  
+
   useEffect(() => {
     const getRole = async () => {
       try {
-        const response = await api.get("users/role");
+        const token = await getToken(); // 👈 NECESARIO
+
+        const response = await api.get("users/role", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         const role = response.data;
-        
+
         if (role) {
           setUserRole(role);
         }

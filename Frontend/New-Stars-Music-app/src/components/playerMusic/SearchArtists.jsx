@@ -21,7 +21,6 @@ const SearchArtists = ({ isHomePage = false }) => {
     setArtistName("");
     const artists = await findArtistsByName(artistName);
     setArtists(artists);
-    console.log("artistas: ",artists)
   };
 
   return (

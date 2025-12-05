@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FeaturedProducts from "./FeaturedProducts";
 import {
   getFeaturedProducts,
@@ -35,8 +35,6 @@ const Home = () => {
       try {
         const featuredProducts = await getFeaturedProducts(200);
         setFeaturedProducts(featuredProducts);
-        console.log(featuredProducts)
-        
       } catch (error) {
         console.error("Error fetching all products:", error);
       }

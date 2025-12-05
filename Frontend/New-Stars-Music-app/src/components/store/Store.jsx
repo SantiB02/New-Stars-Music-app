@@ -20,7 +20,6 @@ const Store = () => {
         const allProducts = await getAllProducts();
 
         setProducts(allProducts);
-        console.log(products);
       } catch (error) {
         console.error("Error fetching all products:", error);
       } finally {

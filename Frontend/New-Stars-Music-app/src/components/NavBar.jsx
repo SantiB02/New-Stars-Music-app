@@ -82,10 +82,7 @@ export default function NavBar() {
 
   return (
     <header>
-      <nav
-        className="w-full bg-secondary text-white shadow-md"
-        aria-label="Global"
-      >
+      <nav className="w-full bg-secondary text-white shadow-md">
         <div className="max-w-screen-2xl mx-auto px-6">
           <div className="flex items-center justify-between h-14">
             {/* LOGO */}

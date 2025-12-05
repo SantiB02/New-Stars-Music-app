@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import api, { setAuthInterceptor } from "../../api/api";
 import ProductCard from "../product/ProductCard";
@@ -30,7 +30,6 @@ const SellerCenter = () => {
     useState(null);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
-  const { getAccessTokenSilently, isLoading } = useAuth0();
   const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
     code: "",
@@ -45,15 +44,23 @@ const SellerCenter = () => {
   const [open, setOpen] = useState(false);
   const [openNewProductForm, setOpenNewProductForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const formRef = useRef(null);
   const itemsPerPage = 4;
 
   const { theme } = useTheme();
+  const { getAccessTokenSilently, isLoading } = useAuth0();
 
   const totalPages = Math.ceil(products.length / itemsPerPage) || 1;
 
   const start = (currentPage - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const paginatedProducts = products.slice(start, end);
+
+  useEffect(() => {
+    if (openNewProductForm && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [openNewProductForm]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -248,21 +255,19 @@ const SellerCenter = () => {
       <div className="flex flex-wrap mt-4 justify-center">
         {paginatedProducts.length > 0 ? (
           paginatedProducts.map((product) => (
-            <>
-              <div
-                key={product.id}
-                className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
-              >
-                <ProductCard
-                  setSelectedProduct={setSelectedProduct}
-                  setOpen={setOpen}
-                  product={product}
-                  isSeller={true}
-                  handleDeleteOrRestoreProduct={handleDeleteOrRestoreProduct}
-                  deletingOrRestoringProductId={deletingOrRestoringProductId}
-                />
-              </div>
-            </>
+            <div
+              key={product.id}
+              className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
+            >
+              <ProductCard
+                setSelectedProduct={setSelectedProduct}
+                setOpen={setOpen}
+                product={product}
+                isSeller={true}
+                handleDeleteOrRestoreProduct={handleDeleteOrRestoreProduct}
+                deletingOrRestoringProductId={deletingOrRestoringProductId}
+              />
+            </div>
           ))
         ) : (
           <Alert
@@ -292,18 +297,33 @@ const SellerCenter = () => {
       >
         {openNewProductForm && (
           <div
+            ref={formRef}
             className={
               theme
                 ? " shadow-lg rounded-lg p-8 border-2 border-gray-700  max-w-2xl bg-primary"
                 : " shadow-lg rounded-lg p-8 border-2 border-blue-200 max-w-2xl bg-white text-black"
             }
           >
-            <Typography variant="h4">New product</Typography>
+            <div className="flex justify-between">
+              <Typography variant="h4">New product</Typography>
+              <Button
+                color="red"
+                onClick={() => setOpenNewProductForm(false)}
+                className="flex items-center"
+                size="sm"
+              >
+                {" "}
+                <IoIosClose
+                  onClick={() => setOpenNewProductForm(false)}
+                  size={22}
+                />{" "}
+              </Button>
+            </div>
             <form
               onSubmit={handleSubmit}
               className={
                 theme
-                  ? "flex flex-col gap-y-6 bg-primary p-5 w-70 max-w-screen-lg sm:w-96"
+                  ? "flex flex-col gap-y-6 bg-primary p-5 w-70 max-w-screen-lg sm:w-96 "
                   : "flex flex-col gap-y-6 p-5 w-70 max-w-screen-lg sm:w-96"
               }
             >
