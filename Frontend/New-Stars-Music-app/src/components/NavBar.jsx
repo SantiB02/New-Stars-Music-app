@@ -260,12 +260,12 @@ export default function NavBar() {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-        <div className="fixed bg-blur-100 z-10 bg-secondary " />
-        <Dialog.Panel className="fixed  inset-y-0 right-0 z-10 w-full overflow-y-auto  px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 bg-fourth">
-          <div className="flex items-center justify-between bg-fourth">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-            </a>
+        {/* BACKDROP */}
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-[9998]" />
+
+        {/* PANEL */}
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-[9999] w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 bg-fourth">
+          <div className="flex items-center justify-end bg-fourth">
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -298,7 +298,7 @@ export default function NavBar() {
                             state={{ categoryId: category.id }}
                             key={category.name}
                           >
-                            <Disclosure.Button className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-white">
+                            <Disclosure.Button className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 w-full text-gray-900 hover:bg-white">
                               <p>{category.name}</p>
                             </Disclosure.Button>
                           </Link>
@@ -351,16 +351,12 @@ export default function NavBar() {
                     Dashboard
                   </a>
                 )}
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900"
-                >
-                  <ToggleTheme />
-                </a>
+                
               </div>
+              <ToggleTheme />
               <div className="py-4">
                 {isAuthenticated && user ? (
-                  <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 ">
+                  <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900  ">
                     <Dropdown
                       mobileMenuLinkClickHandler={mobileMenuLinkClickHandler}
                       isMobile={true}
