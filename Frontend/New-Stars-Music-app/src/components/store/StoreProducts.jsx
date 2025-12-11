@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import Pagination from "../navigator/Pagination";
+import LoadingMessage from "../common/LoadingMessage";
 
 const StoreProducts = ({ products, isLoading, userRole }) => {
   const [categories, setCategories] = useState([]);
@@ -100,7 +101,7 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
   if (isLoading) {
     return (
       <div className="mt-8">
-        <p>Loading...</p>
+        <LoadingMessage/>
       </div>
     );
   }
