@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../services/contexts/ThemeProvider";
-import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { EyeIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../hooks/useCart";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -66,24 +66,43 @@ const ProductCard = ({
     <Card
       className={
         theme
-          ? "max-w-72 bg-black text-white ml-5"
-          : "max-w-72 bg-gray-400 ml-5"
+          ? " bg-fivenigth text-white w-92 ml-1 hover:scale-[1.02] transition"
+          : " bg-fourth  w-92 ml-1 hover:scale-[1.02] transition"
       }
     >
-      <CardHeader shadow={false} floated={false} className="h-40">
+      <div className="relative h-64 w-full overflow-hidden rounded-t-xl">
+        <button
+          onClick={() => navigate(`/details-products/${product.id}`)}
+          className="
+      absolute top-3 right-3
+      bg-black/50 hover:bg-black/70
+      text-white p-2 rounded-md
+      transition shadow-lg
+      backdrop-blur-sm z-20
+    "
+        >
+          <EyeIcon className="h-4 w-4" />
+        </button>
         <img
           src={product.imageLink}
-          alt="card-image"
-          className="h-full w-full object-contain bg-gray-800 "
+          alt={product.name}
+          className="absolute inset-0 w-full h-full object-cover"
         />
-      </CardHeader>
+      </div>
+
       <CardBody>
         <div className="mb-2 flex items-center justify-between">
           <Typography
             color={theme ? "white" : "blue-gray"}
-            className="font-medium"
+            className="font-semibold"
           >
             {product.name}
+          </Typography>
+          <Typography
+            color={theme ? "white" : "blue-gray"}
+            className="font-extralight"
+          >
+            ${product.price} ARS
           </Typography>
         </div>
         <div className="mb-2 flex items-center justify-between">
@@ -99,7 +118,7 @@ const ProductCard = ({
           color={theme ? "white" : "gray"}
           className="font-normal opacity-75"
         >
-          Artist/Band: {product.artistOrBand} <br /> ${product.price} ARS
+          Artist/Band: {product.artistOrBand} <br />
         </Typography>
         {isSeller && !product.state && (
           <Typography className="-mb-2 text-red-500">
@@ -171,10 +190,12 @@ const ProductCard = ({
               fullWidth={true}
               className={
                 theme
-                  ? `ml-2 ${
-                      product.state ? "bg-red-500" : "bg-green-500"
-                    }  text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
-                  : "ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                  ? `${
+                      product.state ? "bg-red-300" : "bg-green-300"
+                    } ml-2 text-black shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
+                  : `${
+                      product.state ? "bg-red-400" : "bg-green-400"
+                    } ml-2 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100`
               }
               onClick={() =>
                 product.state

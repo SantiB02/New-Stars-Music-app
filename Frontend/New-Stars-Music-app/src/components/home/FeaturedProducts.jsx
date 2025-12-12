@@ -28,7 +28,8 @@ const FeaturedProducts = ({ products, isLoading }) => {
       <Typography variant="h3" className="font-light">
         Featured Products
       </Typography>
-      <div className="grid grid-cols-1 sm:grid-cols-2  gap-4 mt-4">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
         {products.map((product) => (
           <div key={product.id} className="w-full ">
             <ProductCard

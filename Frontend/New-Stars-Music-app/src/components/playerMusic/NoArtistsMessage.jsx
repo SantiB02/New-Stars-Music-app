@@ -2,7 +2,7 @@ import React from "react";
 
 const NoArtistsMessage = ({ theme }) => {
   return (
-    <div className="grid place-content-center mt-24 px-4">
+    <div className="grid text-center place-content-center mt-24 px-4">
       <h1
         className={
           theme

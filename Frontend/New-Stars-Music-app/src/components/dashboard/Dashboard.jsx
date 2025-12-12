@@ -22,47 +22,50 @@ const Dashboard = () => {
       <Typography variant="h2" className="font-light">
         Dashboard
       </Typography>
-      <Tabs value="users">
-        <TabsHeader className="bg-transparent">
-          <Tab
-            value="users"
-            className="mx-2 md:mx-10 rounded-full bg-orange-500"
-          >
-            Users
-          </Tab>
-          <Tab
-            value="products"
-            className="mx-2 md:mx-10 rounded-full bg-orange-500"
-          >
-            Products
-          </Tab>
-          <Tab
-            value="sale orders"
-            className="mx-2 md:mx-10 rounded-full bg-orange-500"
-          >
-            Sale Orders
-          </Tab>
-          <Tab
-            value="messages"
-            className="mx-2 md:mx-10 rounded-full bg-orange-500"
-          >
-Messages          </Tab>
-        </TabsHeader>
-        <TabsBody>
-          <TabPanel value="users">
-            <UsersReport theme={theme} />
-          </TabPanel>
-          <TabPanel value="products">
-            <ProductsReport theme={theme} />
-          </TabPanel>
-          <TabPanel value="sale orders">
-            <SaleOrdersReport theme={theme} />
-          </TabPanel>
-          <TabPanel value="messages">
-            <MessageReport theme={theme} />
-          </TabPanel>
-        </TabsBody>
-      </Tabs>
+      <div className="overflow-x-auto justify-center mt-6">
+        <Tabs value="users" className="whitespace-nowrap">
+          <TabsHeader className="bg-transparent flex">
+            <Tab
+              value="users"
+              className="flex-1 mx-2 md:mx-4 lg:mx-6 xl:mx-8 my-2 md:my-0 rounded-full bg-orange-500 text-center py-2 md:py-3 cursor-pointer text-sm md:text-base"
+            >
+              Users
+            </Tab>
+            <Tab
+              value="products"
+              className="flex-1 mx-2 md:mx-4 lg:mx-6 xl:mx-8 my-2 md:my-0 rounded-full bg-orange-500 text-center py-2 md:py-3 cursor-pointer text-sm md:text-base"
+            >
+              Products
+            </Tab>
+            <Tab
+              value="sale orders"
+              className="flex-1 mx-2 md:mx-4 lg:mx-6 xl:mx-8 my-2 md:my-0 rounded-full bg-orange-500 text-center py-2 md:py-3 cursor-pointer text-sm md:text-base"
+            >
+              Sale Orders
+            </Tab>
+            <Tab
+              value="messages"
+              className="flex-1 mx-2 md:mx-4 lg:mx-6 xl:mx-8 my-2 md:my-0 rounded-full bg-orange-500 text-center py-2 md:py-3 cursor-pointer text-sm md:text-base"
+            >
+              Messages
+            </Tab>
+          </TabsHeader>
+          <TabsBody className="mt-4 overflow-x-auto">
+            <TabPanel value="users">
+              <UsersReport theme={theme} />
+            </TabPanel>
+            <TabPanel value="products">
+              <ProductsReport theme={theme} />
+            </TabPanel>
+            <TabPanel value="sale orders">
+              <SaleOrdersReport theme={theme} />
+            </TabPanel>
+            <TabPanel value="messages">
+              <MessageReport theme={theme} />
+            </TabPanel>
+          </TabsBody>
+        </Tabs>
+      </div>
     </div>
   );
 };

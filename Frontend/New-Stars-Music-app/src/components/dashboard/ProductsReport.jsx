@@ -140,8 +140,8 @@ const ProductsReport = ({ theme }) => {
             placeholder="Enter a country..."
             className={
               theme
-                ? "mr-6 bg-[#292929] mr-4 border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
-                : "mr-6 bg-gray-50 mr-4 border-2 border-[#3e3e3e] rounded-lg text-black px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+                ? "mr-6 bg-[#292929]  border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+                : "mr-6 bg-gray-50  border-2 border-[#3e3e3e] rounded-lg text-black px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
             }
             type="text"
             value={countryFilter}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FeaturedProducts from "./FeaturedProducts";
 import {
   getFeaturedProducts,
@@ -33,7 +33,7 @@ const Home = () => {
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const featuredProducts = await getFeaturedProducts(100);
+        const featuredProducts = await getFeaturedProducts(200);
         setFeaturedProducts(featuredProducts);
       } catch (error) {
         console.error("Error fetching all products:", error);
@@ -144,7 +144,7 @@ const Home = () => {
         </div>
       )}
       <div className="flex-grow overflow-auto flex flex-col md:flex-row mt-o mb-10">
-        <div className="md:w-1/2 p-4">
+        <div className="md:w-3/4 p-4">
           <Typography variant="h2" className="ml-6 font-light">
             Welcome back,{" "}
             <a
@@ -162,7 +162,7 @@ const Home = () => {
             />
           </div>
         </div>
-        <div className="md:w-1/2 p-4">
+        <div className="content-center md:w-1/4 p-4">
           <div className="h-full">
             <SearchArtists isHomePage={true} />
           </div>

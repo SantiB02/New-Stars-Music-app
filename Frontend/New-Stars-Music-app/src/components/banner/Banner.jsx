@@ -98,7 +98,7 @@ const Banner = () => {
         <RatingCard
           profilePicUrl="Andy-Profile-600.webp"
           fullName="John Doe"
-          description='"Greatest site ever! Not only can I explore my favourite artists, but I can also discover their merchandising, either 3rd party or official products! My rating for New Stars Music speaks for itself."'
+          description='"Greatest site ever! Not only can I explore my favourite artists, but I can also discover their merchandising, either 3rd party or official products!"'
           rating={9.3}
         />
         <RatingCard

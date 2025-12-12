@@ -33,7 +33,7 @@ const SiteInfo = () => {
       <Typography variant="h3" className="mt-4 mx-8 font-light">
         Our Story
       </Typography>
-      <Typography className="mx-8 text-justify">
+      <Typography className="p-8 text-justify">
         We are a group of five friends from Argentina who share a deep passion
         for music and creativity. One day, we came up with the idea to create a
         space where music and merchandise could coexist, offering fans a unique

@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import api, { setAuthInterceptor } from "../../api/api";
 import ProductCard from "../product/ProductCard";
@@ -19,8 +19,10 @@ import {
 import { useTheme } from "../../services/contexts/ThemeProvider";
 import EditProductForm from "./EditProductForm";
 import InfoIcon from "../icons/InfoIcon";
+import { IoIosAdd, IoIosClose } from "react-icons/io";
 import toast from "react-hot-toast";
 import LoadingMessage from "../common/LoadingMessage";
+import Pagination from "../navigator/Pagination";
 
 const SellerCenter = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -28,7 +30,6 @@ const SellerCenter = () => {
     useState(null);
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
-  const { getAccessTokenSilently, isLoading } = useAuth0();
   const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
     code: "",
@@ -41,7 +42,25 @@ const SellerCenter = () => {
     imageLink: "",
   });
   const [open, setOpen] = useState(false);
+  const [openNewProductForm, setOpenNewProductForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const formRef = useRef(null);
+  const itemsPerPage = 4;
+
   const { theme } = useTheme();
+  const { getAccessTokenSilently, isLoading } = useAuth0();
+
+  const totalPages = Math.ceil(products.length / itemsPerPage) || 1;
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginatedProducts = products.slice(start, end);
+
+  useEffect(() => {
+    if (openNewProductForm && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [openNewProductForm]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -76,6 +95,9 @@ const SellerCenter = () => {
 
     initialize();
   }, []);
+  useEffect(() => {
+    console.log("categoryId seleccionado:", productData.categoryId);
+  }, [productData.categoryId]);
 
   const handleImageUpload = async () => {
     const formData = new FormData();
@@ -184,12 +206,35 @@ const SellerCenter = () => {
 
   return (
     <div className="seller-center">
-      <Typography variant="h3" className="pt-4 mb-0 mx-8 font-light">
-        Seller Center
-      </Typography>
-      <Typography variant="h4" className="pt-4 mb-4 mx-8 font-light">
-        Your Products
-      </Typography>
+      <div className="flex justify-between items-center w-full px-8 pt-4 mb-4">
+        {/* TITLES */}
+        <div>
+          <Typography variant="h3" className="mb-0 font-light">
+            Seller Center
+          </Typography>
+          <Typography variant="h4" className="font-light">
+            Your Products
+          </Typography>
+        </div>
+
+        {/* BUTTON */}
+        <Button
+          className="flex items-center gap-2"
+          color={openNewProductForm ? "orange" : "green"}
+          onClick={() => setOpenNewProductForm(!openNewProductForm)}
+        >
+          {openNewProductForm ? (
+            <>
+              <IoIosClose size={28} /> Close form
+            </>
+          ) : (
+            <>
+              <IoIosAdd size={28} /> Add New Product
+            </>
+          )}
+        </Button>
+      </div>
+      {/* <Button>Add New product</Button> */}
       <Dialog
         className={theme ? "bg-primary" : "bg-white"}
         open={open}
@@ -207,12 +252,12 @@ const SellerCenter = () => {
           />
         </DialogBody>
       </Dialog>
-      <div className="product-list flex flex-wrap gap-4">
-        {products.length > 0 ? (
-          products.map((product) => (
+      <div className="flex flex-wrap mt-4 justify-center">
+        {paginatedProducts.length > 0 ? (
+          paginatedProducts.map((product) => (
             <div
               key={product.id}
-              className="product-item flex-1 min-w-[300px] max-w-[calc(25%-1rem)]"
+              className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
             >
               <ProductCard
                 setSelectedProduct={setSelectedProduct}
@@ -234,6 +279,15 @@ const SellerCenter = () => {
           </Alert>
         )}
       </div>
+
+      <div className="flex justify-center mt-4">
+        <Pagination
+          active={currentPage}
+          totalPages={totalPages}
+          onChange={setCurrentPage}
+        />
+      </div>
+
       <div
         className={
           theme
@@ -241,123 +295,144 @@ const SellerCenter = () => {
             : "flex items-center justify-center pt-16 pb-16 bg-gray-200"
         }
       >
-        <div
-          className={
-            theme
-              ? " shadow-lg rounded-lg p-8 border-2 border-gray-700  max-w-2xl"
-              : " shadow-lg rounded-lg p-8 border-2 border-blue-200 max-w-2xl bg-white text-black"
-          }
-        >
-          <Typography variant="h4">New product</Typography>
-          <form
-            onSubmit={handleSubmit}
+        {openNewProductForm && (
+          <div
+            ref={formRef}
             className={
               theme
-                ? "flex flex-col gap-y-6 bg-primary p-5 w-70 max-w-screen-lg sm:w-96"
-                : "flex flex-col gap-y-6 p-5 w-70 max-w-screen-lg sm:w-96"
+                ? " shadow-lg rounded-lg p-8 border-2 border-gray-700  max-w-2xl bg-primary"
+                : " shadow-lg rounded-lg p-8 border-2 border-blue-200 max-w-2xl bg-white text-black"
             }
           >
-            <Input
-              className={theme ? "text-white" : ""}
-              type="text"
-              label="Code"
-              value={productData.code}
-              onChange={(e) =>
-                setProductData({ ...productData, code: e.target.value })
+            <div className="flex justify-between">
+              <Typography variant="h4">New product</Typography>
+              <Button
+                color="red"
+                onClick={() => setOpenNewProductForm(false)}
+                className="flex items-center"
+                size="sm"
+              >
+                {" "}
+                <IoIosClose
+                  onClick={() => setOpenNewProductForm(false)}
+                  size={22}
+                />{" "}
+              </Button>
+            </div>
+            <form
+              onSubmit={handleSubmit}
+              className={
+                theme
+                  ? "flex flex-col gap-y-6 bg-primary p-5 w-70 max-w-screen-lg sm:w-96 "
+                  : "flex flex-col gap-y-6 p-5 w-70 max-w-screen-lg sm:w-96"
               }
-              required
-            />
-            <Input
-              className={theme ? "text-white" : ""}
-              type="text"
-              label="Name"
-              value={productData.name}
-              onChange={(e) =>
-                setProductData({ ...productData, name: e.target.value })
-              }
-              required
-            />
-            <Input
-              className={theme ? "text-white" : ""}
-              type="number"
-              label="Price"
-              value={productData.price}
-              onChange={(e) =>
-                setProductData({ ...productData, price: e.target.value })
-              }
-              required
-            />
-            <Input
-              className={theme ? "text-white" : ""}
-              type="text"
-              label="Artist or band"
-              value={productData.artistOrBand}
-              onChange={(e) =>
-                setProductData({ ...productData, artistOrBand: e.target.value })
-              }
-              required
-            />
-            <Input
-              className={theme ? "text-white" : ""}
-              type="text"
-              label="Description"
-              value={productData.description}
-              onChange={(e) =>
-                setProductData({
-                  ...productData,
-                  description: e.target.value,
-                })
-              }
-              required
-            />
-            <Input
-              className={theme ? "text-white" : ""}
-              type="number"
-              label="Stock"
-              value={productData.stock}
-              onChange={(e) =>
-                setProductData({ ...productData, stock: e.target.value })
-              }
-              required
-            />
-            {!categories ? (
-              <div>Loading categories...</div>
-            ) : (
-              <select
-                className="text-black"
-                value={productData.categoryId}
+            >
+              <Input
+                className={theme ? "text-white" : ""}
+                type="text"
+                label="Code"
+                value={productData.code}
+                onChange={(e) =>
+                  setProductData({ ...productData, code: e.target.value })
+                }
+                required
+              />
+              <Input
+                className={theme ? "text-white" : ""}
+                type="text"
+                label="Name"
+                value={productData.name}
+                onChange={(e) =>
+                  setProductData({ ...productData, name: e.target.value })
+                }
+                required
+              />
+              <Input
+                className={theme ? "text-white" : ""}
+                type="number"
+                label="Price"
+                value={productData.price}
+                onChange={(e) =>
+                  setProductData({ ...productData, price: e.target.value })
+                }
+                required
+              />
+              <Input
+                className={theme ? "text-white" : ""}
+                type="text"
+                label="Artist or band"
+                value={productData.artistOrBand}
                 onChange={(e) =>
                   setProductData({
                     ...productData,
-                    categoryId: parseInt(e.target.value),
+                    artistOrBand: e.target.value,
                   })
                 }
-              >
-                <option value="0">Select a category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id.toString()}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            )}
-            <Input
-              className={theme ? "text-white" : ""}
-              type="text"
-              label="Image link"
-              value={productData.imageLink}
-              onChange={(e) =>
-                setProductData({ ...productData, imageLink: e.target.value })
-              }
-              required
-            />
-            <div className="flex justify-center pt-4">
-              <Button type="submit" color="orange">
-                load product
-              </Button>
-            </div>
-          </form>
-        </div>
+                required
+              />
+              <Input
+                className={theme ? "text-white" : ""}
+                type="text"
+                label="Description"
+                value={productData.description}
+                onChange={(e) =>
+                  setProductData({
+                    ...productData,
+                    description: e.target.value,
+                  })
+                }
+                required
+              />
+              <Input
+                className={theme ? "text-white" : ""}
+                type="number"
+                label="Stock"
+                value={productData.stock}
+                onChange={(e) =>
+                  setProductData({ ...productData, stock: e.target.value })
+                }
+                required
+              />
+              {!categories ? (
+                <div>Loading categories...</div>
+              ) : (
+                <Select
+                  label="Category"
+                  className={theme ? "text-white" : ""}
+                  value={productData.categoryId.toString() ?? "0"}
+                  onChange={(value) =>
+                    setProductData({
+                      ...productData,
+                      categoryId: value, // <- MANTENERLO EN STRING
+                    })
+                  }
+                >
+                  <Option value="0">Select a category</Option>
+                  {categories.map((category) => (
+                    <Option key={category.id} value={category.id.toString()}>
+                      {category.name}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+              <Input
+                className={theme ? "text-white" : ""}
+                type="text"
+                label="Image link"
+                value={productData.imageLink}
+                onChange={(e) =>
+                  setProductData({ ...productData, imageLink: e.target.value })
+                }
+                required
+              />
+              <div className="flex justify-center pt-4">
+                <Button type="submit" color="orange">
+                  load product
+                </Button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

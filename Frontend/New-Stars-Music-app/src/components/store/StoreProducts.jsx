@@ -12,6 +12,8 @@ import {
 import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useTheme } from "../../services/contexts/ThemeProvider";
+import Pagination from "../navigator/Pagination";
+import LoadingMessage from "../common/LoadingMessage";
 
 const StoreProducts = ({ products, isLoading, userRole }) => {
   const [categories, setCategories] = useState([]);
@@ -22,6 +24,10 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
   const data = useLocation();
   const dropdownCategoryId = data.state?.categoryId;
   const selectedArtistName = data.state?.artistName;
+
+  //paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   const applyFilters = () => {
     let tempProducts = products;
@@ -44,11 +50,13 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
     }
 
     setFilteredProducts(tempProducts);
+    setCurrentPage(1); // 🔸 reset de página al aplicar filtros
   };
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        
         const response = await api.get("/products/categories");
         const categories = response.data.url;
         setCategories(categories);
@@ -64,11 +72,13 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
     if (selectedArtistName && products.length > 0) {
       setArtistName(selectedArtistName);
     }
+
     window.history.replaceState({}, "");
     fetchCategories();
   }, [dropdownCategoryId, products]);
 
   useEffect(() => {
+    
     applyFilters();
   }, [artistName, selectedCategory, products]);
 
@@ -81,16 +91,24 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
     applyFilters();
   };
 
+  // 🔹 cálculo de paginación sobre productos filtrados
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage) || 1;
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginatedProducts = filteredProducts.slice(start, end);
+
   if (isLoading) {
     return (
       <div className="mt-8">
-        <p>Loading...</p>
+        <LoadingMessage/>
       </div>
     );
   }
 
   return (
     <div>
+      {/* Filtros por categoría */}
       <div className="flex justify-center">
         <Card className="w-full my-2 bg-gray-800 max-w-[44rem]">
           <List className="flex-row">
@@ -107,9 +125,7 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
                     ripple={false}
                     color="orange"
                     className="hover:before:opacity-0"
-                    containerProps={{
-                      className: "p-0",
-                    }}
+                    containerProps={{ className: "p-0" }}
                   />
                 </ListItemPrefix>
                 <Typography className="text-sm text-blue-gray-300">
@@ -117,6 +133,7 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
                 </Typography>
               </label>
             </ListItem>
+
             {categories.map((category) => (
               <ListItem
                 key={category.id}
@@ -135,9 +152,7 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
                       ripple={false}
                       color="orange"
                       className="hover:before:opacity-0"
-                      containerProps={{
-                        className: "p-0",
-                      }}
+                      containerProps={{ className: "p-0" }}
                     />
                   </ListItemPrefix>
                   <Typography className="text-sm text-blue-gray-300">
@@ -149,6 +164,8 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
           </List>
         </Card>
       </div>
+
+      {/* Filtro por artista */}
       <form className="flex justify-center my-4" onSubmit={handleArtistFilter}>
         <input
           placeholder="Search by artist..."
@@ -183,9 +200,11 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
           Clear
         </button>
       </form>
+
+      {/* Productos */}
       <div className="flex flex-wrap mt-4 justify-center">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
+        {paginatedProducts.length > 0 ? (
+          paginatedProducts.map((product) => (
             <div
               key={product.id}
               className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-4"
@@ -199,6 +218,17 @@ const StoreProducts = ({ products, isLoading, userRole }) => {
           </Typography>
         )}
       </div>
+
+      {/* Paginación integrada y solo si hay más de 1 página */}
+      {totalPages > 1 && (
+        <div className="flex justify-center p-4">
+          <Pagination
+            active={currentPage}
+            totalPages={totalPages}
+            onChange={setCurrentPage}
+          />
+        </div>
+      )}
     </div>
   );
 };

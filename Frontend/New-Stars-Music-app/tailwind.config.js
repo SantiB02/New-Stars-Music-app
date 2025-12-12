@@ -6,12 +6,16 @@ module.exports = withMT({
   theme: {
     extend: {
       colors: {
-        primary: "#242425",
-        secondary: "#e25418",
-        third: "#e96d30",
-        fourth: "#cc713c",
+        primary: "#13747d",
+        secondary: "#166665",
+        third: "#2eb8ac",
+        fourth: "#80a8a8",
+        fivenigth: "#1A1C1E"
       },
-    },
+    },fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto'],
+        display: ['Poppins', 'sans-serif']
+      },
   },
   plugins: [],
 });

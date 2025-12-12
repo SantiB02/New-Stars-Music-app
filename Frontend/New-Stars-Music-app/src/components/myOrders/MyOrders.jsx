@@ -27,15 +27,13 @@ const MyOrders = () => {
     const fetchSaleOrders = async () => {
       try {
         const response = await api.get("/sale-orders/by-client", {
-          validateStatus: (status) => {
-            return status === 200 || status === 404; // Accept only 200 y 404 as valid responses (to avoid throwing an error)
-          },
+          validateStatus: (status) => status === 200 || status === 404,
         });
 
         if (response.status === 404) {
           setNoSaleOrders(true);
         } else {
-          const saleOrders = response.data;
+          const saleOrders = [...response.data].sort((a, b) => a.id < b.id);
           setSaleOrders(saleOrders);
         }
       } catch (error) {
@@ -47,15 +45,15 @@ const MyOrders = () => {
     const fetchIncomingSaleOrders = async () => {
       try {
         const response = await api.get("/sale-orders/by-seller", {
-          validateStatus: (status) => {
-            return status === 200 || status === 404; // Accept only 200 y 404 as valid responses (to avoid throwing an error)
-          },
+          validateStatus: (status) => status === 200 || status === 404,
         });
 
         if (response.status === 404) {
           setNoIncomingSaleOrders(true);
         } else {
-          const incomingSaleOrders = response.data;
+          const incomingSaleOrders = [...response.data].sort(
+            (a, b) => new Date(b.creationDate) - new Date(a.creationDate)
+          );
           setIncomingSaleOrders(incomingSaleOrders);
         }
       } catch (error) {
@@ -157,9 +155,9 @@ const MyOrders = () => {
             {saleOrders.map((saleOrder) => (
               <div
                 key={saleOrder.id}
-                className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 border-2 rounded-lg border-orange-900"
+                className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0"
               >
-                <SaleOrderChart saleOrder={saleOrder} />
+                <SaleOrderChart saleOrder={saleOrder}  />
               </div>
             ))}
           </div>
@@ -188,7 +186,7 @@ const MyOrders = () => {
                 {incomingSaleOrders.map((incomingSaleOrder) => (
                   <div
                     key={incomingSaleOrder.id}
-                    className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 border-2 rounded-lg border-orange-900"
+                    className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 "
                   >
                     <SaleOrderChart
                       saleOrder={incomingSaleOrder}

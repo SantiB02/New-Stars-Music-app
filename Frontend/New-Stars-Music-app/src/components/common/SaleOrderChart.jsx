@@ -28,124 +28,255 @@ const SaleOrderChart = ({
   }, []);
 
   return (
-    <div>
-      <ul className="ml-10 my-4 list-disc pr-4 marker:text-orange-900">
+    <div
+      className={`rounded-xl p-6 max-w-xl mx-auto transition-all duration-300
+    ${
+      theme
+        ? "bg-[#1f1f23] hover:bg-black text-gray-200 border border-orange-500 shadow-xl" // DARK MODE
+        : "bg-white hover:bg-blue-gray-50 text-[#2b2b2b] border border-orange-300  shadow-lg"
+    }        // LIGHT MODE
+  `}
+    >
+      {/* HEADER */}
+      <div className="flex items-center justify-between mb-4">
+        <h2
+          className={`text-xl font-semibold 
+        ${theme ? "text-orange-400" : "text-orange-600"}
+      `}
+        >
+          Order #{saleOrder.id}
+        </h2>
+
+        <span
+          className={`px-3 py-1 text-xs rounded-full font-medium 
+          ${
+            saleOrder.completed
+              ? theme
+                ? "bg-green-700 text-green-100"
+                : "bg-green-500 text-white"
+              : theme
+              ? "bg-yellow-600 text-yellow-100"
+              : "bg-yellow-300 text-yellow-900"
+          }
+        `}
+        >
+          {saleOrder.completed ? "Delivered" : "Pending delivery"}
+        </span>
+      </div>
+
+      {/* BODY LIST */}
+      <ul className="space-y-3">
         <li>
-          <Typography>
-            <span className="font-bold text-orange-900">Order ID:</span>{" "}
-            {saleOrder.id}
-          </Typography>
-        </li>
-        <li>
-          <Typography>
-            <span className="font-bold text-orange-900">Code:</span>{" "}
+          <p>
+            <span
+              className={`${
+                theme ? "text-orange-400" : "text-orange-600"
+              } font-semibold`}
+            >
+              Code:
+            </span>{" "}
             {saleOrder.orderCode}
-          </Typography>
+          </p>
         </li>
+
         <li>
-          <Typography>
-            <span className="font-bold text-orange-900">Date & Time:</span>{" "}
+          <p>
+            <span
+              className={`${
+                theme ? "text-orange-400" : "text-orange-600"
+              } font-semibold`}
+            >
+              Date & Time:
+            </span>{" "}
             {orderDate}
-          </Typography>
+          </p>
         </li>
+
         {!isIncomingOrder && (
-          <li>
-            <Typography>
-              <span className="font-bold text-orange-900">Seller:</span>{" "}
-              {saleOrder.seller.email}
-            </Typography>
-          </li>
+          <>
+            <li>
+              <p>
+                <span
+                  className={`${
+                    theme ? "text-orange-400" : "text-orange-600"
+                  } font-semibold`}
+                >
+                  Seller:
+                </span>{" "}
+                {saleOrder.seller.email}
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <span
+                  className={`${
+                    theme ? "text-orange-400" : "text-orange-600"
+                  } font-semibold`}
+                >
+                  Origin:
+                </span>{" "}
+                {saleOrder.seller.city}, {saleOrder.seller.country}
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <span
+                  className={`${
+                    theme ? "text-orange-400" : "text-orange-600"
+                  } font-semibold`}
+                >
+                  Reception Date:
+                </span>{" "}
+                To be confirmed (via email)
+              </p>
+            </li>
+          </>
         )}
-        {!isIncomingOrder && (
-          <li>
-            <Typography>
-              <span className="font-bold text-orange-900">Origin:</span>{" "}
-              {`${saleOrder.seller.city}, ${saleOrder.seller.country}`}
-            </Typography>
-          </li>
-        )}
-        {!isIncomingOrder && (
-          <li>
-            <Typography>
-              <span className="font-bold text-orange-900">Reception Date:</span>{" "}
-              To be confirmed (via email)
-            </Typography>
-          </li>
-        )}
+
         {isIncomingOrder && (
-          <li>
-            <Typography>
-              <span className="font-bold text-orange-900">
-                Shipment Location:
-              </span>{" "}
-              {`${saleOrder.client.address} ${
-                saleOrder.client.apartment || ""
-              } (${saleOrder.client.city}, ${saleOrder.client.country})`}
-            </Typography>
-          </li>
+          <>
+            <li>
+              <p>
+                <span
+                  className={`${
+                    theme ? "text-orange-400" : "text-orange-600"
+                  } font-semibold`}
+                >
+                  Shipment Location:
+                </span>{" "}
+                {saleOrder.client.address} {saleOrder.client.apartment || ""} (
+                {saleOrder.client.city}, {saleOrder.client.country})
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <span
+                  className={`${
+                    theme ? "text-orange-400" : "text-orange-600"
+                  } font-semibold`}
+                >
+                  Buyer:
+                </span>{" "}
+                {saleOrder.client.email}
+              </p>
+            </li>
+          </>
         )}
-        {isIncomingOrder && (
-          <li>
-            <Typography>
-              <span className="font-bold text-orange-900">Buyer:</span>{" "}
-              {saleOrder.client.email}
-            </Typography>
-          </li>
-        )}
+
+        {/* ITEMS */}
         <li>
-          <Typography>
-            <span className="font-bold text-orange-900">Items:</span>
-          </Typography>
-          <ul>
+          <p
+            className={`${
+              theme ? "text-orange-400" : "text-orange-600"
+            } font-semibold`}
+          >
+            Items:
+          </p>
+
+          <ul className="ml-3 space-y-1">
             {saleOrder.saleOrderLines?.map((line, index) => (
               <li key={line.id}>
-                <Typography>
-                  <span className="font-bold text-orange-900">
+                <p>
+                  <span
+                    className={`${
+                      theme ? "text-orange-400" : "text-orange-600"
+                    } font-semibold`}
+                  >
                     {index + 1}.
                   </span>{" "}
                   {line.product.name}{" "}
-                  <span className="text-orange-900">(x{line.quantity})</span>{" "}
                   <span
-                    className={`ml-2 ${theme ? "text-yellow-700" : undefined} `}
+                    className={`${
+                      theme ? "text-orange-300" : "text-orange-500"
+                    }`}
+                  >
+                    (x{line.quantity})
+                  </span>{" "}
+                  <span
+                    className={`${
+                      theme ? "text-yellow-300" : "text-yellow-700"
+                    } ml-2`}
                   >
                     ${line.total} ARS
                   </span>
-                </Typography>
+                </p>
               </li>
             ))}
           </ul>
         </li>
-        <li className="mt-2">
-          <Typography>
-            <span className="font-bold text-orange-900">Total:</span>{" "}
-            <span className={theme ? "text-yellow-700" : undefined}>
+
+        {/* TOTAL */}
+        <li className="pt-2">
+          <p>
+            <span
+              className={`${
+                theme ? "text-orange-400" : "text-orange-600"
+              } font-semibold`}
+            >
+              Total:
+            </span>{" "}
+            <span
+              className={`${theme ? "text-yellow-300" : "text-yellow-700"}`}
+            >
               ${saleOrder.total} ARS
             </span>
-          </Typography>
+          </p>
         </li>
-        {isIncomingOrder && (
-          <li className="mt-2">
-            <Typography className={saleOrder.completed ? "text-green-500" : ""}>
-              <span className="font-bold text-orange-900">Status:</span>{" "}
-              {saleOrder.completed ? "Delivered" : "Pending delivery"}
-            </Typography>
-          </li>
-        )}
+
+        {/* STATUS */}
+
+        <li>
+          <p
+            className={
+              saleOrder.completed
+                ? theme
+                  ? "text-green-400"
+                  : "text-green-600"
+                : theme
+                ? "text-yellow-300"
+                : "text-yellow-600"
+            }
+          >
+            <span
+              className={`${
+                theme ? "text-orange-400" : "text-orange-600"
+              } font-semibold`}
+            >
+              Status:
+            </span>{" "}
+            {saleOrder.completed ? "Delivered" : "Pending delivery"}
+          </p>
+        </li>
       </ul>
+
+      {/* BUTTON */}
       {isIncomingOrder && (
-        <div className="flex justify-center mb-4">
-          <Button
+        <div className="flex justify-center mt-6">
+          <button
             onClick={() => completeSaleOrder(saleOrder.id)}
-            color="green"
-            size="sm"
             disabled={saleOrder.completed || isCompletingOrder}
+            className={`
+          px-8 py-2 rounded-lg font-semibold transition-all duration-200
+          ${
+            saleOrder.completed
+              ? theme
+                ? "bg-green-200 text-white"
+                : "bg-green-200 blur-1 text-white"
+              : theme
+              ? "bg-orange-500 hover:bg-orange-800 text-white"
+              : "bg-orange-400 hover:bg-orange-700 text-white"
+          }
+        `}
           >
             {!saleOrder.completed
               ? isCompletingOrder
-                ? "Completing order..."
-                : "Complete"
+                ? "Completing..."
+                : "Complete Order"
               : "Completed"}
-          </Button>
+          </button>
         </div>
       )}
     </div>
