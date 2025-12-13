@@ -12,7 +12,7 @@ New Stars Music es un sitio de e-commerce dedicado a todos aquellos usuarios int
 - tailwindcss 3.4.3
 
 <ins> **Back-end:** </ins>
-- .NET 7.0
+- .NET 8.0
 - Microsoft.EntityFrameworkCore 6.0.0
 - Microsoft.AspNetCore.Authentication.JwtBearer 7.0.0
 - AutoMapper 13.0.1
