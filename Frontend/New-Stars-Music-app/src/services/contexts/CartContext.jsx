@@ -19,15 +19,36 @@ export function CartProvider({ children }) {
     const { type: actionType, payload: actionPayload } = action;
 
     switch (actionType) {
-      case "ADD_TO_CART":
-        const newState = [...state, actionPayload];
+      case "ADD_TO_CART": {
+        if (!actionPayload?.id) return state;
+
+        const existingProduct = state.find(
+          (item) => item.id === actionPayload.id
+        );
+
+        let newState;
+
+        if (existingProduct) {
+          newState = state.map((item) =>
+            item.id === actionPayload.id
+              ? { ...item, quantity: item.quantity + actionPayload.quantity }
+              : item
+          );
+        } else {
+          newState = [...state, actionPayload];
+        }
+
         updateLocalStorage(newState);
+
         const productPrice = Number(actionPayload.price);
         const productQuantity = Number(actionPayload.quantity);
+
         const newTotal = cartTotal + productPrice * productQuantity;
         setCartTotal(newTotal);
         localStorage.setItem("cartTotal", newTotal);
+
         return newState;
+      }
 
       case "REMOVE_FROM_CART": {
         const productToRemove = state.find(

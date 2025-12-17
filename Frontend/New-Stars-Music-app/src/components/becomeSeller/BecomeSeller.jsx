@@ -154,7 +154,7 @@ const BecomeSeller = () => {
       {!isLoadingPage && userRole === "Client" && (
         <Button
           disabled={isProcessingRequest || requestAlreadySubmitted}
-          className="bg-orange-800 mt-6 ml-8"
+          className="bg-orange-800 m-6 ml-8"
           onClick={handleOpen}
         >
           {!requestAlreadySubmitted
@@ -168,7 +168,7 @@ const BecomeSeller = () => {
         handler={handleOpen}
         className="bg-transparent shadow-none"
       >
-        <Card className="mx-auto w-full max-w-[24rem]">
+        <Card className="mx-auto w-full p-3 max-w-[24rem]">
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" color="blue-gray">
               Seller Request
@@ -238,7 +238,7 @@ const BecomeSeller = () => {
               </Alert>
             )}
           </CardBody>
-          <CardFooter className="pt-0">
+          <CardFooter className="p-6">
             <Button
               variant="gradient"
               onClick={

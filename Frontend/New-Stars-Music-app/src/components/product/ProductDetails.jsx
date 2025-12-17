@@ -31,6 +31,7 @@ const ProductDetails = () => {
   const userRole = useRoles(getAccessTokenSilently, isAuthenticated);
 
   const checkProductInCart = (product) => {
+    if (!product || !cart?.length) return false;
     return cart.some((item) => item.id === product.id);
   };
 
@@ -78,7 +79,7 @@ const ProductDetails = () => {
   };
   const increaseQuantityClickHandler = () => {
     console.log(user);
-    if (quantity < 10) {
+    if (quantity < 15) {
       setQuantity(quantity + 1);
     }
   };
@@ -86,6 +87,12 @@ const ProductDetails = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
+  };
+
+  const handleAddToCart = () => {
+    if (!product?.id) return;
+
+    addToCart(product);
   };
   //validation add to cart
   const isAdmin = userRole === "Admin";
@@ -250,9 +257,7 @@ const ProductDetails = () => {
                   ? removeFromCartHandler(product)
                   : addToCart({ ...product, quantity })
               }
-              className="w-2/4 py-3 mt-6 rounded-lg text-lg font-semibold
-        bg-green-600 hover:bg-green-700 text-white shadow-md 
-        transition-all duration-200"
+              className={ isProductInCart ?"w-2/4 py-3 mt-6 rounded-lg text-lg font-semibold bg-red-600 hover:bg-red-700 text-white shadow-md transition-all duration-200" : "w-2/4 py-3 mt-6 rounded-lg text-lg font-semibold bg-green-600 hover:bg-green-700 text-white shadow-md transition-all duration-200"}
             >
               {isProductInCart ? "Remove from cart" : `Add ${quantity} to cart`}
             </button>

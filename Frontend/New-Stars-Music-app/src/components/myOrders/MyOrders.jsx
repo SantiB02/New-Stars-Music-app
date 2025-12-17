@@ -17,6 +17,7 @@ const MyOrders = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCompletingOrder, setIsCompletingOrder] = useState(false);
   const [noSaleOrders, setNoSaleOrders] = useState(false);
+  const [activeView, setActiveView] = useState("myOrders");
   const [noIncomingSaleOrders, setNoIncomingSaleOrders] = useState(false);
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -126,8 +127,95 @@ const MyOrders = () => {
   if (isLoading) return <LoadingMessage message="Loading orders..." />;
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <Typography
+    <div className="max-w-7xl mx-auto pt-6">
+      {userRole === "Client" && (
+        <Typography
+          variant="h3"
+          className="text-center pt-4 mb-4 mx-8 font-light"
+        >
+          My Orders
+        </Typography>
+      )}
+      {userRole === "Seller" && (
+        <div className="flex justify-center gap-6 mb-10">
+          {/* MY ORDERS */}
+          <div
+            onClick={() => setActiveView("myOrders")}
+            className={`cursor-pointer px-4 py-2 rounded-xl border transition-all
+        ${
+          activeView === "myOrders"
+            ? "bg-orange-500 text-white shadow-lg scale-105"
+            : "bg-white text-gray-700 hover:bg-gray-100"
+        }`}
+          >
+            <Typography variant="h5" className="my-2 font-light">
+              My Orders
+            </Typography>
+          </div>
+
+          {/* INCOMING ORDERS */}
+          <div
+            onClick={() => setActiveView("incomingOrders")}
+            className={`cursor-pointer px-8 py-4 rounded-xl border transition-all
+        ${
+          activeView === "incomingOrders"
+            ? "bg-orange-500 text-white shadow-lg scale-105"
+            : "bg-white text-gray-700 hover:bg-gray-100"
+        }`}
+          >
+            <Typography variant="h5" className="text-center font-light">
+              Incoming Orders
+            </Typography>
+          </div>
+        </div>
+      )}
+      {activeView === "myOrders" && (
+        <>
+          {noSaleOrders ? (
+            <Alert
+              className={theme ? "bg-gray-800 mx-16 mt-4" : "mx-16 mt-4"}
+              icon={<InfoIcon />}
+            >
+              You don't have any orders yet.
+            </Alert>
+          ) : (
+            <div className="flex justify-center pb-12">
+              <div className="lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
+                {saleOrders.map((saleOrder) => (
+                  <SaleOrderChart key={saleOrder.id} saleOrder={saleOrder} />
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+      {userRole === "Seller" && activeView === "incomingOrders" && (
+        <>
+          {noIncomingSaleOrders ? (
+            <Alert
+              className={theme ? "bg-gray-800 mx-16 mt-4" : "mx-16 mt-4"}
+              icon={<InfoIcon />}
+            >
+              Clients haven't ordered your products yet.
+            </Alert>
+          ) : (
+            <div className="flex justify-center pb-12 ">
+              <div className="lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
+                {incomingSaleOrders.map((incomingSaleOrder) => (
+                  <SaleOrderChart
+                    key={incomingSaleOrder.id}
+                    saleOrder={incomingSaleOrder}
+                    isIncomingOrder
+                    completeSaleOrder={completeSaleOrder}
+                    isCompletingOrder={isCompletingOrder}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+      {/* <Typography
         variant="h3"
         className="text-center pt-4 mb-4 mx-8 font-light"
       >
@@ -200,7 +288,7 @@ const MyOrders = () => {
             </div>
           )}
         </>
-      )}
+      )} */}
     </div>
   );
 };
