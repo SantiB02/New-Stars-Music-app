@@ -52,16 +52,13 @@ function App() {
       <div className={`main-content ${theme ? `root` : `root-light`}`}>
         <Routes>
           <Route path="/" exact element={<Banner />} />
-          <Route
-            path="/product-details/:productId"
-            element={<ProductDetails />}
-          />
+
           <Route path="/info" element={<SiteInfo />} />
           <Route path="*" exact element={<PageNotFound />} />
 
           <Route element={<Protected />}>
             <Route path="/home" element={<Home />} />
-            <Route path="/details-products/:id" element={<ProductDetails />}/>
+            <Route path="/details-products/:id" element={<ProductDetails />} />
             <Route path="/search" element={<SearchArtists />} />
             <Route path="/store" element={<Store />} />
             <Route path="/my-orders" element={<MyOrders />} />
