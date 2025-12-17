@@ -73,7 +73,7 @@ const ShippingDetails = () => {
             {saleOrders.map((saleOrder) => (
               <div
                 key={saleOrder.id}
-                className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 border-2 rounded-lg border-orange-900"
+                className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0"
               >
                 <SaleOrderChart saleOrder={saleOrder} />
               </div>

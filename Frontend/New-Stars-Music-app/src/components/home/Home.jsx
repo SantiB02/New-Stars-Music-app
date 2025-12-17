@@ -33,7 +33,7 @@ const Home = () => {
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
       try {
-        const featuredProducts = await getFeaturedProducts(200);
+        const featuredProducts = await getFeaturedProducts(50);
         setFeaturedProducts(featuredProducts);
       } catch (error) {
         console.error("Error fetching all products:", error);
