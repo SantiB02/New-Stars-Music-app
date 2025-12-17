@@ -13,6 +13,7 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(
     product.categoryId
   );
+  const [errors, setErrors] = useState({});
   const [imageLink, setImageLink] = useState(product.imageLink);
   const [stockOrPriceError, setStockOrPriceError] = useState(false);
   const [categoryError, setCategoryError] = useState(false);
@@ -22,21 +23,25 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
   const stateChangeHandler = (e, setState) => {
     setState(e.target.value);
   };
+  const validateFields = () => {
+    const newErrors = {};
+
+    if (!name.trim()) newErrors.name = "Name is required";
+    if (!description.trim()) newErrors.description = "Description is required";
+    if (!artistOrBand.trim())
+      newErrors.artistOrBand = "Artist/Band is required";
+    if (!imageLink.trim()) newErrors.imageLink = "Image link is required";
+
+    if (price <= 0) newErrors.price = "Price must be greater than 0";
+    if (stock <= 0) newErrors.stock = "Stock must be greater than 0";
+    if (selectedCategoryId <= 0) newErrors.category = "Category is required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const updateProductHandler = async () => {
-    if (stock <= 0 || price <= 0) {
-      setStockOrPriceError(true);
-      return;
-    } else {
-      setStockOrPriceError(false);
-    }
-
-    if (selectedCategoryId <= 0) {
-      setCategoryError(true);
-      return;
-    } else {
-      setCategoryError(false);
-    }
+    if (!validateFields()) return;
 
     try {
       const request = {
@@ -75,30 +80,53 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
             label="Name:"
             size="md"
             value={name}
-            onChange={() => stateChangeHandler(event, setName)}
+            onChange={(e) => setName(e.target.value)}
             required
           />
+          {errors.name && (
+            <Typography
+              variant="small"
+              color="red"
+              className="mt-1 text-xs font-normal"
+            >
+              {errors.name}
+            </Typography>
+          )}
           <Input
             className={theme ? "text-white" : ""}
             label="Description:"
             size="md"
             value={description}
-            onChange={() => stateChangeHandler(event, setDescription)}
+            onChange={(d) => setDescription(d.target.value)}
             required
           />
+          {errors.description && (
+            <Typography
+              variant="small"
+              color="red"
+              className="mt-1 text-xs font-normal"
+            >
+              {errors.description}
+            </Typography>
+          )}
           <Input
             className={theme ? "text-white" : ""}
             label="Artist/band"
             size="md"
             value={artistOrBand}
-            onChange={() => stateChangeHandler(event, setArtistOrBand)}
+            onChange={(e) => setArtistOrBand(e.target.value)}
             required
           />
-          {categoryError && (
-            <Typography className="-mb-5" color="red">
-              A category must be selected!
+          {errors.artistOrBand && (
+            <Typography
+              variant="small"
+              color="red"
+              className="mt-1 text-xs font-normal"
+            >
+              {errors.artistOrBand}
             </Typography>
           )}
+
           <select
             className="text-black"
             value={selectedCategoryId}
@@ -111,35 +139,67 @@ const EditProductForm = ({ setOpen, product, categories, updateProduct }) => {
               </option>
             ))}
           </select>
+          {errors.selectedCategoryId == "0" && (
+            <Typography
+              variant="small"
+              color="red"
+              className="mt-1 text-xs font-normal"
+            >
+              {errors.categories}
+            </Typography>
+          )}
           <Input
             className={theme ? "text-white" : ""}
             label="Image Link:"
             size="md"
             value={imageLink}
-            onChange={() => stateChangeHandler(event, setImageLink)}
+            onChange={(e) => setImageLink(e.target.value)}
             required
           />
-          {stockOrPriceError && (
-            <Typography className="-mb-5" color="red">
-              Price and stock must be greater than 0!
+          {errors.imageLink && (
+            <Typography
+              variant="small"
+              color="red"
+              className="mt-1 text-xs font-normal"
+            >
+              {errors.imageLink}
             </Typography>
           )}
+
           <Input
             className={theme ? "text-white" : ""}
             label="Price:"
             size="md"
             value={price}
-            onChange={() => stateChangeHandler(event, setPrice)}
+            onChange={(e) => setPrice(e.target.value)}
             required
           />
+          {errors.price && (
+            <Typography
+              variant="small"
+              color="red"
+              className="mt-1 text-xs font-normal"
+            >
+              {errors.price}
+            </Typography>
+          )}
           <Input
             className={theme ? "text-white" : ""}
             label="Stock:"
             size="md"
             value={stock}
-            onChange={() => stateChangeHandler(event, setStock)}
+            onChange={(e) => setStock(e.target.value)}
             required
           />
+          {errors.stock && (
+            <Typography
+              variant="small"
+              color="red"
+              className="mt-1 text-xs font-normal"
+            >
+              {errors.stock}
+            </Typography>
+          )}
         </div>
         <div className="flex justify-center gap-4 mt-4">
           <div>
