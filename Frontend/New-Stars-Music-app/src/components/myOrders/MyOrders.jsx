@@ -173,10 +173,18 @@ const MyOrders = () => {
         <>
           {noSaleOrders ? (
             <Alert
-              className={theme ? "bg-gray-800 mx-16 mt-4" : "mx-16 mt-4"}
+              className={theme ? "bg-gray-800" : undefined}
               icon={<InfoIcon />}
             >
-              You don't have any orders yet.
+              It appears you don't have any orders yet. Why don't you head to
+              our{" "}
+              <a
+                className="text-orange-800 cursor-pointer hover:underline"
+                onClick={() => navigate("/store")}
+              >
+                Store
+              </a>{" "}
+              and order something you like?
             </Alert>
           ) : (
             <div className="flex justify-center pb-12">
@@ -215,80 +223,6 @@ const MyOrders = () => {
           )}
         </>
       )}
-      {/* <Typography
-        variant="h3"
-        className="text-center pt-4 mb-4 mx-8 font-light"
-      >
-        My Orders
-      </Typography>
-      {noSaleOrders ? (
-        <div className="mx-16 mt-4 mb-4">
-          <Alert
-            className={theme ? "bg-gray-800" : undefined}
-            icon={<InfoIcon />}
-          >
-            It appears you don't have any orders yet. Why don't you head to our{" "}
-            <a
-              className="text-orange-800 cursor-pointer hover:underline"
-              onClick={() => navigate("/store")}
-            >
-              Store
-            </a>{" "}
-            and order something you like?
-          </Alert>
-        </div>
-      ) : (
-        <div className="flex justify-center pb-12">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
-            {saleOrders.map((saleOrder) => (
-              <div
-                key={saleOrder.id}
-                className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0"
-              >
-                <SaleOrderChart saleOrder={saleOrder}  />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {userRole === "Seller" && (
-        <>
-          <Typography
-            variant="h3"
-            className="text-center pt-4 mb-4 mx-8 font-light"
-          >
-            Incoming Orders
-          </Typography>
-          {noIncomingSaleOrders ? (
-            <div className="mx-16 mt-4 mb-4">
-              <Alert
-                className={theme ? "bg-gray-800" : undefined}
-                icon={<InfoIcon />}
-              >
-                It appears clients haven't ordered your products yet.
-              </Alert>
-            </div>
-          ) : (
-            <div className="flex justify-center pb-12">
-              <div className="lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
-                {incomingSaleOrders.map((incomingSaleOrder) => (
-                  <div
-                    key={incomingSaleOrder.id}
-                    className="border-solid mx-6 sm:mx-6 mb-6 lg:mb-0 "
-                  >
-                    <SaleOrderChart
-                      saleOrder={incomingSaleOrder}
-                      isIncomingOrder={true}
-                      completeSaleOrder={completeSaleOrder}
-                      isCompletingOrder={isCompletingOrder}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </>
-      )} */}
     </div>
   );
 };
